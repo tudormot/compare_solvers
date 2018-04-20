@@ -1,4 +1,5 @@
 #!/bin/bash
+ 
 
 #SBATCH -o /home/hpc/pr63so/ga53lov2/pardiso_times.%j.%N.out 
 #SBATCH -D /home/hpc/pr63so/ga53lov2/code

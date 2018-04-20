@@ -103,7 +103,7 @@ PETSc_solver::~PETSc_solver()
 PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv, linear_sys& input_sys)
 {
     //todo implementing the option of using a petsc viwewr would be nice as well
-    ierr = PetscInitialize(&main_argc, &main_argv,(char*)0,help);CHKERRQ_noreturn(ierr);
+    ierr = PetscInitialize(&main_argc, &main_argv,(char*)0,NULL);CHKERRQ_noreturn(ierr);
     ierr = MatCreate(PETSC_COMM_WORLD,&A);CHKERRQ_noreturn(ierr);
 
     ierr = MatSetType(A,MATMPIAIJ);CHKERRQ_noreturn(ierr); //TODO experiment with MPISBAIJ or try the setfromarray paradigm..
