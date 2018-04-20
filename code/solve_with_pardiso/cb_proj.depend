@@ -1,0 +1,241 @@
+# depslib dependency file v1.0
+1522093059 source:/home/mot_tudor/workspace/unijob/testing/cb_proj/main.cpp
+	<iostream>
+	"sys_mat.h"
+	"testing.h"
+	"sys_solver.h"
+
+1521811824 /home/mot_tudor/workspace/unijob/testing/cb_proj/sys_mat.h
+	<vector>
+	<string>
+	<fstream>
+
+1521399548 source:/home/mot_tudor/workspace/unijob/testing/cb_proj/sys_mat.cpp
+	<iostream>
+	"sys_mat.h"
+
+1519752376 /home/mot_tudor/workspace/unijob/testing/cb_proj/testing.h
+
+1521450176 source:/home/mot_tudor/workspace/unijob/testing/cb_proj/testing.cpp
+	<string>
+	<fstream>
+	<iostream>
+	"sys_mat.h"
+	"testing.h"
+
+1522085955 /home/mot_tudor/workspace/unijob/testing/cb_proj/sys_solver.h
+	"pardiso_solver.h"
+	"petsc_solver.h"
+
+1521910668 source:/home/mot_tudor/workspace/unijob/testing/cb_proj/sys_solver.cpp
+	<iostream>
+	<stdlib.h>
+	<math.h>
+	"sys_mat.h"
+	"sys_solver.h"
+
+1522085943 /home/mot_tudor/workspace/unijob/testing/cb_proj/pardiso_solver.h
+
+1522093105 /home/mot_tudor/workspace/unijob/testing/cb_proj/petsc_solver.h
+
+1522093180 source:/home/mot_tudor/workspace/unijob/testing/cb_proj/petsc_solver.cpp
+	<iostream>
+	<stdlib.h>
+	<math.h>
+	"sys_mat.h"
+	"sys_solver.h"
+	"petscksp.h"
+
+1522085935 source:/home/mot_tudor/workspace/unijob/testing/cb_proj/pardiso_solver.cpp
+	<iostream>
+	<stdlib.h>
+	<math.h>
+	"sys_mat.h"
+	"sys_solver.h"
+
+1506466537 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscksp.h
+	<petscpc.h>
+	<petscdrawtypes.h>
+
+1506466537 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscpc.h
+	<petscmat.h>
+	<petscpctypes.h>
+
+1509848266 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscmat.h
+	<petscvec.h>
+	<petscmat.h>
+	<petscmat.h>
+	<petscmat.h>
+	<petscmat.h>
+	<petscmat.h>
+	<petscmat.h>
+	<petscmat.h>
+	<petscmat.h>
+	<petscmat.h>
+	<petscmat.h>
+
+1506466537 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscvec.h
+	<petscis.h>
+	<petscviewer.h>
+	<petscvec.h>
+	<petscvec.h>
+
+1506466537 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscis.h
+	<petscsys.h>
+	<petscsftypes.h>
+	<petscistypes.h>
+
+1512880607 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscsys.h
+	<petscconf.h>
+	<petscfix.h>
+	<petscversion.h>
+	<mpi.h>
+	<stdio.h>
+	<stdint.h>
+	<inttypes.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscmath.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscerror.h>
+	<petscviewertypes.h>
+	<petscoptions.h>
+	<petscsys.h>
+	<petsclog.h>
+	<stddef.h>
+	<string.h>
+	<stdlib.h>
+	<xmmintrin.h>
+	<petscsys.h>
+	<petscsys.h>
+	<limits.h>
+	<sys/param.h>
+	<sys/types.h>
+	<petscsys.h>
+
+1519680204 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/arch-linux2-c-debug/include/petscconf.h
+
+1519680204 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/arch-linux2-c-debug/include/petscfix.h
+
+1512885640 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscversion.h
+
+1519680165 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/arch-linux2-c-debug/include/mpi.h
+	<stddef.h>
+	<cstdint>
+	<stdint.h>
+	"mpio.h"
+	"mpicxx.h"
+
+1519680119 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/arch-linux2-c-debug/include/mpio.h
+	"mpi.h"
+
+1519680165 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/arch-linux2-c-debug/include/mpicxx.h
+	<stdio.h>
+
+1506466537 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscmath.h
+	<math.h>
+	<quadmath.h>
+	<cusp/complex.h>
+	<thrust/complex.h>
+	<complex>
+	<complex.h>
+	<petscmath.h>
+	<petscmath.h>
+	<petscmath.h>
+	<petscmath.h>
+	<petscmath.h>
+	<petscmath.h>
+
+1506466537 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscerror.h
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petsc/private/petscfptimpl.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+	<petscsys.h>
+
+1506466537 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petsc/private/petscfptimpl.h
+	<petscviewertypes.h>
+	<petscsys.h>
+
+1410234767 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscviewertypes.h
+
+1506466537 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscoptions.h
+	<petscsys.h>
+	<petscviewertypes.h>
+	<petscoptions.h>
+	<petscoptions.h>
+	<petscoptions.h>
+	<petscoptions.h>
+
+1506466537 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petsclog.h
+	<petscsys.h>
+
+1463367455 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscsftypes.h
+
+1506466537 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscistypes.h
+
+1512880607 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscviewer.h
+	<petscsys.h>
+	<petscviewertypes.h>
+	<petscdrawtypes.h>
+
+1463367455 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscdrawtypes.h
+
+1506466537 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscpctypes.h
+	<petscdmtypes.h>
+
+1506466537 /home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include/petscdmtypes.h
+
+1521450176 source:/home/mot_tudor/workspace/unijob/code/solve_with_pardiso/testing.cpp
+	<string>
+	<fstream>
+	<iostream>
+	"sys_mat.h"
+	"testing.h"
+
+1523625547 /home/mot_tudor/workspace/unijob/code/solve_with_pardiso/sys_mat.h
+	<vector>
+	<string>
+	<fstream>
+
+1519752376 /home/mot_tudor/workspace/unijob/code/solve_with_pardiso/testing.h
+

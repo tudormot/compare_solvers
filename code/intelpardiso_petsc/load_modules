@@ -1,0 +1,6 @@
+#!/bin/bash
+source /etc/profile.d/modules.sh
+echo loading mkl,intelmpi,petsc
+module load mkl
+module load mpi.intel/5.1
+module load petsc/3.7

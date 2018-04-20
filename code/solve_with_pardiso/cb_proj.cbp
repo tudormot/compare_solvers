@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="cb_proj" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/cb_proj" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="/home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/include" />
+					<Add directory="/home/mot_tudor/workspace/unijob/various_libs/petsc-3.8.3/arch-linux2-c-debug/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-lpardiso500-GNU481-X86-64 -llapack  -lf77blas -lcblas -latlas -lgfortran -fopenmp -lpthread -lm" />
+					<Add option="-lpetsc -ldl -lmpi" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/cb_proj" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="benchmarking.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="main.cpp" />
+		<Unit filename="pardiso_solver.cpp" />
+		<Unit filename="pardiso_solver.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="petsc_solver.cpp" />
+		<Unit filename="petsc_solver.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="sys_mat.cpp" />
+		<Unit filename="sys_mat.h" />
+		<Unit filename="sys_solver.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="testing.cpp" />
+		<Unit filename="testing.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="timer.cpp" />
+		<Unit filename="timer.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
