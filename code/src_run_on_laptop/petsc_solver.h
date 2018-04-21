@@ -22,14 +22,14 @@ private:
     PetscErrorCode create_petsc_mat(linear_sys& input_sys);
     PetscErrorCode create_petsc_vecs(linear_sys& input_sys);
 
-    char help[200] = "First attempt at solving system using PETSc. Matrix is built sequencially, needs to be discussed\n\
-with  MTU team whether it is feasible for the matrix to be built in parallel.";
+
 
 public:
     virtual int solve_sys(linear_sys &sys);
     virtual ~PETSc_solver();
     PETSc_solver(int& main_argc, char**& main_argv, linear_sys& input_sys);
     void view_mat();
+    void check_petsc_solution(linear_sys &sys);
 
     PETSc_solver() = delete;
     PETSc_solver(const linear_sys& dummy) = delete;

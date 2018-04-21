@@ -4,6 +4,7 @@
 #include "sys_mat.h"
 #include "sys_solver.h"
 #include "timer.h"
+#include "testing.h"
 
 
 
@@ -38,10 +39,6 @@ void lin_sys_solver::CCSdiag_to_CRS(const std::vector<int> &row_i_old,const std:
     }
     else
     {
-        //temp, quick test:
-        std::cout<<"TEMP: size of input vectors\n";
-        std::cout<<row_i_old.size()<<' '<<col_ch_old.size()<<' '<<non_diag_old.size()<<' '<<diag_old.size()<<std::endl;
-
 
         //preallocate memory for vectors that we construct.
         col_i_new.reserve(row_i_old.size() + diag_old.size());
@@ -153,8 +150,9 @@ int pardiso_solver::solve_sys(linear_sys &sys)
 /* ..  Convert matrix from 0-based C-notation to Fortran 1-based        */
 /*     notation.                                                        */
 /* -------------------------------------------------------------------- */
-//not required as our input is already in fortrat 1-based notation
+//not required as our input is already in fortran 1-based notation
 
+#ifndef INTEL_PARDISO
 /* -------------------------------------------------------------------- */
 /*  .. pardiso_chk_matrix(...)                                          */
 /*     Checks the consistency of the given matrix.                      */
@@ -196,6 +194,8 @@ int pardiso_solver::solve_sys(linear_sys &sys)
         exit(1);
     }
 
+#endif // INTEL_PARDISO
+
 /* -------------------------------------------------------------------- */
 /* ..  Now perform Analysis, numerical factorization, solve, iterative refinement, all in one pardiso call
        NOTE: Calculix does not do this , it rather does this via 2 calls: TODO later: test time spent doing that*/
@@ -224,9 +224,8 @@ int pardiso_solver::solve_sys(linear_sys &sys)
     printf("\nSolving completd... ");
 
 
-    printf("quicky test:\n");
-    std::cout<<sys.sol[0]<<' '<<sys.sol[1]<<' '<<sys.sol[2]<<' '<<sys.sol[3]<<'\n';
-    std::cout<<this->sol[0]<<' '<<this->sol[1]<<' '<<this->sol[2]<<' '<<this->sol[3]<<'\n';
+    printf("Relative error of solution vs solution given:\n");
+    test::calculate_sol_tolerance(&sys.sol[0],&(this->sol[0]),sys.mat_dim);
 
 
 
