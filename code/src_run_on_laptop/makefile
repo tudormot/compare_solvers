@@ -1,11 +1,13 @@
 
 #CC=mpic++ set by petsc 
 
-COMPFLAGS=-std=c++11 -Wall -Wextra 
+target laptop: COMPFLAGS=-std=c++11 -Wall -Wextra 
+target cluster: COMPFLAGS=-std=c++11
 
 #all flags that have to do with pardiso library
 #TODO:currently assumed pardiso library placed in /usr/lib..Should change that to make it independent
 PARDISO_LIB=-lpardiso500-GNU481-X86-64 -llapack  -lf77blas -lcblas -latlas -lgfortran -fopenmp -lpthread -lm
+INTELPARDISO_LIB=-lmkl_rt -fopenmp
 
 PETSC_DIR=/home/mot_tudor/workspace/unijob/various_libs/petsc-3.9.0
 PETSC_ARCH=arch-linux2-c-debug
@@ -21,8 +23,12 @@ include ${PETSC_DIR}/lib/petsc/conf/rules
 DEPS=pardiso_solver.h petsc_solver.h sys_mat.h sys_solver.h testing.h timer.h
 OBJ=main.o pardiso_solver.o petsc_solver.o sys_mat.o testing.o timer.o
 #ODIR = obj #used for putting object files in a separate directory
-%.o: %.cpp $(DEPS)
+%.o: %.cpp $(DEPS) 
 	$(PETSC_CXXCOMPILE_SINGLE) $< $(COMPFLAGS) ${INCL_PETSC_HEADERS}
 
-release: $(OBJ)
+laptop: $(OBJ) 
 	${CLINKER} $(OBJ) ${PARDISO_LIB} ${PETSC_LIB}
+
+cluster: $(OBJ)
+	${CLINKER} $(OBJ) ${INTELPARDISO_LIB} ${PETSC_LIB}
+

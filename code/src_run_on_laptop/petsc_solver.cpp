@@ -18,16 +18,6 @@ int PETSc_solver::solve_sys(linear_sys& sys)
     timer.display_result(sys.node_rank);
     timer.print_to_file(sys.node_rank);
 
-    //quick test that petsc solved the system correctly::TODO should be removed
-    if(sys.node_rank == 0)
-    {
-        std::cout<<"first elems of sol given:\n"<<sys.sol[0]<<' '<<sys.sol[1]<<' '<<sys.sol[2]<<' '<<sys.sol[3]<<'\n';
-        PetscScalar sol_4elem[4];
-        PetscInt sol_indices[]={0,1,2,3};
-        ierr = VecGetValues(x,4,sol_indices,sol_4elem);
-
-        std::cout<<"first elems of sol computed by PETSc(TODO replace by better test):\n"<<sol_4elem[0]<<' '<<sol_4elem[1]<<' '<<sol_4elem[2]<<' '<<sol_4elem[3]<<'\n';
-    }
     (void)(check_petsc_solution(sys));
     return true;//dummy return for the time being
 }
@@ -164,7 +154,6 @@ void PETSc_solver::check_petsc_solution(linear_sys &sys)
     ierr = VecGetLocalSize(this->x,&local_size); CHKERRQ_noreturn(ierr);
     ierr = VecGetArray(this->x,&local_array_start); CHKERRQ_noreturn(ierr);
 
-    std::cout<<"local_size_is :"<<local_size<<"\n";
     /*
     std::cout<<"debug, a simpler mpi gather exercise:\n";
     if(sys.node_rank==0)

@@ -4,25 +4,10 @@
 #include "sys_mat.h"
 #include "sys_solver.h"
 #include "timer.h"
+#include "testing.h"
 
-
-
-//TODO: put these in a header..this is the pardiso "header"
-#ifdef __cplusplus
-extern "C"{
-#endif
-void pardisoinit (void   *, int    *,   int *, int *, double *, int *);
-void pardiso     (void   *, int    *,   int *, int *,    int *, int *,
-                  double *, int    *,    int *, int *,   int *, int *,
-                     int *, double *, double *, int *, double *);
-void pardiso_chkmatrix  (int *, int *, double *, int *, int *, int *);
-void pardiso_chkvec     (int *, int *, double *, int *);
-void pardiso_printstats (int *, int *, double *, int *, int *, int *,
-                           double *, int *);
-
-#ifdef __cplusplus
-}
-#endif
+#include "mkl_pardiso.h"
+#include "mkl_types.h"
 
 
 void lin_sys_solver::CCSdiag_to_CRS(const std::vector<int> &row_i_old,const std::vector<int> &col_ch_old,const std::vector<double> &non_diag_old, const std::vector<double> &diag_old, //vectors storing input (variable name contains _old)
@@ -72,6 +57,134 @@ pardiso_solver::pardiso_solver(const linear_sys &sys)
     CCSdiag_to_CRS(sys.row_i,sys.col_ch,sys.non_diag,sys.diag,this->col_i,this->row_ch,this->elem,sys.is_asymmetric);
 }
 
+int pardiso_solver::solve_sys(linear_sys &sys)
+{
+    /* Matrix data. */
+    MKL_INT n = (MKL_INT)sys.mat_dim;
+    MKL_INT *ia=&(this->row_ch)[0];
+    MKL_INT *ja=&(this->col_i)[0];
+    double *a = &(this->elem)[0];
+
+    MKL_INT mtype=-99;//illegal magic number
+    if(sys.is_asymmetric == true)
+    {
+        std::cout<<"ERROR! assymmetric matrices not supported yet!\n";
+        return 0;
+    }
+    else
+    {
+        mtype = -2;       /* Real symmetric matrix */
+    }
+
+
+
+    /* RHS and solution vectors. */
+    //rhs already stored in sys object
+    this->sol.resize(sys.mat_dim); //sol will store the solution
+
+    MKL_INT nrhs = 1;     /* Number of right hand sides. */
+    /* Internal solver memory pointer pt, */
+    /* 32-bit: int pt[64]; 64-bit: long int pt[64] */
+    /* or void *pt[64] should be OK on both architectures */
+    void *pt[64];
+    /* Pardiso control parameters. */
+    MKL_INT iparm[64];
+    MKL_INT maxfct, mnum, phase, error, msglvl;
+    /* Auxiliary variables. */
+    MKL_INT i;
+    double ddum;          /* Double dummy */
+    MKL_INT idum;         /* Integer dummy. */
+/* -------------------------------------------------------------------- */
+/* .. Setup Pardiso control parameters. */
+/* -------------------------------------------------------------------- */
+    for ( i = 0; i < 64; i++ )
+    {
+        iparm[i] = 0;
+    }
+    iparm[0] = 1;         /* No solver default */
+    iparm[1] = 2;         /* Fill-in reordering from METIS */
+    iparm[3] = 0;         /* No iterative-direct algorithm */
+    iparm[4] = 0;         /* No user fill-in reducing permutation */
+    iparm[5] = 0;         /* Write solution into x */
+    iparm[6] = 0;         /* Not in use */
+    iparm[7] = 2;         /* Max numbers of iterative refinement steps */
+    iparm[8] = 0;         /* Not in use */
+    iparm[9] = 13;        /* Perturb the pivot elements with 1E-13 */
+    iparm[10] = 1;        /* Use nonsymmetric permutation and scaling MPS */
+    iparm[11] = 0;        /* Not in use */
+    iparm[12] = 0;        /* Maximum weighted matching algorithm is switched-off (default for symmetric). Try iparm[12] = 1 in case of inappropriate accuracy */
+    iparm[13] = 0;        /* Output: Number of perturbed pivots */
+    iparm[14] = 0;        /* Not in use */
+    iparm[15] = 0;        /* Not in use */
+    iparm[16] = 0;        /* Not in use */
+    iparm[17] = -1;       /* Output: Number of nonzeros in the factor LU */
+    iparm[18] = -1;       /* Output: Mflops for LU factorization */
+    iparm[19] = 0;        /* Output: Numbers of CG Iterations */
+    maxfct = 1;           /* Maximum number of numerical factorizations. */
+    mnum = 1;         /* Which factorization to use. */
+    msglvl = 1;           /* Print statistical information in file */
+    error = 0;            /* Initialize error flag */
+/* -------------------------------------------------------------------- */
+/* .. Initialize the internal solver memory pointer. This is only */
+/* necessary for the FIRST call of the PARDISO solver. */
+/* -------------------------------------------------------------------- */
+    for ( i = 0; i < 64; i++ )
+    {
+        pt[i] = 0;
+    }
+/* -------------------------------------------------------------------- */
+/* .. Reordering and Symbolic Factorization. This step also allocates */
+/* all memory that is necessary for the factorization. */
+/* -------------------------------------------------------------------- */
+    phase = 11;
+    PARDISO (pt, &maxfct, &mnum, &mtype, &phase,
+             &n, a, ia, ja, &idum, &nrhs, iparm, &msglvl, &ddum, &ddum, &error);
+    if ( error != 0 )
+    {
+        printf ("\nERROR during symbolic factorization: %d", error);
+        exit (1);
+    }
+    printf ("\nReordering completed ... ");
+    printf ("\nNumber of nonzeros in factors = %d", iparm[17]);
+    printf ("\nNumber of factorization MFLOPS = %d", iparm[18]);
+/* -------------------------------------------------------------------- */
+/* .. Numerical factorization. */
+/* -------------------------------------------------------------------- */
+    phase = 22;
+    PARDISO (pt, &maxfct, &mnum, &mtype, &phase,
+             &n, a, ia, ja, &idum, &nrhs, iparm, &msglvl, &ddum, &ddum, &error);
+    if ( error != 0 )
+    {
+        printf ("\nERROR during numerical factorization: %d", error);
+        exit (2);
+    }
+    printf ("\nFactorization completed ... ");
+/* -------------------------------------------------------------------- */
+/* .. Back substitution and iterative refinement. */
+/* -------------------------------------------------------------------- */
+    phase = 33;
+    iparm[7] = 2;         /* Max numbers of iterative refinement steps. */
+
+    PARDISO (pt, &maxfct, &mnum, &mtype, &phase,
+             &n, a, ia, ja, &idum, &nrhs, iparm, &msglvl, &(sys.rhs)[0], &(this->sol)[0], &error);
+    if ( error != 0 )
+    {
+        printf ("\nERROR during solution: %d", error);
+        exit (3);
+    }
+    printf ("\nSolve completed ... ");
+    printf("Relative error of solution vs solution given:\n");
+    test::calculate_sol_tolerance(&sys.sol[0],&(this->sol[0]),sys.mat_dim);
+/* -------------------------------------------------------------------- */
+/* .. Termination and release of memory. */
+/* -------------------------------------------------------------------- */
+    phase = -1;           /* Release internal memory. */
+    PARDISO (pt, &maxfct, &mnum, &mtype, &phase,
+             &n, &ddum, ia, ja, &idum, &nrhs,
+             iparm, &msglvl, &ddum, &ddum, &error);
+    return 0;
+}
+# if old_function
 int pardiso_solver::solve_sys(linear_sys &sys)
 {
     int      nnz = static_cast<int>(elem.size());   //no of non zero elem
@@ -258,6 +371,7 @@ int pardiso_solver::solve_sys(linear_sys &sys)
     return 0;
 
 }
+#endif
 
 pardiso_solver::~pardiso_solver()
 {
