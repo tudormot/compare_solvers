@@ -94,17 +94,28 @@ PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv, linear_sys& input_
 {
     //todo implementing the option of using a petsc viwewr would be nice as well
     ierr = PetscInitialize(&main_argc, &main_argv,(char*)0,NULL);CHKERRQ_noreturn(ierr);
+
+    ierr = VecCreateMPI(PETSC_COMM_WORLD,PETSC_DECIDE,input_sys.mat_dim,&b);CHKERRQ_noreturn(ierr);
+    //ierr = VecSetFromOptions(b);CHKERRQ_noreturn(ierr);
+    ierr = VecDuplicate(b,&x);CHKERRQ_noreturn(ierr);
+
+    ierr = VecGetOwnershipRange(x,&rstart,&rend);CHKERRCONTINUE(ierr);
+    ierr = VecGetLocalSize(x,&nlocal);CHKERRCONTINUE(ierr);
+
+
     ierr = MatCreate(PETSC_COMM_WORLD,&A);CHKERRQ_noreturn(ierr);
-
     ierr = MatSetType(A,MATMPIAIJ);CHKERRQ_noreturn(ierr); //TODO experiment with MPISBAIJ or try the setfromarray paradigm..
-    ierr = MatSetSizes(A,PETSC_DECIDE,PETSC_DECIDE,input_sys.mat_dim,input_sys.mat_dim);CHKERRQ_noreturn(ierr);
 
+    ierr = MatSetSizes(A,nlocal,nlocal,input_sys.mat_dim,input_sys.mat_dim);CHKERRQ_noreturn(ierr);
+
+    #ifdef old
     //TODO empirically tweak the parameters a bit, have some kind of preallocation...
     ierr = MatMPIAIJSetPreallocation(A,5,NULL,5,NULL);CHKERRQ_noreturn(ierr);
     //TODO important: this should not be required.I am not doing any preallocation which is BAD
     ierr = MatSetOption(A, MAT_NEW_NONZERO_ALLOCATION_ERR, PETSC_FALSE);CHKERRQ_noreturn(ierr);
     ierr = MatSetUp(A);CHKERRQ_noreturn(ierr);
-
+    #endif
+    ierr = mat_preallocate_mem(input_sys);CHKERRQ_noreturn(ierr);
     //check that the matrix is symmetric, TODO at the moment non-symmetric case not implemented
     if(input_sys.is_asymmetric == true)
     {
@@ -115,8 +126,7 @@ PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv, linear_sys& input_
         MatSetOption(A,MAT_SYMMETRIC,PETSC_TRUE);
     }
 
-    ierr = VecCreateMPI(PETSC_COMM_WORLD,PETSC_DECIDE,input_sys.mat_dim,&b);CHKERRQ_noreturn(ierr);
-    ierr = VecCreateMPI(PETSC_COMM_WORLD,PETSC_DECIDE,input_sys.mat_dim,&x);CHKERRQ_noreturn(ierr);
+
 
     if(input_sys.node_rank == 0)
     {
@@ -217,3 +227,121 @@ void PETSc_solver::view_mat()
 {
     //MatView(A,PETSC_VIEWER_DRAW_WORLD );
 }
+
+PetscErrorCode PETSc_solver::mat_preallocate_mem(linear_sys& sys)
+{
+    PetscInt local_sz[2]; //local_sz[0] is number of rows local_sz[1] is number of cols
+
+    ierr = MatGetLocalSize(A,&local_sz[0],&local_sz[1]); CHKERRQ(ierr);
+    std::cout<<"debug, local sizes are "<<local_sz[0]<<'#'<<local_sz[1]<<"in node rank "<<sys.node_rank<<'\n';
+
+    PetscInt local_preallocation_recv_buffer[local_sz[0]][2];
+    if(sys.node_rank == 0)
+    {
+        PetscInt local_sizes[sys.no_of_nodes][2];
+        PetscInt starting_rows[sys.no_of_nodes+1];
+
+        MPI_Gather(local_sz,2,MPIU_INT,local_sizes,2,MPIU_INT,0,PETSC_COMM_WORLD);
+
+        PetscInt preallocation_data[sys.no_of_nodes * local_sz[0]][2]; //last few entries might not get populated, but that is ok
+        //TODO temp sanity check that local number of colums is equal:
+        for(int i=0;i<sys.no_of_nodes-1;i++)
+        {
+            if(local_sizes[i][1] != local_sizes[i+1][1])
+            {
+                std::cout<<"ERR IN PREALLOCATE MAT: local number of columns not equal!\n";
+            }
+        }//TODO to be removed..
+#if 1
+        /*now we have to populate preallocation data with the data..*/
+        //first set all the array to 0
+        memset(preallocation_data,0,sizeof(PetscInt)*2*sys.no_of_nodes*local_sz[0]);
+        //now populate starting rows:
+        starting_rows[0]=0;
+        for (int i =1 ;i<sys.no_of_nodes+1;i++)
+        {
+            starting_rows[i]=starting_rows[i-1]+local_sizes[i-1][0];
+        }
+        //now preallocation data..
+        int current_node=0;
+        int first_index_not_in_diag_block = local_sz[0];
+        for(PetscInt i = 0; i< sys.mat_dim-1;i++)
+        {
+            if(i>=starting_rows[current_node+1])
+            {
+                current_node++;
+                first_index_not_in_diag_block+=local_sz[0];
+            }
+            preallocation_data[i][0]++; //the diag elem
+            int row_index_start=sys.col_ch[i] -1;
+            int row_index_end=sys.col_ch[i+1] -1; //these two variables will store the start and end indexes of the data we want to extract from linear_sys.elem vector
+
+            for(int j = row_index_start;j<row_index_end;j++)
+            {
+                if(sys.row_i[j]<first_index_not_in_diag_block)
+                {
+                    preallocation_data[i][0]++;
+                    preallocation_data[sys.row_i[j]-1][0]++;
+                }
+                else
+                {
+                    preallocation_data[i][1]++;
+                    preallocation_data[sys.row_i[j]-1][1]++;
+                }
+            }
+        }
+        preallocation_data[sys.mat_dim-1][0]++; //last entry of diagonal
+
+        //now send preallocation data to all nodes
+        MPI_Scatter(preallocation_data,local_sz[0]*2,MPIU_INT,local_preallocation_recv_buffer,local_sz[0]*2,MPIU_INT,0,PETSC_COMM_WORLD);
+#endif
+    }
+    else
+    {
+        MPI_Gather(local_sz,2,MPIU_INT,NULL,0,MPIU_INT,0,PETSC_COMM_WORLD);
+        #if 1
+        MPI_Scatter(NULL,0,MPIU_INT,local_preallocation_recv_buffer,local_sz[0]*2,MPIU_INT,0,PETSC_COMM_WORLD);
+        #endif
+    }
+    //now, we have the local preallocation information on all nodes, but it is a bit jumbled up, not how PETSc wants it, need to do some array manipulation
+    #if 1
+    PetscInt d_nnz[local_sz[0]];
+    PetscInt o_nnz[local_sz[0]];
+    for(int i=0;i<local_sz[0];i++)
+    {
+        d_nnz[i]=local_preallocation_recv_buffer[i][0];
+        o_nnz[i]=local_preallocation_recv_buffer[i][1];
+    }
+    ierr = MatMPIAIJSetPreallocation(A,0,d_nnz,0,o_nnz); CHKERRQ(ierr);
+    ierr = MatSetOption(A, MAT_NEW_NONZERO_ALLOCATION_ERR, PETSC_FALSE);//todo TEMP
+    #else
+    ierr = MatMPIAIJSetPreallocation(A,5,NULL,5,NULL); CHKERRQ(ierr);
+    ierr = MatSetOption(A, MAT_NEW_NONZERO_ALLOCATION_ERR, PETSC_FALSE); CHKERRQ(ierr);
+
+    std::cout<<"debug, local sizes are "<<local_sz[0]<<'#'<<local_sz[1]<<"in node rank "<<sys.node_rank<<'\n';
+
+    #endif // debug
+
+    return 0;
+}
+#if old
+void PETSc_solver::mat_calculate_local_sizes(linear_sys& sys)
+{
+    if(sys.mat_dim%sys.no_of_nodes==0)
+    {
+        this->nrows_loc = sys.mat_dim/sys.no_of_nodes;
+    }
+    else
+    {
+        if(sys.node_rank == sys.no_of_nodes-1)
+        {
+            this->nrows_loc=sys.mat_dim%sys.no_of_nodes;
+        }
+        else
+        {
+            this->nrows_loc = sys.mat_dim/sys.no_of_nodes;
+        }
+    }
+    this->ncols_loc=sys.mat_dim;
+}
+#endif
