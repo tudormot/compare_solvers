@@ -32,7 +32,6 @@ public:
     virtual int solve_sys(linear_sys &sys);
     virtual ~PETSc_solver();
     PETSc_solver(int& main_argc, char**& main_argv, linear_sys& input_sys);
-    void view_mat();
     void check_petsc_solution(linear_sys &sys);
 
     PETSc_solver() = delete;
