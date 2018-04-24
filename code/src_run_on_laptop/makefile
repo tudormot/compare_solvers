@@ -19,16 +19,12 @@ include ${PETSC_DIR}/lib/petsc/conf/rules
 
 #this rule makes it so that everything is recompiled when a header file changes(provided DEPS(dependencies) var contains all headers)
 DEPS=pardiso_solver.h petsc_solver.h sys_mat.h sys_solver.h testing.h timer.h
-target laptop: OBJ=main.o pardiso_solver.o petsc_solver.o sys_mat.o testing.o timer.o
-target cluster: OBJ=main.o intel_pardiso_solver.o petsc_solver.o sys_mat.o testing.o timer.o
+OBJ_LAPTOP=main.o pardiso_solver.o petsc_solver.o sys_mat.o testing.o timer.o
 
 #ODIR = obj #used for putting object files in a separate directory
 %.o: %.cpp $(DEPS) 
 	$(PETSC_CXXCOMPILE_SINGLE) $< $(COMPFLAGS) ${INCL_PETSC_HEADERS}
 
-laptop: $(OBJ) 
-	${CLINKER} $(OBJ) ${PARDISO_LIB} ${PETSC_LIB}
-
-cluster: $(OBJ)
-	${CLINKER} $(OBJ) ${INTELPARDISO_LIB} ${PETSC_LIB}
+laptop: $(OBJ_LAPTOP) 
+	${CLINKER} $(OBJ_LAPTOP) ${PARDISO_LIB} ${PETSC_LIB}
 

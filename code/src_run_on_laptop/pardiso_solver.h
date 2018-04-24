@@ -1,7 +1,8 @@
 #ifndef PARDISO_SOLVER_H_INCLUDED
 #define PARDISO_SOLVER_H_INCLUDED
 
-class pardiso_solver:public lin_sys_solver{
+class pardiso_solver:public lin_sys_solver
+{
 private:
     //note:pardiso requires these vectors to be of type int
     //this is the data (IE matrix and RHS), however stored in simple CRS(compressed sparse col) rather than CCS with extracted diagonal.

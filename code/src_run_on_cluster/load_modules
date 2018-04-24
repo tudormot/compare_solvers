@@ -4,6 +4,6 @@ echo loading mkl,intelmpi,petsc,gcc/5
 module load intel/17.0
 module load mkl
 module load mpi.intel/5.1
-module load petsc/3.7
+module load petsc/3.8_debug
 module unload gcc
 module load gcc/4.9

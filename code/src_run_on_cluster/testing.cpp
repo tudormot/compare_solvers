@@ -123,5 +123,25 @@ bool test::check_row_i_range(const linear_sys &sys)
 
 
 }
-bool chech_row_i_no_diag(const linear_sys &sys);
-/* just a sanity check that row_i does not contain indexes which would point on items of the main diagonal */
+bool test::calculate_sol_tolerance(double* true_sol, double* calc_sol, int vec_size)
+   /* calculates the relative tolerance as the 2norm of solr-solc/2norm of solr*/
+{
+    double rel_tol = 0;//TODO not sure if double is big enough..
+    double true_sol_norm= 0;
+    //this could be written much better:
+    for(int i =0;i<vec_size;i++)
+    {
+        rel_tol=rel_tol+(true_sol[i]-calc_sol[i])*(true_sol[i]-calc_sol[i]);
+        true_sol_norm=true_sol_norm+true_sol[i]*true_sol[i];
+    }
+    rel_tol=rel_tol/true_sol_norm;
+    std::cout<<"relative tolerance of solution is: "<<rel_tol<<"\n";
+
+    //TODO change this test so return false if tolerance is above acertain threshold, but need to decide which threshold
+    return true;
+}
+bool test::check_row_i_no_diag(const linear_sys &sys)
+{
+    std::cout<<"warning, test not implemented, returning false\n";
+    return false;
+}

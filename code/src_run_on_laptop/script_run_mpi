@@ -11,7 +11,7 @@ outputfile_path=/home/mot_tudor/workspace/unijob/input/timing_results.txt
 touch ${outputfile_path}
 
 
-mpiexec.hydra -n  $2 -bind-to socket:1  $1  $3 ${inputfile_path} ${outputfile_path}  -ksp_converged_reason -ksp_type bicg -ksp_monitor -info -info_exclude pc,ksp -ksp_monitor_lg_residualnorm
+mpiexec.hydra -n  $2 -bind-to socket:1  $1  $3 ${inputfile_path} ${outputfile_path} -mat_type mpiaij -ksp_converged_reason -ksp_view -ksp_type bicg -ksp_monitor -info -info_exclude pc,ksp -ksp_monitor_lg_residualnorm
 #TODO tweak gmres restart param, but for default value it does not converge..and tolerance??
 #-log_view
 #-info

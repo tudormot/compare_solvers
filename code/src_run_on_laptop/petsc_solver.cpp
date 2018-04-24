@@ -111,11 +111,13 @@ PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv, linear_sys& input_
 
     ierr = MatCreate(PETSC_COMM_WORLD,&A);
     CHKERRCONTINUE(ierr);
-    ierr = MatSetType(A,MATMPIAIJ);
-    CHKERRCONTINUE(ierr); //TODO experiment with MPISBAIJ or try the setfromarray paradigm..
-
     ierr = MatSetSizes(A,nlocal,nlocal,input_sys.mat_dim,input_sys.mat_dim);
     CHKERRCONTINUE(ierr);
+
+    ierr = MatSetFromOptions(A);
+    CHKERRCONTINUE(ierr);
+
+
 
     ierr = mat_preallocate_mem(input_sys);
     CHKERRCONTINUE(ierr);
@@ -225,8 +227,10 @@ void PETSc_solver::check_petsc_solution(linear_sys &sys)
 PetscErrorCode PETSc_solver::mat_preallocate_mem(linear_sys& sys)
 {
 
-    PetscInt local_preallocation_recv_buffer[nlocal][2];
-
+    PetscInt local_preallocation_recv_buffer_MPIAIJ[nlocal][2];
+#ifdef MPISBAIJ_IMPLEMETEND
+    PetscInt local_preallocation_recv_buffer_MPISBAIJ[nlocal][2];
+#endif // MPISBAIJ_IMPLEMENTED
     if(sys.node_rank == 0)
     {
         PetscInt local_sizes[sys.no_of_nodes];
@@ -234,11 +238,16 @@ PetscErrorCode PETSc_solver::mat_preallocate_mem(linear_sys& sys)
 
         MPI_Gather(&nlocal,1,MPIU_INT,local_sizes,1,MPIU_INT,0,PETSC_COMM_WORLD);
 
-        PetscInt preallocation_data[sys.mat_dim][2]; //last few entries might not get populated, but that is ok
-
+        PetscInt preallocation_data_MPIAIJ[sys.mat_dim][2]; //last few entries might not get populated, but that is ok
+#ifdef MPISBAIJ_IMPLEMENTED
+        PetscInt preallocation_data_MPISBAIJ[sys.mat_dim][2];
+#endif // MPISBAIJ_IMPLEMENTED
         /*now we have to populate preallocation data with the data..*/
         //first set all the array to 0
-        memset(preallocation_data,0,sizeof(PetscInt)*2*sys.mat_dim);
+        memset(preallocation_data_MPIAIJ,0,sizeof(PetscInt)*2*sys.mat_dim);
+#ifdef MPISBAIJ_IMPLEMENTED
+        memset(preallocation_data_MPISBAIJ,0,sizeof(PetscInt)*2*sys.mat_dim);
+#endif // MPISBAIJ_IMPLEMENTED
 
         //now populate starting rows:
         starting_rows[0]=0;
@@ -246,8 +255,6 @@ PetscErrorCode PETSc_solver::mat_preallocate_mem(linear_sys& sys)
         {
             starting_rows[i]=starting_rows[i-1]+local_sizes[i-1];
         }
-        int test_dummy_temp = 0;//this is iterated everytime a matrix location in allocated, in the end test to see that its equal to no of non zeros
-        //now preallocation data..
         int current_node=0;
         int first_index_not_in_diag_block = nlocal;
         for(PetscInt i = 0; i< sys.mat_dim-1; i++)
@@ -257,9 +264,10 @@ PetscErrorCode PETSc_solver::mat_preallocate_mem(linear_sys& sys)
                 current_node++;
                 first_index_not_in_diag_block+=local_sizes[current_node];
             }
-            preallocation_data[i][0]++; //the diag elem
-            test_dummy_temp++;
-
+            preallocation_data_MPIAIJ[i][0]++; //the diag elem
+#ifdef MPISBAIJ_IMPLEMENTED
+            preallocation_data_MPISBAIJ[i][0]++; //the diag elem
+#endif // MPISBAIJ_IMPLEMENTED
             int row_index_start=sys.col_ch[i] -1;
             int row_index_end=sys.col_ch[i+1] -1; //these two variables will store the start and end indexes of the data we want to extract from linear_sys.elem vector
 
@@ -267,26 +275,26 @@ PetscErrorCode PETSc_solver::mat_preallocate_mem(linear_sys& sys)
             {
                 if(sys.row_i[j]<first_index_not_in_diag_block)
                 {
-                    preallocation_data[i][0]++;
-                    preallocation_data[sys.row_i[j]-1][0]++;
-                    test_dummy_temp=test_dummy_temp+2;
+                    preallocation_data_MPIAIJ[i][0]++;
+                    preallocation_data_MPIAIJ[sys.row_i[j]-1][0]++;
+#ifdef MPISBAIJ_IMPLEMENTED
+                    preallocation_data_MPISBAIJ[i][0]++;
+#endif // MPISBAIJ_IMPLEMENTED
                 }
                 else
                 {
-                    preallocation_data[i][1]++;
-                    preallocation_data[sys.row_i[j]-1][1]++;
-                    test_dummy_temp=test_dummy_temp+2;
+                    preallocation_data_MPIAIJ[i][1]++;
+                    preallocation_data_MPIAIJ[sys.row_i[j]-1][1]++;
+#ifdef MPISBAIJ_IMPLEMENTED
+                    preallocation_data_MPISBAIJ[i][1]++;
+#endif // MPISBAIJ_IMPLEMENTED
                 }
             }
         }
-        preallocation_data[sys.mat_dim-1][0]++; //last entry of diagonal
-        test_dummy_temp++;
-
-        if(test_dummy_temp!=sys.non_diag_no*2+sys.mat_dim)
-        {
-            std::cout<<"ERR in preallocation, preallocation not working correctly..\ntestdummy_temp = "<<test_dummy_temp<<"and total no of nonzs = "<<sys.non_diag_no*2+sys.mat_dim<<'\n';
-        }
-
+        preallocation_data_MPIAIJ[sys.mat_dim-1][0]++; //last entry of diagonal
+#ifdef MPISBAIJ_IMPLEMENTED
+        preallocation_data_MPISBAIJ[sys.mat_dim-1][0]++; //last entry of diagonal
+#endif // MPISBAIJ_IMPLEMENTED
         //now send preallocation data to all nodes
         for(int i = 0;i < sys.no_of_nodes;i++)
         {
@@ -294,23 +302,41 @@ PetscErrorCode PETSc_solver::mat_preallocate_mem(linear_sys& sys)
             local_sizes[i]=local_sizes[i]*2;
         }
 
-        MPI_Scatterv(preallocation_data,local_sizes,starting_rows,MPIU_INT,local_preallocation_recv_buffer,nlocal*2,MPIU_INT,0,PETSC_COMM_WORLD);
+        MPI_Scatterv(preallocation_data_MPIAIJ,local_sizes,starting_rows,MPIU_INT,local_preallocation_recv_buffer_MPIAIJ,nlocal*2,MPIU_INT,0,PETSC_COMM_WORLD);
+#ifdef MPISBAIJ_IMPLEMENTED
+        MPI_Scatterv(preallocation_data_MPISBAIJ,local_sizes,starting_rows,MPIU_INT,local_preallocation_recv_buffer_MPISBAIJ,nlocal*2,MPIU_INT,0,PETSC_COMM_WORLD);
+#endif // MPISBAIJ_IMPLEMENTED
     }
     else
     {
         MPI_Gather(&nlocal,1,MPIU_INT,NULL,0,MPIU_INT,0,PETSC_COMM_WORLD);
-        MPI_Scatterv(NULL,NULL,NULL,MPIU_INT,local_preallocation_recv_buffer,nlocal*2,MPIU_INT,0,PETSC_COMM_WORLD);
+        MPI_Scatterv(NULL,NULL,NULL,MPIU_INT,local_preallocation_recv_buffer_MPIAIJ,nlocal*2,MPIU_INT,0,PETSC_COMM_WORLD);
+        #if MPISBAIJ_IMPLEMENTED
+        MPI_Scatterv(NULL,NULL,NULL,MPIU_INT,local_preallocation_recv_buffer_MPISBAIJ,nlocal*2,MPIU_INT,0,PETSC_COMM_WORLD);
+        #endif // MPISBAIJ_IMPLEMENTED
     }
     //now, we have the local preallocation information on all nodes, but it is a bit jumbled up, not how PETSc wants it, need to do some array manipulation
-    PetscInt d_nnz[nlocal];
-    PetscInt o_nnz[nlocal];
+    PetscInt d_nnz_MPIAIJ[nlocal];
+    PetscInt o_nnz_MPIAIJ[nlocal];
+#ifdef MPISBAIJ_IMPLEMENTED
+    PetscInt d_nnz_MPISBAIJ[nlocal];
+    PetscInt o_nnz_MPISBAIJ[nlocal];
+#endif // MPISBAIJ_IMPLEMENTED
     for(int i=0; i<nlocal; i++)
     {
-        d_nnz[i]=local_preallocation_recv_buffer[i][0];
-        o_nnz[i]=local_preallocation_recv_buffer[i][1];
+        d_nnz_MPIAIJ[i]=local_preallocation_recv_buffer_MPIAIJ[i][0];
+        o_nnz_MPIAIJ[i]=local_preallocation_recv_buffer_MPIAIJ[i][1];
+#ifdef MPISBAIJ_IMPLEMENTED
+        d_nnz_MPISBAIJ[nlocal]=local_preallocation_recv_buffer_MPISBAIJ[i][0];
+        o_nnz_MPISBAIJ[nlocal]=local_preallocation_recv_buffer_MPISBAIJ[i][0];;
+#endif // MPISBAIJ_IMPLEMENTED
     }
 
-    ierr = MatMPIAIJSetPreallocation(A,0,d_nnz,0,o_nnz);
+    ierr = MatMPIAIJSetPreallocation(A,0,d_nnz_MPIAIJ,0,o_nnz_MPIAIJ);
+#ifdef MPISBAIJ_IMPLEMENTED
+    ierr = MatSetBlockSizes(A,nlocal,sys.mat_dim);
+    ierr = MatMPISBAIJSetPreallocation(A,nlocal,0,d_nnz_MPISBAIJ,0,o_nnz_MPISBAIJ);
+#endif // MPISBAIJ_IMPLEMENTED
     CHKERRQ(ierr);
     ierr = MatSetOption(A, MAT_NEW_NONZERO_ALLOCATION_ERR, PETSC_FALSE);
     CHKERRQ(ierr);

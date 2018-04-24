@@ -13,6 +13,8 @@ private:
 public:
     virtual int solve_sys(linear_sys &sys);
     virtual ~pardiso_solver();
+    int solve_sys_gmres(linear_sys &sys);   //part of intel MKL library, available only on cluster, IE if using make laptop this resolves to a stub
+    int solve_sys_bcg(linear_sys &sys);
     pardiso_solver(const linear_sys &sys);
 };
 
