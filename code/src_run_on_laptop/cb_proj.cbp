@@ -41,6 +41,7 @@
 		<Unit filename="benchmarking.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="intel_pardiso_solver.cpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="pardiso_solver.cpp" />
 		<Unit filename="pardiso_solver.h">

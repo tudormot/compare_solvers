@@ -265,4 +265,14 @@ lin_sys_solver::~lin_sys_solver()
 {
 
 }
+int pardiso_solver::solve_sys_gmres(linear_sys &sys)
+{
+    std::cout<<"ERR, this function is only available with intel MKL, which is not available on laptop. you should use make cluster\n";
+    return false;
+}
+int pardiso_solver::solve_sys_bcg(linear_sys &sys)
+{
+    std::cout<<"ERR, this function is only available with intel MKL, which is not available on laptop. you should use make cluster\n";
+    return false;
+}
 
