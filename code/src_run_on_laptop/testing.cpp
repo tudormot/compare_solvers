@@ -1,5 +1,7 @@
 #include<string>
 #include<fstream>
+#include<cmath>
+#include<math.h>
 #include<iostream>
 #include"sys_mat.h"
 #include"testing.h"
@@ -131,8 +133,12 @@ bool test::calculate_sol_tolerance(double* true_sol, double* calc_sol, int vec_s
     //this could be written much better:
     for(int i =0;i<vec_size;i++)
     {
-        rel_tol=rel_tol+(true_sol[i]-calc_sol[i])*(true_sol[i]-calc_sol[i]);
-        true_sol_norm=true_sol_norm+true_sol[i]*true_sol[i];
+        rel_tol=rel_tol+fabs(true_sol[i]-calc_sol[i])/static_cast<double>(vec_size);
+        true_sol_norm=true_sol_norm+fabs(true_sol[i])/static_cast<double>(vec_size);
+    }
+    if(std::isinf(true_sol_norm))
+    {
+        std::cout<<"problem in calculation of relative error in solution: norm of solution vector is inf\n";
     }
     rel_tol=rel_tol/true_sol_norm;
     std::cout<<"relative tolerance of solution is: "<<rel_tol<<"\n";

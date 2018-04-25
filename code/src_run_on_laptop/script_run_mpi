@@ -5,16 +5,21 @@
 
 #this should be modified from system to system
 inputfile_path=/home/mot_tudor/workspace/unijob/input/beamp.txt
+#/home/mot_tudor/workspace/unijob/input/beamp.txt
+#/home/mot_tudor/Downloads/mtu_matrices/job3.sti
 outputfile_path=/home/mot_tudor/workspace/unijob/input/timing_results.txt
 
 #create output file if it does not exist
 touch ${outputfile_path}
 
 
-mpiexec.hydra -n  $2 -bind-to socket:1  $1  $3 ${inputfile_path} ${outputfile_path} -mat_type mpiaij -ksp_converged_reason -ksp_view -ksp_type bicg -ksp_monitor -info -info_exclude pc,ksp -ksp_monitor_lg_residualnorm
+mpiexec.hydra -n 1 -bind-to socket:1  $1  $2 ${inputfile_path} ${outputfile_path} -mat_view draw -draw_pause 5 -mat_type seqaij -pc_type ilu -ksp_converged_reason -ksp_view -ksp_type minres -info -info_exclude pc,ksp -ksp_monitor_true_residual ascii:monitor.txt:ascii_xml
+
 #TODO tweak gmres restart param, but for default value it does not converge..and tolerance??
 #-log_view
 #-info
 #bind-to core
 #-mat_view draw -draw_pause
 #-ksp_monitor_lg_residualnorm
+#-ksp_monitor_true_residual monitor.txt
+#ascii:monitor.txt:

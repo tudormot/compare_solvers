@@ -30,10 +30,6 @@ void lin_sys_solver::CCSdiag_to_CRS(const std::vector<int> &row_i_old,const std:
     }
     else
     {
-        //temp, quick test:
-        std::cout<<"TEMP: size of input vectors\n";
-        std::cout<<row_i_old.size()<<' '<<col_ch_old.size()<<' '<<non_diag_old.size()<<' '<<diag_old.size()<<std::endl;
-
 
         //preallocate memory for vectors that we construct.
         col_i_new.reserve(row_i_old.size() + diag_old.size());

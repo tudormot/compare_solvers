@@ -9,6 +9,9 @@
 class PETSc_solver:public lin_sys_solver{
 private:
     //TODO:cleanup these fields, were copied and some might not be needed
+    std::string  monitor_file = "monitor.txt";
+    PC              prec;
+    PetscViewer    viewer;
     Vec            x, b, u;      /* approx solution, RHS, exact solution */
     Mat            A;            /* linear system matrix */
     KSP            ksp;          /* linear solver context */

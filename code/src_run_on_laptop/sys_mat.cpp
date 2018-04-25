@@ -215,17 +215,17 @@ std::vector<double> file_reader::read_sol(size_t mat_dim)
         std::cout<<"ERR: file reading functions not called in correct order(6)";
         throw;
     }
+    i_f>>temp;
     if(i_f.good())
     {
         vect.reserve(mat_dim);
         for(size_t i = 0; i<mat_dim && i_f.good(); i++)
         {
-            i_f>>temp;
+
             vect.push_back(temp);
+            i_f>>temp;
         }
 
-
-        i_f>>temp; //see if there is still one more elem or this is the end
         if(i_f.good())
         {
             std::cout<<"ERR: file should not contain any more elements at this point..\n";
