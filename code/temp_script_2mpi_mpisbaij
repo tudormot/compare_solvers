@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#this should be modified from system to system
+inputfile_path=/home/mot_tudor/workspace/unijob/input/beamp.txt
+#/home/mot_tudor/workspace/unijob/input/beamp.txt
+#/home/mot_tudor/Downloads/mtu_matrices/job3.sti
+outputfile_path=/home/mot_tudor/workspace/unijob/input/timing_results.txt
+exec_name=time_solvers
+solver_option=--solve-with-PETSc
+
+#create output file if it does not exist
+touch ${outputfile_path}
+
+
+mpiexec.hydra -n 2 ./${exec_name} ${solver_option} ${inputfile_path} ${outputfile_path} -mat_type mpisbaij  -ksp_converged_reason -ksp_type bcgs -mat_view draw -draw_pause 5  
+
+#-bind-to socket:1
+#-ksp_monitor_true_residual ascii:monitor_bgcs.xml:ascii_xml
+#TODO tweak gmres restart param, but for default value it does not converge..and tolerance??
+#-log_view
+#-info
+#bind-to core
+#-mat_view draw -draw_pause
+#-ksp_monitor_lg_residualnorm
+#-ksp_monitor_true_residual monitor.txt
+#ascii:monitor.txt:
+#-mat_view draw -draw_pause 5 
