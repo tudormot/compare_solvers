@@ -12,7 +12,6 @@ private:
     Vec            x, b, u;      /* approx solution, RHS, exact solution */
     Mat            A;            /* linear system matrix */
     KSP            ksp;          /* linear solver context */
-    PC             pc;           /* preconditioner context */
     //PetscReal      norm;         /* norm of solution error */
     PetscErrorCode ierr;
     //PetscInt       i,n = 10,col[3],its;

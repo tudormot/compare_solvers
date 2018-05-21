@@ -8,25 +8,19 @@
 
 class PETSc_solver:public lin_sys_solver{
 private:
-    //TODO:cleanup these fields, were copied and some might not be needed
-    std::string  monitor_file = "monitor.txt";
-    PC              prec;
-    PetscViewer    viewer;
     Vec            x, b, u;      /* approx solution, RHS, exact solution */
     Mat            A;            /* linear system matrix */
     KSP            ksp;          /* linear solver context */
-    PC             pc;           /* preconditioner context */
-    //PetscReal      norm;         /* norm of solution error */
     PetscErrorCode ierr;
-    //PetscInt       i,n = 10,col[3],its;
-    //PetscScalar    one = 1.0,value[3];
-    //PetscBool      nonzeroguess = PETSC_FALSE,changepcside = PETSC_FALSE;
     PetscInt       nlocal;
     PetscInt       rstart,rend; //rowstart, rowend
 
     PetscErrorCode create_petsc_mat(linear_sys& input_sys);
     PetscErrorCode create_petsc_vecs(linear_sys& input_sys);
     PetscErrorCode mat_preallocate_mem(linear_sys& input_sys);
+    PetscErrorCode mat_preallocate_mem_MPISBAIJ(linear_sys& input_sys);
+    PetscErrorCode mat_preallocate_mem_MPIAIJ(linear_sys& input_sys);
+    PetscErrorCode mat_preallocate_mem_SEQAIJ(linear_sys& input_sys);
 
     //void mat_calculate_local_sizes(linear_sys & mat_dim);
 

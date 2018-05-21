@@ -16,7 +16,7 @@ public:
 
 };
 
-#include"pardiso_solver.h"
+#include"intel_pardiso_solver.h"
 #include"petsc_solver.h"
 
 

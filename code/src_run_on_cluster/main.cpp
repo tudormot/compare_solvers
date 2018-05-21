@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
         //std::string
         parallel_timer::output_filename = argv[3];
     }
-    std::string filename(std::move(argv[2]));
+    std::string filename(argv[2]);
     linear_sys lin_sys(filename,no_of_nodes,node_rank);
 
     if(std::string(argv[1]) == "--solve-with-pardiso")
@@ -46,8 +46,8 @@ int main(int argc, char *argv[])
     else if(std::string(argv[1]) == "--solve-with-PETSc")
     {
         //solve with PETSc
-        int argc_petsc = argc-2;
-        char ** argv_petsc = argv+2;
+        int argc_petsc = argc-3;
+        char ** argv_petsc = argv+3;
         PETSc_solver petsc_solve(argc_petsc,argv_petsc,lin_sys); //ignore the first 2 command line arguments, they are used for non PETSc stuff
         lin_sys.release_mem_mat();
         petsc_solve.solve_sys(lin_sys);

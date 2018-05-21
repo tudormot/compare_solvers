@@ -55,9 +55,9 @@ linear_sys::linear_sys(const std::string filename,PetscInt total_no_nodes, Petsc
 
 linear_sys::~linear_sys()
 {
-    #if DEBUG
+#if DEBUG
     std::cout<<"dummy destruct\n";
-    #endif // DEBUG
+#endif // DEBUG
 }
 
 void linear_sys::display_system_stats() const
@@ -92,7 +92,7 @@ std::vector<int> file_reader::read_row_index(size_t non_diag_no)
     }
     //as we know the size of the vector we can preallocate vecto dimension:
     vect.reserve(non_diag_no);
-    for(size_t i = 0; i<non_diag_no && i_f.good();i++)
+    for(size_t i = 0; i<non_diag_no && i_f.good(); i++)
     {
         i_f>>temp;
         vect.push_back(temp);
@@ -114,7 +114,7 @@ std::vector<int> file_reader::read_col_change(size_t sz )
     }
     //as we know the size of the vector we can preallocate vecto dimension:
     vect.reserve(sz+1);
-    for(size_t i = 0; i<sz+1 && i_f.good();i++)
+    for(size_t i = 0; i<sz+1 && i_f.good(); i++)
     {
         i_f>>temp;
         vect.push_back(temp);
@@ -136,7 +136,7 @@ std::vector<double> file_reader::read_diag(size_t sz)
         throw;
     }
     vect.reserve(sz);
-    for(size_t i = 0; i<sz && i_f.good();i++)
+    for(size_t i = 0; i<sz && i_f.good(); i++)
     {
         i_f>>temp;
         vect.push_back(temp);
@@ -160,7 +160,7 @@ std::vector<double> file_reader::read_non_diag(size_t non_diag_no,bool nasym)
     if(!nasym)
     {
         vect.reserve(non_diag_no);
-        for(size_t i = 0; i<non_diag_no && i_f.good();i++)
+        for(size_t i = 0; i<non_diag_no && i_f.good(); i++)
         {
             i_f>>temp;
             vect.push_back(temp);
@@ -175,7 +175,7 @@ std::vector<double> file_reader::read_non_diag(size_t non_diag_no,bool nasym)
     {
         size_t temp2 = non_diag_no*2;
         vect.reserve(temp2);
-        for(size_t i = 0; i<temp2 && i_f.good();i++)
+        for(size_t i = 0; i<temp2 && i_f.good(); i++)
         {
             i_f>>temp;
             vect.push_back(temp);
@@ -197,7 +197,7 @@ std::vector<double> file_reader::read_rhs(size_t sz)
         throw;
     }
     vect.reserve(sz);
-    for(size_t i = 0; i<sz && i_f.good();i++)
+    for(size_t i = 0; i<sz && i_f.good(); i++)
     {
         i_f>>temp;
         vect.push_back(temp);
@@ -215,17 +215,17 @@ std::vector<double> file_reader::read_sol(size_t mat_dim)
         std::cout<<"ERR: file reading functions not called in correct order(6)";
         throw;
     }
+    i_f>>temp;
     if(i_f.good())
     {
         vect.reserve(mat_dim);
-        for(size_t i = 0; i<mat_dim && i_f.good();i++)
+        for(size_t i = 0; i<mat_dim && i_f.good(); i++)
         {
-            i_f>>temp;
+
             vect.push_back(temp);
+            i_f>>temp;
         }
 
-
-        i_f>>temp; //see if there is still one more elem or this is the end
         if(i_f.good())
         {
             std::cout<<"ERR: file should not contain any more elements at this point..\n";

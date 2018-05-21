@@ -94,6 +94,8 @@ PETSc_solver::~PETSc_solver()
 PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv, linear_sys& input_sys)
 {
     //todo implementing the option of using a petsc viwewr would be nice as well
+    parallel_timer timer1("Timing of PETSc INIT1",input_sys.node_rank);
+    timer1.start(input_sys.node_rank);
     ierr = PetscInitialize(&main_argc, &main_argv,(char*)0,NULL);
     CHKERRCONTINUE(ierr);
 
@@ -116,6 +118,8 @@ PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv, linear_sys& input_
 
     ierr = MatSetSizes(A,nlocal,nlocal,input_sys.mat_dim,input_sys.mat_dim);
     CHKERRCONTINUE(ierr);
+    timer1.stop(input_sys.node_rank);
+    timer1.display_result(input_sys.node_rank);
 
     ierr = mat_preallocate_mem(input_sys);
     CHKERRCONTINUE(ierr);
@@ -140,6 +144,9 @@ PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv, linear_sys& input_
         CHKERRCONTINUE(ierr);
     }
     //now assembly , on all processors
+
+    parallel_timer timer2("Timing of PETSc INIT2",input_sys.node_rank);
+    timer2.start(input_sys.node_rank);
     MatAssemblyBegin(A,MAT_FINAL_ASSEMBLY);
     MatAssemblyEnd(A,MAT_FINAL_ASSEMBLY);
     VecAssemblyBegin(b);
@@ -159,6 +166,8 @@ PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv, linear_sys& input_
 
     ierr = KSPSetUp(ksp);
     CHKERRCONTINUE(ierr);
+    timer2.stop(input_sys.node_rank);
+    timer2.display_result(input_sys.node_rank);
 
 }
 /*checks solution stored in the petsc parallel vector structure by performing a gather operation towards node0, where

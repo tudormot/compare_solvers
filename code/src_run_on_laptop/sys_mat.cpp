@@ -240,7 +240,7 @@ std::vector<double> file_reader::read_sol(size_t mat_dim)
 }
 
 file_reader::file_reader(const std::string filename):
-    i_f(filename)
+i_f(filename)
 {
     if(!i_f.is_open())
     {
