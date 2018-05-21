@@ -186,3 +186,8 @@ Timing of PETSc KSPSolve routine (in seconds): 0.226978
 Timing of PETSc KSPSolve routine (in seconds): 0.0861139
 Timing of Pardiso's solving routine (in seconds): 0.111501
 Timing of PETSc KSPSolve routine (in seconds): 0.0971451
+Timing of PETSc KSPSolve routine (in seconds): 1.00277
+Timing of PETSc KSPSolve routine (in seconds): 1.84967
+Timing of PETSc KSPSolve routine (in seconds): 1.2802
+Timing of PETSc KSPSolve routine (in seconds): 0.882879
+Timing of PETSc KSPSolve routine (in seconds): 0.988188
