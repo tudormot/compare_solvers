@@ -44,15 +44,13 @@ class linear_sys{
 private:
 
 public:
-
-    //TODO should these be public?
-    bool is_asymmetric = false; //true if matrix is asymmetric
+    bool is_asymmetric = false; //true if matrix is only structurally symmetric, and false if it is pure symmetric
     int mat_dim; //matrices always square
     int non_diag_no;
     std::vector<int>row_i;//row index
     std::vector<int>col_ch;//column change
     std::vector<double>diag; //diag elements not part of the CCR
-    std::vector<double>non_diag;
+    std::vector<double>non_diag; //number of elements inside upper triangular ( always equal to number of elem inside lower triangular)
     std::vector<double>rhs;
     std::vector<double> sol; //this might be already filled with solution or not, depending on input textfile
 
@@ -64,8 +62,7 @@ public:
     const linear_sys& operator=(const linear_sys& dummy) = delete;
     virtual ~linear_sys();
 
-    //todo "parallelise" these functions
-    void release_mem_mat(); //releases memory from the vectors that are stoing the matrix in "pardiso format"
+    void release_mem_mat(); //releases memory from the vectors that are storing the matrix in "pardiso format"
     void display_system_stats() const;
 
 };

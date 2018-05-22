@@ -12,8 +12,9 @@ exec_name=time_solvers
 touch ${outputfile_path}
 
 
-mpiexec.hydra -n 1 ./${exec_name}  $1 ${inputfile_path} ${outputfile_path} -mat_type seqaij -pc_type ilu -ksp_converged_reason -ksp_type bcgs 
+mpiexec.hydra -n 1 ./${exec_name}  $1 ${inputfile_path} ${outputfile_path} -mat_type seqsbaij  -ksp_converged_reason -ksp_type bcgs -mat_view draw -draw_pause 5 
 
+#professor suggested that I should use ilu for symmetric matrices, but this is not implemented for matrix type seqsbaij or for parallel matrices..
 #-bind-to socket:1
 #-ksp_monitor_true_residual ascii:monitor_bgcs.xml:ascii_xml
 #TODO tweak gmres restart param, but for default value it does not converge..and tolerance??

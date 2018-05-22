@@ -33,30 +33,58 @@ PetscErrorCode PETSc_solver::create_petsc_mat(linear_sys& input_sys)
 		input_sys.row_i[i]--;
 	}
 
-	for (PetscInt i = 0;
-			i < input_sys.mat_dim - 1 /*last diag elem inserted out of the loop for efficiency*/;
-			i++)
+	/*now, process differs slightly for purely symmetric and just structurally symmetric matrices:*/
+	if(input_sys.is_asymmetric == false)
 	{
-		//first add the diagonal elem
-		ierr = MatSetValues(A, 1, &i, 1, &i, &input_sys.diag[i], ADD_VALUES);
-		CHKERRQ(ierr);
+		for (PetscInt i = 0;
+				i < input_sys.mat_dim - 1 /*last diag elem inserted out of the loop for efficiency*/;
+				i++)
+		{
+			//first add the diagonal elem
+			ierr = MatSetValues(A, 1, &i, 1, &i, &input_sys.diag[i], ADD_VALUES);
+			CHKERRQ(ierr);
 
-		//now add all elems in the same row with the diagonal elem, to the right of the diagonal elem
-		//and all elems in the same collumn with the diagonal elem, underneath the diagonal elem
+			//now add all elems in the same row with the diagonal elem, to the right of the diagonal elem
 
-		int row_index_start = input_sys.col_ch[i] - 1;
-		int row_index_end = input_sys.col_ch[i + 1] - 1; //these two variables will store the start and end indexes of the data we want to extract from linear_sys.elem vector
+			int row_index_start = input_sys.col_ch[i] - 1;
+			int row_index_end = input_sys.col_ch[i + 1] - 1; //these two variables will store the start and end indexes of the data we want to extract from linear_sys.elem vector
 
-		ierr = MatSetValues(A, 1, &i, row_index_end - row_index_start,
-				&input_sys.row_i[row_index_start],
-				&input_sys.non_diag[row_index_start], ADD_VALUES);
+			ierr = MatSetValues(A, 1, &i, row_index_end - row_index_start,
+					&input_sys.row_i[row_index_start],
+					&input_sys.non_diag[row_index_start], ADD_VALUES);
 
-		ierr = MatSetValues(A, row_index_end - row_index_start,
-				&input_sys.row_i[row_index_start], 1, &i,
-				&input_sys.non_diag[row_index_start], ADD_VALUES);
-
+		}
 	}
-	//add the last diag elem here
+	else
+	{
+		//TODO: warning: this was not tested yet
+
+		for (PetscInt i = 0;
+				i < input_sys.mat_dim - 1 /*last diag elem inserted out of the loop for efficiency*/;
+				i++)
+		{
+			//first add the diagonal elem
+			ierr = MatSetValues(A, 1, &i, 1, &i, &input_sys.diag[i], ADD_VALUES);
+			CHKERRQ(ierr);
+
+			//now add all elems in the same row with the diagonal elem, to the right of the diagonal elem
+
+			int row_index_start = input_sys.col_ch[i] - 1;
+			int row_index_end = input_sys.col_ch[i + 1] - 1; //these two variables will store the start and end indexes of the data we want to extract from linear_sys.elem vector
+
+			ierr = MatSetValues(A, 1, &i, row_index_end - row_index_start,
+					&input_sys.row_i[row_index_start],
+					&input_sys.non_diag[row_index_start], ADD_VALUES);
+
+			ierr = MatSetValues(A, row_index_end - row_index_start,
+					&input_sys.row_i[row_index_start], 1, &i,
+					&input_sys.non_diag[row_index_start + input_sys.non_diag_no], ADD_VALUES);
+
+
+
+		}
+	}
+	//add the last diag elem here, valid for both pure symm and structural symm
 	PetscInt dummyInt = input_sys.mat_dim - 1;
 	ierr = MatSetValues(A, 1, &dummyInt, 1, &dummyInt,
 			&input_sys.diag[dummyInt], ADD_VALUES);
@@ -91,7 +119,6 @@ PETSc_solver::~PETSc_solver()
 PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv,
 		linear_sys& input_sys)
 {
-	//todo implementing the option of using a petsc viwewr would be nice as well
 	parallel_timer timer1("Timing of PETSc INIT1", input_sys.node_rank);
 	timer1.start(input_sys.node_rank);
 	ierr = PetscInitialize(&main_argc, &main_argv, (char*) 0, NULL);
@@ -126,8 +153,7 @@ PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv,
 	//check that the matrix is symmetric, TODO at the moment non-symmetric case not implemented
 	if (input_sys.is_asymmetric == true)
 	{
-		PetscPrintf(PETSC_COMM_WORLD,
-				"ERROR! asymmetric matrices are not currently supported!");
+		MatSetOption(A, MAT_STRUCTURALLY_SYMMETRIC, PETSC_TRUE);
 	}
 	else
 	{
@@ -238,9 +264,6 @@ PetscErrorCode PETSc_solver::mat_preallocate_mem(linear_sys& sys)
 	ierr = MatGetType(A, &type);
 	CHKERRQ(ierr);
 
-	//TODO temp:
-	std::cout << "matrix type is :" << type << std::endl;
-
 	if (static_cast<std::string>(type) == "seqaij")
 	{
 		mat_preallocate_mem_SEQAIJ(sys);
@@ -253,14 +276,24 @@ PetscErrorCode PETSc_solver::mat_preallocate_mem(linear_sys& sys)
 	{
 		mat_preallocate_mem_MPISBAIJ(sys);
 	}
+	else if (static_cast<std::string>(type) == "seqsbaij")
+	{
+		mat_preallocate_mem_SEQSBAIJ(sys);
+	}
 	else
 	{
-		std::cout << "ERROR not implemented yet\n";
+		std::cout << "ERROR not implemented yet or wrong matrix type requested\n";
 	}
 	return ierr;
 }
 PetscErrorCode PETSc_solver::mat_preallocate_mem_SEQAIJ(linear_sys& sys)
 {
+	if(sys.is_asymmetric == false)
+	{
+		std::cout<<"WARNING: using a PETSc matrix storage for non-symmetric matrices on a"
+				" symmetric matrix. Wasting space and solving possibly slower\n";
+
+	}
 	//this function is only called if we are running solver on 1 MPI process
 	PetscInt preallocation_data_SeqAIJ[sys.mat_dim];
 	memset(preallocation_data_SeqAIJ, 0, sizeof(PetscInt) * sys.mat_dim);
@@ -281,9 +314,37 @@ PetscErrorCode PETSc_solver::mat_preallocate_mem_SEQAIJ(linear_sys& sys)
 	return ierr;
 
 }
+
+PetscErrorCode PETSc_solver::mat_preallocate_mem_SEQSBAIJ(linear_sys& sys)
+{
+	if(sys.is_asymmetric == true)
+	{
+		std::cout<<"ERROR: attempting to use a PETSc Matrix storage that should only be used for symmetric matrices."
+						"This matrix is only structurally symmetric\n";
+		throw;
+	}
+	//this function is only called if we are running solver on 1 MPI process
+	PetscInt preallocation_data_SeqSBAIJ[sys.mat_dim];
+	for (PetscInt i = 0; i < sys.mat_dim; i++)
+	{
+		preallocation_data_SeqSBAIJ[i] = sys.col_ch[i + 1] - sys.col_ch[i] + 1; //+1 due to the diagonal elements
+	}
+	ierr = MatSetBlockSizes(A,1, 1);
+	CHKERRQ(ierr);
+
+	ierr = MatSeqSBAIJSetPreallocation(A, 1,PETSC_DEFAULT,
+			preallocation_data_SeqSBAIJ);
+	CHKERRQ(ierr);
+	return ierr;
+}
 PetscErrorCode PETSc_solver::mat_preallocate_mem_MPIAIJ(linear_sys& sys)
 {
+	if(sys.is_asymmetric == false)
+	{
+		std::cout<<"WARNING: using a PETSc matrix storage for non-symmetric matrices on a"
+				" symmetric matrix. Wasting space and solving possibly slower\n";
 
+	}
 	PetscInt local_preallocation_recv_buffer_MPIAIJ[nlocal][2];
 	if (sys.node_rank == 0)
 	{
@@ -370,6 +431,12 @@ PetscErrorCode PETSc_solver::mat_preallocate_mem_MPIAIJ(linear_sys& sys)
 
 PetscErrorCode PETSc_solver::mat_preallocate_mem_MPISBAIJ(linear_sys& sys)
 {
+	if(sys.is_asymmetric == true)
+	{
+		std::cout<<"ERROR: attempting to use a PETSc Matrix storage that should only be used for symmetric matrices."
+				"This matrix is only structurally symmetric\n";
+		throw;
+	}
 	PetscInt local_preallocation_recv_buffer_MPISBAIJ[nlocal][2];
 	if (sys.node_rank == 0)
 	{

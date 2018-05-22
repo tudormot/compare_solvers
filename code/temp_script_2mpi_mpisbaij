@@ -12,7 +12,7 @@ solver_option=--solve-with-PETSc
 touch ${outputfile_path}
 
 
-mpiexec.hydra -n 2 ./${exec_name} ${solver_option} ${inputfile_path} ${outputfile_path} -mat_type mpisbaij  -ksp_converged_reason -ksp_type bcgs -mat_view draw -draw_pause 5  
+mpiexec.hydra -n 2 ./${exec_name} ${solver_option} ${inputfile_path} ${outputfile_path} -mat_type mpisbaij -pc_type asm  -ksp_converged_reason -ksp_type bcgs -mat_view draw -draw_pause 5  
 
 #-bind-to socket:1
 #-ksp_monitor_true_residual ascii:monitor_bgcs.xml:ascii_xml
