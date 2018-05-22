@@ -21,6 +21,7 @@ private:
     PetscErrorCode mat_preallocate_mem_MPISBAIJ(linear_sys& input_sys);
     PetscErrorCode mat_preallocate_mem_MPIAIJ(linear_sys& input_sys);
     PetscErrorCode mat_preallocate_mem_SEQAIJ(linear_sys& input_sys);
+    PetscErrorCode mat_preallocate_mem_SEQSBAIJ(linear_sys& input_sys);
 
     //void mat_calculate_local_sizes(linear_sys & mat_dim);
 
