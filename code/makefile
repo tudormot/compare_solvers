@@ -1,4 +1,3 @@
- 
 
 laptop: COMPFLAGS=-std=c++11 -Wall -Wextra	
 cluster: COMPFLAGS=-std=c++11
@@ -26,6 +25,6 @@ OBJ=main.o intel_pardiso_solver.o petsc_solver.o sys_mat.o testing.o timer.o
 
 laptop: $(OBJ)
 	${CLINKER} -o time_solvers  $(OBJ) ${MKL_SHLIB} ${PETSC_LIB}
-release: $(OBJ)
+cluster: $(OBJ)
 	${CLINKER} -o time_solvers $(OBJ) ${MKL_SHLIB} ${PETSC_LIB}
 
