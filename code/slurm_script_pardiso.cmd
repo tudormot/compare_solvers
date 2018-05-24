@@ -2,7 +2,7 @@
  
 
 #SBATCH -o /home/hpc/pr63so/ga53lov2/pard_console.out 
-#SBATCH -D /home/hpc/pr63so/ga53lov2/code
+#SBATCH -D /home/hpc/pr63so/ga53lov2/proj_git/compare_solvers/code
 #SBATCH -J pard_8thr_quicktest
 #SBATCH --get-user-env 
 #SBATCH --clusters=mpp2
@@ -14,8 +14,10 @@
 #SBATCH --time=1:00:00 
 
 ./load_modules
-touch outputfile_path=/home/hpc/pr63so/ga53lov2/timing_results_pardiso.txt
-cd ~/code
+outputfile_path=/home/hpc/pr63so/ga53lov2/timing_results_pardiso.txt
+touch ${outputfile_path}
+
+cd ~/proj_git/compare_solvers/code
 export OMP_NUM_THREADS=28
 # 28 is the maximum reasonable value for CooLMUC-2 
 
