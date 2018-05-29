@@ -192,7 +192,7 @@ int pardiso_solver::solve_sys(linear_sys &sys)
     else
     {
         //store the solution inside the sys object using move semantics
-        std::cout<<"Can't calculate relative errror in solution as sol is not given\n";
+        std::cout<<"Solution not provided in input file, storing pardiso solution as system solution\n";
         sys.sol = std::move(this->sol);
     }
     /* -------------------------------------------------------------------- */
