@@ -25,6 +25,7 @@ public:
     void stop(PetscInt node_rank);
     void display_result(PetscInt node_rank);
     void print_to_file(PetscInt node_rank);
+    PetscScalar get_time(PetscInt node_rank);
 
     parallel_timer(std::string timing_description_in, PetscInt node_rank);
     //TODO delete all unwanted constructors

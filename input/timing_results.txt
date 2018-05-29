@@ -191,3 +191,7 @@ Timing of PETSc KSPSolve routine (in seconds): 1.84967
 Timing of PETSc KSPSolve routine (in seconds): 1.2802
 Timing of PETSc KSPSolve routine (in seconds): 0.882879
 Timing of PETSc KSPSolve routine (in seconds): 0.988188
+Timing of PETSc KSPSolve routine (in seconds): 0.22087
+Timing of PETSc KSPSolve routine (in seconds): 1.12102
+Timing of PETSc KSPSolve routine (in seconds): 0.0885246
+Timing of PETSc KSPSolve routine (in seconds): 0.974888

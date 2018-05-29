@@ -38,6 +38,19 @@ void parallel_timer::print_to_file(PetscInt node_rank)
     }
 }
 
+PetscScalar parallel_timer::get_time(PetscInt node_rank)
+{
+	if(node_rank == 0)
+	{
+		return this->time;
+	}
+	else
+	{
+		return 0.0; //dummy int..
+	}
+
+}
+
 parallel_timer::parallel_timer(std::string timing_description_in,PetscInt node_rank)
 {
     if(node_rank ==0)

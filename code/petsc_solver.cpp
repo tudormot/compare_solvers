@@ -19,6 +19,8 @@ int PETSc_solver::solve_sys(linear_sys& sys)
 	timer.print_to_file(sys.node_rank);
 	(void) (check_petsc_solution(sys));
 
+	investigate_paral_scaling(sys,timer.get_time(sys.node_rank));
+
 	return true; //dummy return for the time being
 }
 PetscErrorCode PETSc_solver::create_petsc_mat(linear_sys& input_sys)
@@ -524,3 +526,14 @@ PetscErrorCode PETSc_solver::mat_preallocate_mem_MPISBAIJ(linear_sys& sys)
 	return ierr;
 }
 
+
+void PETSc_solver::investigate_paral_scaling(linear_sys& input_sys, PetscScalar time)
+{
+	if(input_sys.node_rank == 0)
+	{
+		PetscInt no_iter;
+		ierr = KSPGetTotalIterations(ksp,&no_iter);
+		std::cout<<"Number of KSP iterations is "<<no_iter<<std::endl;
+		std::cout<<"Time spent per KSP iteration is "<<time/static_cast<PetscScalar>(no_iter)<<std::endl;
+	}
+}
