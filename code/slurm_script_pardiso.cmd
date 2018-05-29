@@ -7,7 +7,7 @@
 #SBATCH --get-user-env 
 #SBATCH --clusters=mpp2
 #SBATCH --nodes=1-1 
-#SBATCH --cpus-per-task=28 
+#SBATCH --cpus-per-task=4 
 #SBATCH --mail-type=end 
 #SBATCH --mail-user=tudor.mot@tum.de 
 #SBATCH --export=NONE 
@@ -18,7 +18,7 @@ outputfile_path=/home/hpc/pr63so/ga53lov2/timing_results_pardiso.txt
 touch ${outputfile_path}
 
 cd ~/proj_git/compare_solvers/code
-export OMP_NUM_THREADS=28
+export OMP_NUM_THREADS=4
 # 28 is the maximum reasonable value for CooLMUC-2 
 
 #this should be modified from system to system
