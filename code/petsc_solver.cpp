@@ -16,7 +16,6 @@ int PETSc_solver::solve_sys(linear_sys& sys)
 	CHKERRQ(ierr);
 	timer.stop(sys.node_rank);
 	timer.display_result(sys.node_rank);
-	timer.print_to_file(sys.node_rank);
 	(void) (check_petsc_solution(sys));
 
 	investigate_paral_scaling(sys,timer.get_time(sys.node_rank));
@@ -74,13 +73,18 @@ PetscErrorCode PETSc_solver::create_petsc_mat(linear_sys& input_sys)
 			int row_index_start = input_sys.col_ch[i] - 1;
 			int row_index_end = input_sys.col_ch[i + 1] - 1; //these two variables will store the start and end indexes of the data we want to extract from linear_sys.elem vector
 
+			/* NOTE: we assume that non_diag_old contains lower triangular stored column by column, followed by upper triangular stored
+			* row by row*/
+
+			//store in upper triangular:
 			ierr = MatSetValues(A, 1, &i, row_index_end - row_index_start,
 					&input_sys.row_i[row_index_start],
-					&input_sys.non_diag[row_index_start], ADD_VALUES);
+					&input_sys.non_diag[row_index_start + input_sys.non_diag_no], ADD_VALUES);
 
+			//store in lower triangular:
 			ierr = MatSetValues(A, row_index_end - row_index_start,
 					&input_sys.row_i[row_index_start], 1, &i,
-					&input_sys.non_diag[row_index_start + input_sys.non_diag_no], ADD_VALUES);
+					&input_sys.non_diag[row_index_start], ADD_VALUES);
 
 
 
@@ -119,8 +123,11 @@ PETSc_solver::~PETSc_solver()
 }
 
 PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv,
-		linear_sys& input_sys)
+		linear_sys& input_sys,std::string && output_file)
 {
+	this->output_file = output_file;
+	std::cout<<"DEBUG:output filename is "<<this->output_file<<std::endl;
+
 	parallel_timer timer1("Timing of PETSc INIT1", input_sys.node_rank);
 	timer1.start(input_sys.node_rank);
 	ierr = PetscInitialize(&main_argc, &main_argv, (char*) 0, NULL);
@@ -287,6 +294,75 @@ PetscErrorCode PETSc_solver::mat_preallocate_mem(linear_sys& sys)
 		std::cout << "ERROR not implemented yet or wrong matrix type requested\n";
 	}
 	return ierr;
+}
+
+//TODO: lin_sys_solver functions should be part of a separate sys_mat.c file
+void lin_sys_solver::print_array_to_file(double * array,int sz,std::string output_file)
+{
+	//note: this should only be called from sequencial code, no check for node_ranks
+	std::ofstream myfile(output_file);
+    if(!myfile.is_open())
+    {
+        std::cout<<"ERR in print to file. Can't create/open file specified\n";
+        throw; //error handling not a priority at this time
+    }
+	myfile<<sz<<' ';
+	for(int i = 0;i<sz;i++)
+	{
+		myfile <<array[i]<<' ';
+	}
+
+	myfile.close();
+}
+void PETSc_solver::print_sol_to_file(linear_sys &sys)
+{
+	PetscInt local_size;
+	PetscScalar* local_array_start;
+	ierr = VecGetLocalSize(this->x, &local_size);
+	CHKERRCONTINUE(ierr);
+	ierr = VecGetArray(this->x, &local_array_start);
+	CHKERRCONTINUE(ierr);
+
+	if (sys.node_rank == 0)
+	{
+		PetscScalar sol_array[sys.mat_dim];
+		PetscInt local_sizes[sys.no_of_nodes];
+		PetscInt displ[sys.no_of_nodes], rcounts[sys.no_of_nodes];
+
+		//first must perform a gather to main node of all local sizes
+		MPI_Gather(&local_size, 1, MPIU_INT, local_sizes, 1, MPIU_INT, 0,
+				PETSC_COMM_WORLD);
+
+		//now initialise data to pe passed to MPIGatherv in arrays displs and rcounts
+		rcounts[0] = local_sizes[0];
+		displ[0] = 0;
+		for (int i = 1; i < sys.no_of_nodes; i++)
+		{
+			rcounts[i] = local_sizes[i];
+			displ[i] = displ[i - 1] + rcounts[i];
+		}
+
+		//now get the data in the sol_array on node 0
+		MPI_Gatherv(local_array_start, local_size, MPIU_SCALAR, sol_array,
+				rcounts, displ, MPIU_SCALAR, 0, PETSC_COMM_WORLD);
+
+		//now finally print_to_file
+		print_array_to_file(sol_array, sys.mat_dim, this->output_file);
+
+	}
+	else
+	{
+		//first must perform a gather to main node of all local sizes
+		MPI_Gather(&local_size, 1, MPIU_INT, NULL, 1, MPIU_INT, 0,
+				PETSC_COMM_WORLD);
+
+		//now get the data in the sol_array on node 0
+		MPI_Gatherv(local_array_start, local_size, MPIU_SCALAR, NULL, NULL,
+				NULL,
+				MPIU_SCALAR, 0, PETSC_COMM_WORLD);
+
+	}
+	VecRestoreArray(x, &local_array_start);
 }
 PetscErrorCode PETSc_solver::mat_preallocate_mem_SEQAIJ(linear_sys& sys)
 {

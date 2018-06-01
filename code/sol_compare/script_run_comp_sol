@@ -1,0 +1,6 @@
+#!/bin/sh
+
+FILENAME1=/home/mot_tudor/workspace/unijob/input/petsc_1mpi.dat
+FILENAME2=/home/mot_tudor/workspace/unijob/input/petsc_2mpi.dat
+
+./compare_solutions ${FILENAME1} ${FILENAME2}

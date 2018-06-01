@@ -4,8 +4,6 @@
 #include "sys_solver.h"
 #include "timer.h"
 
-std::string parallel_timer::output_filename = "dummy";
-
 int main(int argc, char *argv[])
 {
 
@@ -17,12 +15,11 @@ int main(int argc, char *argv[])
     ierr = MPI_Comm_size(MPI_COMM_WORLD, &no_of_nodes);CHKERRQ(ierr);
     ierr = MPI_Comm_rank(MPI_COMM_WORLD, &node_rank); CHKERRQ(ierr);
 
-    if(node_rank==0)
-    {
-        parallel_timer::output_filename = argv[3];
-    }
-    std::string filename(argv[2]);
-    linear_sys lin_sys(filename,no_of_nodes,node_rank);
+
+    std::string out_filename(argv[3]); //todo:could improve using move semantics but had some problems with the compilers on cluster
+    std::string in_filename(argv[2]);
+
+    linear_sys lin_sys(in_filename,no_of_nodes,node_rank);
 
     if(std::string(argv[1]) == "--solve-with-pardiso")
     {
@@ -35,7 +32,7 @@ int main(int argc, char *argv[])
             else
             {
                 //solve with pardiso here
-                pardiso_solver pard_solve(lin_sys);
+                pardiso_solver pard_solve(lin_sys,std::move(out_filename));
                 lin_sys.release_mem_mat();
                 pard_solve.solve_sys(lin_sys);
 
@@ -47,9 +44,10 @@ int main(int argc, char *argv[])
         //solve with PETSc
         int argc_petsc = argc-3;
         char ** argv_petsc = argv+3;
-        PETSc_solver petsc_solve(argc_petsc,argv_petsc,lin_sys); //ignore the first 2 command line arguments, they are used for non PETSc stuff
+        PETSc_solver petsc_solve(argc_petsc,argv_petsc,lin_sys,std::move(out_filename)); //ignore the first 2 command line arguments, they are used for non PETSc stuff
         lin_sys.release_mem_mat();
         petsc_solve.solve_sys(lin_sys);
+        petsc_solve.print_sol_to_file(lin_sys);
     }
     else if(std::string(argv[1]) == "--solve-with-both")
     {
@@ -63,7 +61,7 @@ int main(int argc, char *argv[])
     	 * hence lin_sys can't be used to afterwards setup pardiso*/
     	if(node_rank == 0)
     	{
-            pardiso_solver pard_solve(lin_sys);
+            pardiso_solver pard_solve(lin_sys,std::move(out_filename));
             //as this option should theretically be used only for inputs that do not have a given solution, the pardiso solver
             //will store the solution in the lin_sys object, which is then compared agains the petsc solution in the petsc routines
             pard_solve.solve_sys(lin_sys);
@@ -71,7 +69,7 @@ int main(int argc, char *argv[])
     	MPI_Barrier(MPI_COMM_WORLD);
     	int argc_petsc = argc-3;
 		char ** argv_petsc = argv+3;
-		PETSc_solver petsc_solve(argc_petsc,argv_petsc,lin_sys); //ignore the first 2 command line arguments, they are used for non PETSc stuff
+		PETSc_solver petsc_solve(argc_petsc,argv_petsc,lin_sys,std::move(out_filename)); //ignore the first 2 command line arguments, they are used for non PETSc stuff
 		lin_sys.release_mem_mat();
 		petsc_solve.solve_sys(lin_sys);
     }

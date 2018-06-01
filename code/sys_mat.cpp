@@ -75,6 +75,10 @@ void linear_sys::release_mem_mat()
         col_ch.resize(0);
         diag.resize(0);
         non_diag.resize(0);
+        row_i.shrink_to_fit();
+        col_ch.shrink_to_fit();
+		diag.shrink_to_fit();
+		non_diag.shrink_to_fit();
     }
 }
 //#################################################

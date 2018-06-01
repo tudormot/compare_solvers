@@ -15,25 +15,91 @@
 
 #define CTRL_PARAM_SZ (128)
 
-void lin_sys_solver::CCSdiag_to_CRS(const std::vector<int> &row_i_old,const std::vector<int> &col_ch_old,const std::vector<double> &non_diag_old, const std::vector<double> &diag_old, //vectors storing input (variable name contains _old)
+//TODO: lin_sys_solver functions should be part od a separate sys_mat.c file
+void lin_sys_solver::CLCXformats_to_CRS(const std::vector<int> &row_i_old,const std::vector<int> &col_ch_old,const std::vector<double> &non_diag_old, const std::vector<double> &diag_old, //vectors storing input (variable name contains _old)
                                     std::vector<int> &col_i_new,           std::vector<int> &row_ch_new,      std::vector<double> &elem_new,const bool is_asym)          //vectors storing output{
 {
     /*note: this function created three completely new vectors storing the data in the new format.. this might be a problem for input systems
       of 10GB(that we will have to deal with at some point).. currently we are still storing the data in the input format as I am not sure what format
       PETSc is using, so we might still required. TODO later in project: decide if this implementation is bad..
     */
+
+	//temp, quick test:
+	std::cout<<"In functionc CRSdiag_to CRS. Size of input vectors\n";
+	std::cout<<row_i_old.size()<<' '<<col_ch_old.size()<<' '<<non_diag_old.size()<<' '<<diag_old.size()<<std::endl;
+
     if(is_asym == true)
     {
-        std::cout<<"ERR: asymmetric matrices not yet supported\n";
-        throw;
+        std::cout<<"warning: work in progress\n";
+        col_i_new.resize(2 * row_i_old.size() + diag_old.size());
+		row_ch_new.reserve(col_ch_old.size());
+		elem_new.resize(non_diag_old.size()+diag_old.size());
+		/*we assume that non_diag_old contains lower triangular stored column by colum, followed by uper triangular stored
+		 * row by row*/
+
+
+		/*we need some helper vectors to perform the conversion. One is a vector that initially: specifies at which indexes of elem_new
+		 * the col/ row changes. To generate this vect we need another vector which speicifies how many elements are present in each row*/
+		//actually these vectors can be merged in one, for efficiency reasons
+		std::vector<int> helper_vect(diag_old.size()+1,0);
+		std::cout<<"TEMP: size of helper_vect is  "<<helper_vect.size();
+
+		//now go through input vectors once and calculate how many elements are present per matrix row, store in helper_vect
+		//keep in mind that input is in 1-based indexing
+		//after this for loop helper_vect will store 0 in helper_vect[0], and number of elems on row n-1 in entry n
+		for (int i = 1; i < diag_old.size()+1; i++)
+		{
+			helper_vect[i] = col_ch_old[i] - col_ch_old[i-1] + 1; //+1 due to the diagonal elements
+			int row_index_start = col_ch_old[i-1] - 1;
+			int row_index_end = col_ch_old[i] - 1; //these two variables will store the start and end indexes of the data we want to extract from linear_sys.elem vector
+			for (int j = row_index_start; j < row_index_end; j++)
+			{
+				helper_vect[row_i_old[j]]++;
+			}
+		}
+		//now calculate at which indices of elem_new will the row change
+		for (int i =1;i<diag_old.size()+1;i++)
+		{
+			helper_vect[i]=helper_vect[i]+helper_vect[i-1];
+		}
+		std::cout<<"DEBUG: first 5 elems of helper_vect are: "<<helper_vect[0]<<' '<<helper_vect[1]<<' '<<helper_vect[2]<<' '<<helper_vect[3]<<' '<<helper_vect[4]<<std::endl;
+
+		//now with the help of helper vect generate row_ch new
+		for(int i =0;i<diag_old.size()+1;i++)
+		{
+			row_ch_new.push_back(helper_vect[i]+1); // plus one because of row based indexing
+		}
+
+
+		//now generate col_i
+		for(int i = 0;i< diag_old.size();i++)
+		{
+			//store index of diagonal and diag elem in right location
+			col_i_new[helper_vect[i]]=i+1;
+			elem_new[helper_vect[i]] = diag_old[i];
+			helper_vect[i]++;
+
+			//now store indices of elems in line i, on the right of the diagonal
+			int row_index_start = col_ch_old[i] - 1;
+			int row_index_end = col_ch_old[i+1] - 1; //these two variables will store the start and end indexes of the data we want to extract from linear_sys.elem vector
+			for (int j = row_index_start; j < row_index_end; j++)
+			{
+				//now store indices of elems in line i+1, on the right of the diagonal, plus elems
+				col_i_new[helper_vect[i]] = row_i_old[j];
+				elem_new[helper_vect[i]]  = non_diag_old [j+non_diag_old.size()/2]; //TODO: could be written better by modifying fun param
+				helper_vect[i]++;
+				//now store indices of elems in col i+1, underneath the diagonal, plus elems
+				col_i_new[helper_vect[j]] = i+1; //+1 due to one based indexing
+				elem_new[helper_vect[j]]  = non_diag_old [j];
+				helper_vect[j]++;
+			}
+		}
+		//TODO: this must be heavily debugged
+
+
     }
     else
     {
-        //temp, quick test:
-        std::cout<<"TEMP: size of input vectors\n";
-        std::cout<<row_i_old.size()<<' '<<col_ch_old.size()<<' '<<non_diag_old.size()<<' '<<diag_old.size()<<std::endl;
-
-
         //preallocate memory for vectors that we construct.
         col_i_new.reserve(row_i_old.size() + diag_old.size());
         row_ch_new.reserve(col_ch_old.size());
@@ -51,16 +117,20 @@ void lin_sys_solver::CCSdiag_to_CRS(const std::vector<int> &row_i_old,const std:
             }
             row_ch_new.push_back(col_i_new.size()+1);
         }
-
-        /*note: probably the old vectors should release the memory after the new vectors are generated, as the old vectors are
-        probably not needed anymore..*/
     }
 
 }
-pardiso_solver::pardiso_solver(const linear_sys &sys)
+void pardiso_solver::print_sol_to_file(linear_sys &sys)
 {
+	std::cout<<"DUMMy not implemented";
+}
+pardiso_solver::pardiso_solver(const linear_sys &sys, std::string && output_file)
+{
+	this->output_file = output_file;
+	std::cout<<"DEBUG:output filename is "<<this->output_file<<std::endl;
+
     //populate the vectors from data stored inside sys:
-    CCSdiag_to_CRS(sys.row_i,sys.col_ch,sys.non_diag,sys.diag,this->col_i,this->row_ch,this->elem,sys.is_asymmetric);
+	CLCXformats_to_CRS(sys.row_i,sys.col_ch,sys.non_diag,sys.diag,this->col_i,this->row_ch,this->elem,sys.is_asymmetric);
 }
 
 int pardiso_solver::solve_sys(linear_sys &sys)
@@ -74,8 +144,7 @@ int pardiso_solver::solve_sys(linear_sys &sys)
     MKL_INT mtype=-99;//illegal magic number
     if(sys.is_asymmetric == true)
     {
-        std::cout<<"ERROR! assymmetric matrices not supported yet!\n";
-        return 0;
+        mtype =  1;       /*real structurally symmetric matrix*/
     }
     else
     {
@@ -185,9 +254,11 @@ int pardiso_solver::solve_sys(linear_sys &sys)
 	std::cout<<"mat_dim is :"<<sys.mat_dim<<'\n';        
 //this means that the sys object  already stores a solution, this is either due to another solver object solving the system beforehand, or the input file containing the solution as well for testing purposes
         //in this case , nothing to do, the solution just generated by the pardiso object will be stored internally in the pardiso_solver object
-        std::cout<<"It appears that the system already contains a solution. Solution stored inside pardiso_solver object \n";
+        std::cout<<"It appears that the system already contains a solution. \n";
         printf("Relative error of solution vs solution given:\n");
         test::calculate_sol_tolerance(&sys.sol[0],&(this->sol[0]),sys.mat_dim);
+        this->sol.resize(0);
+        this->sol.shrink_to_fit();
     }
     else
     {
@@ -202,6 +273,14 @@ int pardiso_solver::solve_sys(linear_sys &sys)
     PARDISO (pt, &maxfct, &mnum, &mtype, &phase,
              &n, &ddum, ia, ja, &idum, &nrhs,
              iparm, &msglvl, &ddum, &ddum, &error);
+
+    /*also freeinternal representation of matrix, as it is not needed anymore*/
+    this->col_i.resize(0);
+    this->col_i.shrink_to_fit();
+    this->elem.resize(0);
+	this->elem.shrink_to_fit();
+	this->row_ch.resize(0);
+	this->row_ch.shrink_to_fit();
     return 0;
 }
 

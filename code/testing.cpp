@@ -128,7 +128,7 @@ bool test::check_row_i_range(const linear_sys &sys)
 bool test::calculate_sol_tolerance(double* true_sol, double* calc_sol, int vec_size)
    /* calculates the relative tolerance as the 2norm of solr-solc/2norm of solr*/
 {
-    double rel_tol = 0;//TODO not sure if double is big enough..
+    double rel_tol = 0;
     double true_sol_norm= 0;
     //this could be written much better:
     for(int i =0;i<vec_size;i++)

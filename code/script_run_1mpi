@@ -5,14 +5,14 @@
 inputfile_path=/home/mot_tudor/workspace/unijob/input/beamp.txt
 #/home/mot_tudor/workspace/unijob/input/beamp.txt
 #/home/mot_tudor/Downloads/mtu_matrices/job3.sti
-outputfile_path=/home/mot_tudor/workspace/unijob/input/timing_results.txt
+outputfile_path=/home/mot_tudor/workspace/unijob/input/petsc_1mpi.dat
 exec_name=time_solvers
 
 #create output file if it does not exist
 touch ${outputfile_path}
 
 
-mpiexec.hydra -n 1 ./${exec_name}  $1 ${inputfile_path} ${outputfile_path} -mat_type seqsbaij  -ksp_converged_reason -ksp_type bcgs -mat_view draw -draw_pause 5 
+mpiexec.hydra -n 1 ./${exec_name}  $1 ${inputfile_path} ${outputfile_path} -mat_type seqsbaij  -ksp_converged_reason -mat_view draw -draw_pause 5 -pc_type none -ksp_type gmres -ksp_monitor_singular_value -ksp_gmres_restart 1000
 
 #professor suggested that I should use ilu for symmetric matrices, but this is not implemented for matrix type seqsbaij or for parallel matrices..
 #-bind-to socket:1
@@ -25,4 +25,7 @@ mpiexec.hydra -n 1 ./${exec_name}  $1 ${inputfile_path} ${outputfile_path} -mat_
 #-ksp_monitor_lg_residualnorm
 #-ksp_monitor_true_residual monitor.txt
 #ascii:monitor.txt:
-#-mat_view draw -draw_pause 5 
+#-mat_view draw -draw_pause 5
+
+#commands to be used for checking condition number of matrix:
+#-pc_type none -ksp_type gmres -ksp_monitor_singular_value -ksp_gmres_restart 1000
