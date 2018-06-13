@@ -3,6 +3,7 @@
 #include<cmath>
 #include<math.h>
 #include<iostream>
+#include<iomanip>
 #include"sys_mat.h"
 #include"testing.h"
 
@@ -150,4 +151,165 @@ bool test::check_row_i_no_diag(const linear_sys &sys)
 {
     std::cout<<"warning, test not implemented, returning false\n";
     return false;
+}
+
+bool test::create_structsymmat_from_symmat(linear_sys &sys)
+{
+	std::ofstream myfile("my_structsym_mat.txt");
+	if(!myfile.is_open())
+	{
+		std::cout<<"ERR in print to file. Can't create/open file specified\n";
+		throw; //error handling not a priority at this time
+	}
+	if(sys.is_asymmetric)
+	{
+		std::cout<<"ERR: you are using an already structural symmetric matrix as input.symmetric matrix required\n";
+		throw;
+	}
+	myfile<<!sys.is_asymmetric<<' '<<sys.mat_dim<<' '<<sys.non_diag_no<<' ';
+
+	for(int i = 0;i<sys.non_diag_no;i++)
+	{
+		myfile <<sys.row_i[i]<<' ';
+	}
+	for(int i = 0;i<sys.mat_dim+1;i++)
+	{
+		myfile <<sys.col_ch[i]<<' ';
+	}
+	for(int i = 0;i<sys.mat_dim;i++)
+	{
+		myfile << std::fixed << std::setprecision(15) <<sys.diag[i]<<' ';
+	}
+	//add to file the lower triangular section:
+	for(int i = 0;i<sys.non_diag_no;i++)
+	{
+		myfile << std::fixed << std::setprecision(15)  <<sys.non_diag[i]<<' ';
+	}
+#if 0
+	/*now to not make the matrix perfectly symmetric change some elems in non_diag vector*/
+	//add some magic numbers to the matrix:
+	//we know that input is bigger than 35000 as our smallest matrix is bigger than that
+	for(int i = 1000; i <35000; i = i+1000)
+	{
+		sys.non_diag[i]=i/100;
+	}
+#endif
+	//add to file upper triangular section:
+	for(int i = 0;i<sys.non_diag_no;i++)
+	{
+		myfile<< std::fixed << std::setprecision(15)  <<sys.non_diag[i]<<' ';
+	}
+	//add rhs to file
+	for(int i = 0;i<sys.mat_dim;i++)
+	{
+		myfile<< std::fixed << std::setprecision(15)  <<sys.rhs[i]<<' ';
+	}
+	//add sol to file
+	for(int i = 0;i<sys.mat_dim;i++)
+	{
+		myfile<< std::fixed << std::setprecision(15)  <<sys.sol[i]<<' ';
+	}
+	myfile<<"\n";
+	//std::cout<<"Debug. Size of matrix just created.\n mat_dim is "
+
+
+
+	myfile.close();
+	return true;
+}
+
+
+bool test::compare_matrices(linear_sys &sys1, linear_sys &sys2)
+{
+	if(sys1.mat_dim != sys2.mat_dim || sys1.non_diag_no != sys2.non_diag_no)
+	{
+		std::cout<<"ERROR: matrix dimensions do not agree\n";
+		return false;
+	}
+
+	for(int i = 0;i<sys1.mat_dim;i++)
+	{
+		/*compare sols. (assumed that the input contained solution)*/
+		if(sys1.sol[i]!=sys2.sol[i])
+		{
+			std::cout<<"ERROR:matrix solutions do not agree at index: "<<i<<std::endl;
+			std::cout<<"sys1.sol is: "<<sys1.sol[i]<<" while sys2.sol is: "<<sys2.sol[i]<<std::endl;
+			//return false;
+		}
+		/*compare rhs */
+		if(sys1.rhs[i]!=sys2.rhs[i])
+		{
+			std::cout<<"ERROR:matrix rhs do not agree at index: "<<i<<std::endl;
+			return false;
+		}
+		/*compare diag */
+		if(sys1.diag[i]!=sys2.diag[i])
+		{
+			std::cout<<"ERROR:matrix diags do not agree at index: "<<i<<std::endl;
+			return false;
+		}
+		/*compare col_ch*/
+		if(sys1.col_ch[i]!=sys2.col_ch[i])
+		{
+			std::cout<<"ERROR:matrix col_ch do not agree at index: "<<i<<std::endl;
+			return false;
+		}
+	}
+	/*compare last entry of col_ch as well:*/
+	if(sys1.col_ch[sys1.mat_dim] != sys2.col_ch[sys2.mat_dim])
+	{
+		std::cout<<"ERROR:matrix col_ch do not agree at index: "<<sys1.mat_dim<<std::endl;
+		return false;
+	}
+
+	/*now compare row_i and elems in lower triangular matrix*/
+	for(int i = 0;i<sys1.non_diag_no;i++)
+	{
+		if(sys1.row_i[i]!=sys2.row_i[i])
+		{
+			std::cout<<"ERROR: row i do not agree at index: "<<i<<std::endl;
+			return false;
+		}
+
+		if(sys1.non_diag[i]!=sys2.non_diag[i])
+		{
+			std::cout<<"ERROR: non diag do not agree at index (both in lower triangular matrix): "<<i<<std::endl;
+			return false;
+		}
+	}
+	if(sys1.is_asymmetric == false && sys2.is_asymmetric == true)
+	{
+		for(int i = 0;i<sys1.non_diag_no;i++)
+		{
+			if(sys1.non_diag[i]!=sys2.non_diag[i+sys1.non_diag_no])
+			{
+				std::cout<<"ERROR: non diag do not agree at index (1st mat in lower triangular and 2nd mat in upper): "<<i<<std::endl;
+				return false;
+			}
+		}
+	}
+	else
+	{
+		std::cout<<"ERROR! not implemented (in compare matrices test)\n";
+	}
+	return true;
+
+}
+
+void test::print_array_to_file(double * array,int sz,std::string output_file)
+{
+	//note: this should only be called from sequencial code, no check for node_ranks
+	std::ofstream myfile(output_file);
+    if(!myfile.is_open())
+    {
+        std::cout<<"ERR in print to file. Can't create/open file specified\n";
+        throw; //error handling not a priority at this time
+    }
+	myfile<<sz<<' ';
+	for(int i = 0;i<sz;i++)
+	{
+		myfile<< std::fixed << std::setprecision(15)  <<array[i]<<' ';
+	}
+
+	myfile.close();
 }

@@ -30,10 +30,10 @@ void lin_sys_solver::CLCXformats_to_CRS(const std::vector<int> &row_i_old,const 
 
     if(is_asym == true)
     {
-        std::cout<<"warning: work in progress\n";
         col_i_new.resize(2 * row_i_old.size() + diag_old.size());
 		row_ch_new.reserve(col_ch_old.size());
 		elem_new.resize(non_diag_old.size()+diag_old.size());
+		std::cout<<"sizes of col_i_new, row_ch_new, elem_new: "<<col_i_new.size()<<' '<<row_ch_new.size()<<' '<<elem_new.size()<<std::endl;
 		/*we assume that non_diag_old contains lower triangular stored column by colum, followed by uper triangular stored
 		 * row by row*/
 
@@ -42,14 +42,14 @@ void lin_sys_solver::CLCXformats_to_CRS(const std::vector<int> &row_i_old,const 
 		 * the col/ row changes. To generate this vect we need another vector which speicifies how many elements are present in each row*/
 		//actually these vectors can be merged in one, for efficiency reasons
 		std::vector<int> helper_vect(diag_old.size()+1,0);
-		std::cout<<"TEMP: size of helper_vect is  "<<helper_vect.size();
+		std::cout<<"TEMP: size of helper_vect is  "<<helper_vect.size()<<std::endl;
 
 		//now go through input vectors once and calculate how many elements are present per matrix row, store in helper_vect
 		//keep in mind that input is in 1-based indexing
 		//after this for loop helper_vect will store 0 in helper_vect[0], and number of elems on row n-1 in entry n
 		for (int i = 1; i < diag_old.size()+1; i++)
 		{
-			helper_vect[i] = col_ch_old[i] - col_ch_old[i-1] + 1; //+1 due to the diagonal elements
+			helper_vect[i] =helper_vect[i] + col_ch_old[i] - col_ch_old[i-1] + 1; //+1 due to the diagonal elements
 			int row_index_start = col_ch_old[i-1] - 1;
 			int row_index_end = col_ch_old[i] - 1; //these two variables will store the start and end indexes of the data we want to extract from linear_sys.elem vector
 			for (int j = row_index_start; j < row_index_end; j++)
@@ -63,23 +63,22 @@ void lin_sys_solver::CLCXformats_to_CRS(const std::vector<int> &row_i_old,const 
 			helper_vect[i]=helper_vect[i]+helper_vect[i-1];
 		}
 		std::cout<<"DEBUG: first 5 elems of helper_vect are: "<<helper_vect[0]<<' '<<helper_vect[1]<<' '<<helper_vect[2]<<' '<<helper_vect[3]<<' '<<helper_vect[4]<<std::endl;
-
+		std::cout<<"last element of helper_vect is: "<<helper_vect.back()<<std::endl;
 		//now with the help of helper vect generate row_ch new
 		for(int i =0;i<diag_old.size()+1;i++)
 		{
 			row_ch_new.push_back(helper_vect[i]+1); // plus one because of row based indexing
 		}
-
+		std::cout<<"DEBUG, this was reached1\n";
 
 		//now generate col_i
-		for(int i = 0;i< diag_old.size();i++)
+		for(int i = 0; i< diag_old.size()-1; i++)
 		{
 			//store index of diagonal and diag elem in right location
 			col_i_new[helper_vect[i]]=i+1;
 			elem_new[helper_vect[i]] = diag_old[i];
 			helper_vect[i]++;
 
-			//now store indices of elems in line i, on the right of the diagonal
 			int row_index_start = col_ch_old[i] - 1;
 			int row_index_end = col_ch_old[i+1] - 1; //these two variables will store the start and end indexes of the data we want to extract from linear_sys.elem vector
 			for (int j = row_index_start; j < row_index_end; j++)
@@ -89,13 +88,18 @@ void lin_sys_solver::CLCXformats_to_CRS(const std::vector<int> &row_i_old,const 
 				elem_new[helper_vect[i]]  = non_diag_old [j+non_diag_old.size()/2]; //TODO: could be written better by modifying fun param
 				helper_vect[i]++;
 				//now store indices of elems in col i+1, underneath the diagonal, plus elems
-				col_i_new[helper_vect[j]] = i+1; //+1 due to one based indexing
-				elem_new[helper_vect[j]]  = non_diag_old [j];
-				helper_vect[j]++;
+				col_i_new[helper_vect[row_i_old[j]-1]] = i+1; //+1 due to one based indexing
+				elem_new[helper_vect[row_i_old[j]-1]]  = non_diag_old [j];
+				helper_vect[row_i_old[j]-1]++;
 			}
 		}
-		//TODO: this must be heavily debugged
+		std::cout<<"debuggy\n";
+		//add last diagonal entry:
+		col_i_new[helper_vect[diag_old.size()-1]] = diag_old.size();
+		elem_new[helper_vect[diag_old.size()-1]] = diag_old.back();
 
+		//TODO: this must be heavily debugged
+		std::cout<<"DEBUG: matrix format conversion finished\n";
 
     }
     else

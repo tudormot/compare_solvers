@@ -58,7 +58,6 @@ PetscErrorCode PETSc_solver::create_petsc_mat(linear_sys& input_sys)
 	}
 	else
 	{
-		//TODO: warning: this was not tested yet
 
 		for (PetscInt i = 0;
 				i < input_sys.mat_dim - 1 /*last diag elem inserted out of the loop for efficiency*/;
@@ -79,7 +78,7 @@ PetscErrorCode PETSc_solver::create_petsc_mat(linear_sys& input_sys)
 			//store in upper triangular:
 			ierr = MatSetValues(A, 1, &i, row_index_end - row_index_start,
 					&input_sys.row_i[row_index_start],
-					&input_sys.non_diag[row_index_start + input_sys.non_diag_no], ADD_VALUES);
+					&input_sys.non_diag[row_index_start+ input_sys.non_diag_no], ADD_VALUES);
 
 			//store in lower triangular:
 			ierr = MatSetValues(A, row_index_end - row_index_start,
@@ -95,6 +94,9 @@ PetscErrorCode PETSc_solver::create_petsc_mat(linear_sys& input_sys)
 	ierr = MatSetValues(A, 1, &dummyInt, 1, &dummyInt,
 			&input_sys.diag[dummyInt], ADD_VALUES);
 	CHKERRQ(ierr);CHKERRQ(ierr);
+
+
+
 	return ierr;
 
 }
@@ -159,7 +161,7 @@ PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv,
 	ierr = mat_preallocate_mem(input_sys);
 	CHKERRCONTINUE(ierr);
 
-	//check that the matrix is symmetric, TODO at the moment non-symmetric case not implemented
+	//check that the matrix is symmetric,
 	if (input_sys.is_asymmetric == true)
 	{
 		MatSetOption(A, MAT_STRUCTURALLY_SYMMETRIC, PETSC_TRUE);
@@ -187,6 +189,22 @@ PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv,
 	VecAssemblyBegin(x);
 	VecAssemblyEnd(b);
 	VecAssemblyEnd(x);
+
+
+	PetscBool test_symmetry;
+	MatIsSymmetric(A,0.0,&test_symmetry);
+	if(input_sys.node_rank == 0)
+	{
+		std::cout<<"DEBUG:testing matrix symmetry using petsc function:\n";
+		if(test_symmetry== PETSC_TRUE)
+		{
+			std::cout<<"Input Matrix is symmetric\n";
+		}
+		else
+		{
+			std::cout<<"Input Matrix is asymmetric\n";
+		}
+	}
 
 	//now the solver part:
 	ierr = KSPCreate(PETSC_COMM_WORLD, &ksp);
@@ -296,24 +314,7 @@ PetscErrorCode PETSc_solver::mat_preallocate_mem(linear_sys& sys)
 	return ierr;
 }
 
-//TODO: lin_sys_solver functions should be part of a separate sys_mat.c file
-void lin_sys_solver::print_array_to_file(double * array,int sz,std::string output_file)
-{
-	//note: this should only be called from sequencial code, no check for node_ranks
-	std::ofstream myfile(output_file);
-    if(!myfile.is_open())
-    {
-        std::cout<<"ERR in print to file. Can't create/open file specified\n";
-        throw; //error handling not a priority at this time
-    }
-	myfile<<sz<<' ';
-	for(int i = 0;i<sz;i++)
-	{
-		myfile <<array[i]<<' ';
-	}
 
-	myfile.close();
-}
 void PETSc_solver::print_sol_to_file(linear_sys &sys)
 {
 	PetscInt local_size;
@@ -347,7 +348,7 @@ void PETSc_solver::print_sol_to_file(linear_sys &sys)
 				rcounts, displ, MPIU_SCALAR, 0, PETSC_COMM_WORLD);
 
 		//now finally print_to_file
-		print_array_to_file(sol_array, sys.mat_dim, this->output_file);
+		test::print_array_to_file(sol_array, sys.mat_dim, this->output_file);
 
 	}
 	else

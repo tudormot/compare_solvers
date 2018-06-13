@@ -15,6 +15,12 @@ public:
    /* just a sanity check that row_i does not contain indexes which would point on items of the main diagonal */
    static bool calculate_sol_tolerance(double* true_sol, double* calc_sol, int vec_size);
    /* calculates the relative tolerance as the 2norm of solr-solc/2norm of solr*/
+   static bool create_structsymmat_from_symmat(linear_sys &sys);
+   /*programatically creates a structurally symmetric matrix from the symmetric matrix stored in sys
+    * . This should only be used once to create a small structural symmetric matrix on which I can test the solver
+    * implementations*/
+   static void print_array_to_file(double *array, int sz, std::string output_file);
+   static bool compare_matrices(linear_sys &sys1, linear_sys &sys2);
 };
 
 #endif // TESTING_H_INCLUDED

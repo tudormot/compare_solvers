@@ -5,7 +5,7 @@ class lin_sys_solver{
 protected:
      void CLCXformats_to_CRS(const std::vector<int> &row_i_old,const std::vector<int> &col_ch_old,const std::vector<double> &non_diag_old, const std::vector<double> &diag_old, //vectors storing input (variable name contains _old)
                               std::vector<int> &col_i_new,           std::vector<int> &row_ch_new     ,      std::vector<double> &elem_new, const bool is_asym);
-     void print_array_to_file(double *array, int sz, std::string output_file);
+
      std::string output_file;
 public:
 

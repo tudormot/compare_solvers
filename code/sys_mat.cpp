@@ -116,7 +116,7 @@ std::vector<int> file_reader::read_col_change(size_t sz )
         std::cout<<"ERR: file reading functions not called in correct order(2)";
         throw;
     }
-    //as we know the size of the vector we can preallocate vecto dimension:
+    //as we know the size of the vector we can preallocate vector dimension:
     vect.reserve(sz+1);
     for(size_t i = 0; i<sz+1 && i_f.good(); i++)
     {
@@ -206,7 +206,7 @@ std::vector<double> file_reader::read_rhs(size_t sz)
         i_f>>temp;
         vect.push_back(temp);
     }
-    //no checks of i_f good here as it is ambiguous wether the input file contains a solution or not. this will be checked in file_reader::read_sol
+    //no checks of i_f good here as it is ambiguous whether the input file contains a solution or not. this will be checked in file_reader::read_sol
     return vect; //should be using move semantics so this is efficient
 }
 std::vector<double> file_reader::read_sol(size_t mat_dim)
