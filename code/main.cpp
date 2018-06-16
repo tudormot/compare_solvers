@@ -20,11 +20,6 @@ int main(int argc, char *argv[])
     std::string in_filename(argv[2]);
 
     linear_sys lin_sys(in_filename,no_of_nodes,node_rank);
-    if(node_rank == 0 )
-    {
-    	std::cout<<"DEBUG: testing size of input file:\n";
-    	test::test_input_file_dim(lin_sys,argv[2]);
-    }
     if(std::string(argv[1]) == "--solve-with-pardiso")
     {
         if(node_rank == 0)

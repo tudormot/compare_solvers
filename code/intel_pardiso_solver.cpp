@@ -33,7 +33,6 @@ void lin_sys_solver::CLCXformats_to_CRS(const std::vector<int> &row_i_old,const 
         col_i_new.resize(2 * row_i_old.size() + diag_old.size());
 		row_ch_new.reserve(col_ch_old.size());
 		elem_new.resize(non_diag_old.size()+diag_old.size());
-		std::cout<<"sizes of col_i_new, row_ch_new, elem_new: "<<col_i_new.size()<<' '<<row_ch_new.size()<<' '<<elem_new.size()<<std::endl;
 		/*we assume that non_diag_old contains lower triangular stored column by colum, followed by uper triangular stored
 		 * row by row*/
 
@@ -42,7 +41,6 @@ void lin_sys_solver::CLCXformats_to_CRS(const std::vector<int> &row_i_old,const 
 		 * the col/ row changes. To generate this vect we need another vector which speicifies how many elements are present in each row*/
 		//actually these vectors can be merged in one, for efficiency reasons
 		std::vector<int> helper_vect(diag_old.size()+1,0);
-		std::cout<<"TEMP: size of helper_vect is  "<<helper_vect.size()<<std::endl;
 
 		//now go through input vectors once and calculate how many elements are present per matrix row, store in helper_vect
 		//keep in mind that input is in 1-based indexing
@@ -62,14 +60,11 @@ void lin_sys_solver::CLCXformats_to_CRS(const std::vector<int> &row_i_old,const 
 		{
 			helper_vect[i]=helper_vect[i]+helper_vect[i-1];
 		}
-		std::cout<<"DEBUG: first 5 elems of helper_vect are: "<<helper_vect[0]<<' '<<helper_vect[1]<<' '<<helper_vect[2]<<' '<<helper_vect[3]<<' '<<helper_vect[4]<<std::endl;
-		std::cout<<"last element of helper_vect is: "<<helper_vect.back()<<std::endl;
 		//now with the help of helper vect generate row_ch new
 		for(int i =0;i<diag_old.size()+1;i++)
 		{
 			row_ch_new.push_back(helper_vect[i]+1); // plus one because of row based indexing
 		}
-		std::cout<<"DEBUG, this was reached1\n";
 
 		//now generate col_i
 		for(int i = 0; i< diag_old.size()-1; i++)
@@ -93,13 +88,10 @@ void lin_sys_solver::CLCXformats_to_CRS(const std::vector<int> &row_i_old,const 
 				helper_vect[row_i_old[j]-1]++;
 			}
 		}
-		std::cout<<"debuggy\n";
 		//add last diagonal entry:
 		col_i_new[helper_vect[diag_old.size()-1]] = diag_old.size();
 		elem_new[helper_vect[diag_old.size()-1]] = diag_old.back();
 
-		//TODO: this must be heavily debugged
-		std::cout<<"DEBUG: matrix format conversion finished\n";
 
     }
     else
@@ -131,7 +123,6 @@ void pardiso_solver::print_sol_to_file(linear_sys &sys)
 pardiso_solver::pardiso_solver(const linear_sys &sys, std::string && output_file)
 {
 	this->output_file = output_file;
-	std::cout<<"DEBUG:output filename is "<<this->output_file<<std::endl;
 
     //populate the vectors from data stored inside sys:
 	CLCXformats_to_CRS(sys.row_i,sys.col_ch,sys.non_diag,sys.diag,this->col_i,this->row_ch,this->elem,sys.is_asymmetric);

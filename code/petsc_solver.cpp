@@ -54,6 +54,14 @@ PetscErrorCode PETSc_solver::create_petsc_mat(linear_sys& input_sys)
 					&input_sys.row_i[row_index_start],
 					&input_sys.non_diag[row_index_start], ADD_VALUES);
 
+			/*although the matrix is symmetric, a PETSc matrix format(IE SeqAIJ, needed by the ILU preconditioner) might be used that requires the elements to be specified
+			 * twice (both upper and lower triangular). Hence add the lower triangular below aswell:(these entries will be ignored by
+			 * petsc matrix formats that do not require them, IE mpisbaij )*/
+
+			ierr = MatSetValues(A, row_index_end - row_index_start,
+					&input_sys.row_i[row_index_start], 1, &i,
+					&input_sys.non_diag[row_index_start], ADD_VALUES);
+
 		}
 	}
 	else
@@ -190,21 +198,6 @@ PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv,
 	VecAssemblyEnd(b);
 	VecAssemblyEnd(x);
 
-
-	PetscBool test_symmetry;
-	MatIsSymmetric(A,0.0,&test_symmetry);
-	if(input_sys.node_rank == 0)
-	{
-		std::cout<<"DEBUG:testing matrix symmetry using petsc function:\n";
-		if(test_symmetry== PETSC_TRUE)
-		{
-			std::cout<<"Input Matrix is symmetric\n";
-		}
-		else
-		{
-			std::cout<<"Input Matrix is asymmetric\n";
-		}
-	}
 
 	//now the solver part:
 	ierr = KSPCreate(PETSC_COMM_WORLD, &ksp);
