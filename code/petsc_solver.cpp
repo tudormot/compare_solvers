@@ -16,7 +16,9 @@ int PETSc_solver::solve_sys(linear_sys& sys)
 	CHKERRQ(ierr);
 	timer.stop(sys.node_rank);
 	timer.display_result(sys.node_rank);
-	(void) (check_petsc_solution(sys));
+
+	this->check_petsc_solution_alternative(sys);
+	//(void) (check_petsc_solution(sys)); old code
 
 	investigate_paral_scaling(sys,timer.get_time(sys.node_rank));
 
@@ -606,4 +608,43 @@ void PETSc_solver::investigate_paral_scaling(linear_sys& input_sys, PetscScalar 
 		std::cout<<"Number of KSP iterations is "<<no_iter<<std::endl;
 		std::cout<<"Time spent per KSP iteration is "<<time/static_cast<PetscScalar>(no_iter)<<std::endl;
 	}
+}
+
+
+void PETSc_solver::check_petsc_solution_alternative(linear_sys &sys)
+{
+	/*first we need to create a PETSc vector from the solution stored inside sys(stored only on node 0)*/
+	Vec sol;
+	ierr = VecCreateMPI(PETSC_COMM_WORLD, PETSC_DECIDE, sys.mat_dim, &sol);
+	CHKERRCONTINUE(ierr);
+	if(sys.node_rank == 0)
+	{
+		//need to create an indices array containing 0,1,2..mat_dim-1 TODO is there a better way?
+		std::vector<PetscInt> indices(sys.mat_dim);
+		std::iota(std::begin(indices), std::end(indices), 0);
+
+		ierr = VecSetValues(sol, static_cast<PetscInt>(sys.mat_dim),
+					&indices[0], static_cast<PetscScalar*>(&sys.sol[0]),
+					ADD_VALUES);
+	}
+	VecAssemblyBegin(sol);
+	VecAssemblyEnd(sol);
+
+	ierr = VecAXPY(x,-1,sol); //this is x = x-sol . Note that the result of PETSc, which was stored in x, is rewritten at this point and lost..But that is not a problem for our purposes
+	CHKERRCONTINUE(ierr);
+
+	/*now we can compute the relative error as norm2(x)/norm2(sol) , IE N1/N2 */
+	PetscReal N1, N2;
+	ierr =  VecNorm(x,NORM_2,&N1);
+	CHKERRCONTINUE(ierr);
+	ierr =  VecNorm(sol,NORM_2,&N2);
+	CHKERRCONTINUE(ierr);
+
+	if(sys.node_rank == 0)
+	{
+		std::cout<<"The relative error in solutions is: "<<N1/N2<<std::endl;
+	}
+
+	VecDestroy(&sol);
+
 }

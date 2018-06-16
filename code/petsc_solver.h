@@ -33,12 +33,21 @@ public:
     virtual void print_sol_to_file(linear_sys &sys);
     virtual ~PETSc_solver();
     PETSc_solver(int& main_argc, char**& main_argv, linear_sys& input_sys, std::string && output_file);
+
+
     void check_petsc_solution(linear_sys &sys);
+    /*provided as a hopefully better alternative to the function above, this one uses
+     * PETScs VecNorm to check the relative error rather than my own calculation, which shouldn't be trusted too much*/
+    void check_petsc_solution_alternative(linear_sys &sys);
+
 
     PETSc_solver() = delete;
     PETSc_solver(const linear_sys& dummy) = delete;
     const PETSc_solver& operator=(const PETSc_solver& dummy) = delete;
     PETSc_solver(const PETSc_solver&) = delete;
+
+
+
 };
 
 #endif // PETSC_SOLVER_H_INCLUDED
