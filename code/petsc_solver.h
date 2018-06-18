@@ -30,9 +30,9 @@ private:
 
 public:
     virtual int solve_sys(linear_sys &sys);
-    virtual void print_sol_to_file(linear_sys &sys);
+    virtual void print_sol_to_file(linear_sys &sys, std::string & outputfile);
     virtual ~PETSc_solver();
-    PETSc_solver(int& main_argc, char**& main_argv, linear_sys& input_sys, std::string && output_file);
+    PETSc_solver(int& main_argc, char**& main_argv, linear_sys& input_sys);
 
 
     void check_petsc_solution(linear_sys &sys);

@@ -135,10 +135,8 @@ PETSc_solver::~PETSc_solver()
 }
 
 PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv,
-		linear_sys& input_sys,std::string && output_file)
+		linear_sys& input_sys)
 {
-	this->output_file = output_file;
-	std::cout<<"DEBUG:output filename is "<<this->output_file<<std::endl;
 
 	parallel_timer timer1("Timing of PETSc INIT1", input_sys.node_rank);
 	timer1.start(input_sys.node_rank);
@@ -310,7 +308,7 @@ PetscErrorCode PETSc_solver::mat_preallocate_mem(linear_sys& sys)
 }
 
 
-void PETSc_solver::print_sol_to_file(linear_sys &sys)
+void PETSc_solver::print_sol_to_file(linear_sys &sys, std::string & outputfile)
 {
 	PetscInt local_size;
 	PetscScalar* local_array_start;
@@ -343,7 +341,7 @@ void PETSc_solver::print_sol_to_file(linear_sys &sys)
 				rcounts, displ, MPIU_SCALAR, 0, PETSC_COMM_WORLD);
 
 		//now finally print_to_file
-		test::print_array_to_file(sol_array, sys.mat_dim, this->output_file);
+		test::print_array_to_file(sol_array, sys.mat_dim, outputfile);
 
 	}
 	else

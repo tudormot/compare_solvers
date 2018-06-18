@@ -16,8 +16,8 @@ public:
     int solve_sys_gmres(linear_sys &sys);   //part of intel MKL library, available only on cluster, IE if using make laptop this resolves to a stub
     int solve_sys_bcg(linear_sys &sys);     //part of intel MKL library, available only on cluster, IE if using make laptop this resolves to a stub
     virtual ~pardiso_solver();
-    pardiso_solver(const linear_sys &sys, std::string && output_file);
-    virtual void print_sol_to_file(linear_sys &sys);
+    pardiso_solver(const linear_sys &sys);
+    virtual void print_sol_to_file(linear_sys &sys, std::string & outputfile);
 };
 
 

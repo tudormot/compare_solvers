@@ -25,8 +25,8 @@ void lin_sys_solver::CLCXformats_to_CRS(const std::vector<int> &row_i_old,const 
     */
 
 	//temp, quick test:
-	std::cout<<"In functionc CRSdiag_to CRS. Size of input vectors\n";
-	std::cout<<row_i_old.size()<<' '<<col_ch_old.size()<<' '<<non_diag_old.size()<<' '<<diag_old.size()<<std::endl;
+	//std::cout<<"In functionc CRSdiag_to CRS. Size of input vectors\n";
+	//std::cout<<row_i_old.size()<<' '<<col_ch_old.size()<<' '<<non_diag_old.size()<<' '<<diag_old.size()<<std::endl;
 
     if(is_asym == true)
     {
@@ -116,14 +116,12 @@ void lin_sys_solver::CLCXformats_to_CRS(const std::vector<int> &row_i_old,const 
     }
 
 }
-void pardiso_solver::print_sol_to_file(linear_sys &sys)
+void pardiso_solver::print_sol_to_file(linear_sys &sys, std::string & outputfile)
 {
 	std::cout<<"DUMMy not implemented";
 }
-pardiso_solver::pardiso_solver(const linear_sys &sys, std::string && output_file)
+pardiso_solver::pardiso_solver(const linear_sys &sys)
 {
-	this->output_file = output_file;
-
     //populate the vectors from data stored inside sys:
 	CLCXformats_to_CRS(sys.row_i,sys.col_ch,sys.non_diag,sys.diag,this->col_i,this->row_ch,this->elem,sys.is_asymmetric);
 }
