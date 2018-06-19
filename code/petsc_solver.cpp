@@ -253,7 +253,7 @@ void PETSc_solver::check_petsc_solution(linear_sys &sys)
 		//check that input file contained a solution aswell
 		if (sys.sol.size() == 0)
 		{
-			std::cout << "ERR! input file did not contain a solution ! \n";
+			std::cout << "Warning! input file did not contain a solution, hence sol tolerance is not calculated ! \n";
 		}
 		else
 		{
@@ -617,13 +617,25 @@ void PETSc_solver::check_petsc_solution_alternative(linear_sys &sys)
 	CHKERRCONTINUE(ierr);
 	if(sys.node_rank == 0)
 	{
-		//need to create an indices array containing 0,1,2..mat_dim-1 TODO is there a better way?
-		std::vector<PetscInt> indices(sys.mat_dim);
-		std::iota(std::begin(indices), std::end(indices), 0);
 
-		ierr = VecSetValues(sol, static_cast<PetscInt>(sys.mat_dim),
-					&indices[0], static_cast<PetscScalar*>(&sys.sol[0]),
-					ADD_VALUES);
+
+		if(sys.sol.size() != 0)
+		{
+			//need to create an indices array containing 0,1,2..mat_dim-1 TODO is there a better way?
+			std::vector<PetscInt> indices(sys.mat_dim);
+			std::iota(std::begin(indices), std::end(indices), 0);
+
+			ierr = VecSetValues(sol, static_cast<PetscInt>(sys.mat_dim),
+									&indices[0], static_cast<PetscScalar*>(&sys.sol[0]),
+									ADD_VALUES);
+		}
+		else
+		{
+			std::cout<<"Warning! input did not contain a solution, hence result can't be verified. Ignore the following "
+					"relative error as it is not valid\n";
+			/*set sol vector to 0*/
+			ierr = VecSet(sol,0);
+		}
 	}
 	VecAssemblyBegin(sol);
 	VecAssemblyEnd(sol);
