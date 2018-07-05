@@ -1,4 +1,5 @@
 #include<iostream>
+#include <algorithm>    // std::max
 #include <stdlib.h>
 #include <math.h>
 #include "sys_mat.h"
@@ -213,8 +214,13 @@ int pardiso_solver::solve_sys(linear_sys &sys)
         exit (1);
     }
     printf ("\nReordering completed ... ");
+    printf ("Peak memory on symbolic factorization: %d\n",iparm[14]);
+    printf ("Permanent memory on symbolic factorization: %d\n",iparm[15]);
+    printf ("Peak memory on numerical factorization and solution: %d\n",iparm[16]);
+    printf ("Peak total memory used by pardiso (maximum of above 3 according to intel manual): %d ",std::max(iparm[14],std::max(iparm[15],iparm[16])));
     printf ("\nNumber of nonzeros in factors = %d", iparm[17]);
     printf ("\nNumber of factorization MFLOPS = %d", iparm[18]);
+
     /* -------------------------------------------------------------------- */
     /* .. Numerical factorization. */
     /* -------------------------------------------------------------------- */

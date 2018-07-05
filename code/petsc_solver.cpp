@@ -203,6 +203,55 @@ PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv,
 	ierr = KSPCreate(PETSC_COMM_WORLD, &ksp);
 	CHKERRCONTINUE(ierr);
 
+#if 0 //WIP concerning LSQR, a segmentation fault in matmatmult for i mpi process and I don't know why
+	/*WIP new code:*/
+	char solver_name[100];// solver name should be less that 100 chars
+	PetscBool is_ksp_set;
+
+
+	ierr = PetscOptionsGetString(NULL,NULL,"-ksp_type",solver_name,100,&is_ksp_set);
+	CHKERRCONTINUE(ierr);
+
+	printf("debug7\n");
+	if(is_ksp_set != PETSC_TRUE)
+	{
+		if(input_sys.node_rank == 0)
+		{
+			printf("Error in petsc setup. KSP solver was not specified from command line\n");
+			//throw;
+		}
+	}
+	else
+	{
+		printf("debug9\n");
+		if(strcmp("lsqr",solver_name) == 0) //if solver name is lsqr
+		{
+			printf("debug10\n");
+			//we need to set the preconditioning matrix to A*A'
+			Mat precond_mat;
+			ierr = MatCreate(PETSC_COMM_WORLD, &precond_mat);
+			CHKERRCONTINUE(ierr);
+			printf("debug14\n");
+			ierr = MatMatMult(A,A,MAT_INITIAL_MATRIX,PETSC_DEFAULT,&precond_mat);
+			printf("debug11\n");
+			CHKERRCONTINUE(ierr);
+			ierr = KSPSetOperators(ksp, A, precond_mat);
+			CHKERRCONTINUE(ierr);
+			printf("debug12\n");
+		}
+		else
+		{
+			printf("debug13\n");
+			ierr = KSPSetOperators(ksp, A, A);
+			CHKERRCONTINUE(ierr);
+		}
+	}
+
+
+
+	/**/
+#endif
+
 	ierr = KSPSetOperators(ksp, A, A);
 	CHKERRCONTINUE(ierr);
 
