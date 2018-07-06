@@ -1,4 +1,4 @@
-#include<iostream>
+#include <iostream>
 #include <algorithm>    // std::max
 #include <stdlib.h>
 #include <math.h>
@@ -214,12 +214,15 @@ int pardiso_solver::solve_sys(linear_sys &sys)
         exit (1);
     }
     printf ("\nReordering completed ... ");
-    printf ("Peak memory on symbolic factorization: %d\n",iparm[14]);
-    printf ("Permanent memory on symbolic factorization: %d\n",iparm[15]);
-    printf ("Peak memory on numerical factorization and solution: %d\n",iparm[16]);
-    printf ("Peak total memory used by pardiso (maximum of above 3 according to intel manual): %d ",std::max(iparm[14],std::max(iparm[15],iparm[16])));
     printf ("\nNumber of nonzeros in factors = %d", iparm[17]);
     printf ("\nNumber of factorization MFLOPS = %d", iparm[18]);
+
+    printf("--------Memory usage information--------\n");
+    printf ("Peak memory on symbolic factorization: %d\n",iparm[14]);
+	printf ("Permanent memory on symbolic factorization: %d\n",iparm[15]);
+	printf ("Peak memory on numerical factorization and solution: %d\n",iparm[16]);
+	printf ("Peak total memory used by pardiso (maximum of above 3 according to intel manual): %d \n",std::max(iparm[14],std::max(iparm[15],iparm[16])));
+
 
     /* -------------------------------------------------------------------- */
     /* .. Numerical factorization. */
@@ -233,6 +236,13 @@ int pardiso_solver::solve_sys(linear_sys &sys)
         exit (2);
     }
     printf ("\nFactorization completed ... ");
+
+    printf("--------Memory usage information--------\n");
+    printf ("Peak memory on symbolic factorization: %d\n",iparm[14]);
+   	printf ("Permanent memory on symbolic factorization: %d\n",iparm[15]);
+   	printf ("Peak memory on numerical factorization and solution: %d\n",iparm[16]);
+   	printf ("Peak total memory used by pardiso (maximum of above 3 according to intel manual): %d \n",std::max(iparm[14],std::max(iparm[15],iparm[16])));
+
     /* -------------------------------------------------------------------- */
     /* .. Back substitution and iterative refinement. */
     /* -------------------------------------------------------------------- */
@@ -247,6 +257,14 @@ int pardiso_solver::solve_sys(linear_sys &sys)
         exit (3);
     }
     printf ("\nSolve completed ... ");
+
+    printf("--------Memory usage information--------\n");
+    printf ("Peak memory on symbolic factorization: %d\n",iparm[14]);
+   	printf ("Permanent memory on symbolic factorization: %d\n",iparm[15]);
+   	printf ("Peak memory on numerical factorization and solution: %d\n",iparm[16]);
+   	printf ("Peak total memory used by pardiso (maximum of above 3 according to intel manual): %d \n",std::max(iparm[14],std::max(iparm[15],iparm[16])));
+
+
     if(sys.sol.size() != 0)
     {
 	std::cout<<"size of already stored sol vector is :"<<sys.sol.size()<<'\n';
