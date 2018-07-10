@@ -12,7 +12,7 @@ exec_name=time_solvers
 touch ${outputfile_path}
 
 
-mpiexec.hydra -n 1 ./${exec_name}  $1 ${inputfile_path} ${outputfile_path} -mat_type seqaij  -ksp_converged_reason -mat_view draw -draw_pause 5 -pc_type ilu -ksp_type gmres -ksp_monitor_true_residual -ksp_gmres_restart 100 -ksp_view_pre -ksp_view -ksp_norm_type unpreconditioned -ksp_monitor_singular_value 
+mpiexec.hydra -n 1 ./${exec_name}  $1 ${inputfile_path} ${outputfile_path} -mat_type seqaij  -ksp_converged_reason -pc_type ilu -pc_factor_levels 0 -pc_factor_nonzeros_along_diagonal -ksp_type gmres -pc_factor_mat_ordering_type rcm  -ksp_monitor_true_residual -ksp_gmres_restart 100 -ksp_view_pre -ksp_view -ksp_norm_type unpreconditioned -ksp_monitor_singular_value 
 
 #professor suggested that I should use ilu for symmetric matrices, but this is not implemented for matrix type seqsbaij or for parallel matrices..
 #-bind-to socket:1
