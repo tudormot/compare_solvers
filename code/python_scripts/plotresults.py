@@ -10,11 +10,11 @@ if __name__ == "__main__":
 
     #we need some arrays to store the data to be ploted:
     no_files=len(sys.argv)-2;
-    print "No of files is "+ str(no_files)
-    iter_number=np.zeros((no_files,10000),dtype=int)
-    true_tolerance= np.zeros((no_files,10000))
-    prec_residual= np.zeros((no_files,10000))
-    true_residual=np.zeros((no_files,10000))
+    #print "No of files is "+ str(no_files)
+    iter_number=np.zeros((no_files,10005),dtype=int)
+    true_tolerance= np.zeros((no_files,10005))
+    prec_residual= np.zeros((no_files,10005))
+    true_residual=np.zeros((no_files,10005))
     no_iterations = np.zeros(no_files,dtype=int)
     f_i = fileinput.input(sys.argv[2:])
 
@@ -25,13 +25,15 @@ if __name__ == "__main__":
             file_number = file_number + 1
             #print "file number is "+ str(file_number)
         l = line.split()
-        if l[0][0].isdigit():
+        #print l
+        if l and l[0][0].isdigit() and l[1] == 'KSP':
             #print l
-            iter_number[file_number][f_i.filelineno()-1] = int(l[0])
-            prec_residual[file_number][f_i.filelineno()-1] = float(l[5])
-            true_residual[file_number][f_i.filelineno()-1] = float(l[9])
-            true_tolerance[file_number][f_i.filelineno()-1] = float (l[11])
+            iter_number[file_number][no_iterations[file_number]] = int(l[0])
+            prec_residual[file_number][no_iterations[file_number]] = float(l[5])
+            true_residual[file_number][no_iterations[file_number]] = float(l[9])
+            true_tolerance[file_number][no_iterations[file_number]] = float (l[11])
             no_iterations[file_number] = no_iterations[file_number] + 1
+            #print no_iterations[file_number]
         if no_iterations[file_number] > 10000:
             f_i.nextfile()
 
@@ -40,56 +42,36 @@ if __name__ == "__main__":
     print "min_iterations is " + str(min_iterations)
 
 
+    #generate some better legend labels from command line input
+    legend_label = {x.replace('_', '').replace('petsc', '').replace('job','').replace for x in sys.argv[2:]}
+
     plt.figure(1)
     for i in xrange(no_files):
-        plt.plot(iter_number[i][0:min_iterations:50],true_tolerance[i][0:min_iterations:50]);
+        plt.plot(iter_number[i][0:min_iterations:5],true_tolerance[i][0:min_iterations:5]);
 
-    print iter_number[0:min_iterations:50]
 
     plt.xlabel('Iteration Number')
     plt.ylabel('||r(i)||/||b||')
     plt.title(str(sys.argv[1])+"true tolerance")
     plt.grid(True)
+    plt.xscale('log')
     plt.legend(sys.argv[2:] ) #loc='upper left'
     plt.figure(2)
 
 
-    plt.figure(2)
-    for i in xrange(no_files):
-        plt.plot(iter_number[i][0:min_iterations:50],true_residual[i][0:min_iterations:50]);
-    for i in xrange(no_files):
-        plt.plot(iter_number[i][0:min_iterations:50],prec_residual[i][0:min_iterations:50]);
+    #plt.figure(2)
+    #for i in xrange(no_files):
+    #    plt.plot(iter_number[i][0:min_iterations:5],true_residual[i][0:min_iterations:5]);
+    #for i in xrange(no_files):
+    #    pass
+    #    plt.plot(iter_number[i][0:min_iterations:5],prec_residual[i][0:min_iterations:5]);
 
-    plt.xlabel('Iteration Number')
-    plt.ylabel('norm of residual')
-    plt.title(str(sys.argv[1])+"comparison between true and preconditioned residual")
-    plt.grid(True)
-    plt.legend([s + "true_residual" for s in sys.argv[2:]] + [s + "prec_residual" for s in sys.argv[2:]])
+    #plt.xscale('log')
+    #plt.xlabel('Iteration Numbe')
+    #plt.ylabel('norm of residual')
+    #plt.title(str(sys.argv[1])+"comparison between true and preconditioned residual")
+    #plt.grid(True)
+    #plt.legend([s + "_true_residual" for s in sys.argv[2:]] +[s + "_prec_residual" for s in sys.argv[2:]])
 
     plt.show()
-    #plt.plot(t, s)
-    #
-    #
-    #
-    #plt.savefig("test.png")
-    #
-
-    #plt.plot(x, x)
-    #plt.plot(x, 2 * x)
-    #plt.plot(x, 3 * x)
-    #plt.plot(x, 4 * x)
-
-    #plt.legend(['y = x', 'y = 2x', 'y = 3x', 'y = 4x'], loc='upper left')
-
-    #plt.show()
-
-    #for i in xrange(int(no_iterations[0])):
-        #print str(iter_number[0][i]) +"###" + str(true_tolerance[0][i])
-            #print l
-
-        #if not mp3filename or mp3filename.startswith('#'):
-        #    continue
-        #item = SubElement(rss, 'item')
-        #itle = SubElement(item, 'title')
-        #title.text = mp3filename
-        #encl = SubElement(item, 'enclosure', {'type':'audio/mpeg', 'url':mp3filename})
+    
