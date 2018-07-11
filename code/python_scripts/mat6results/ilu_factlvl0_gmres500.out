@@ -1,8 +1,0 @@
-loading mkl,intelmpi,petsc,gcc/5
-WARNING(mpi.intel/5.1): This module is scheduled for retirement.
-  It will be removed on or shortly after Oct 31, 2018.
-INFO(petsc): invoking mpi.intel version for CMUC2.
-[0] DAPL startup: RLIMIT_MEMLOCK too small
-warning:seems as no solution array provided in input file(or err in read nsz vector)
-Timing of PETSc INIT1 0.022505
-/var/slurmd-serial/job7454284/slurm_script: line 28: 10392 Segmentation fault      ./time_solvers --solve-with-PETSc ${inputfile_path} ${outputfile_path} -mat_type seqaij -pc_type ilu -pc_factor_levels 0 -ksp_type gmres -ksp_gmres_restart 500 -ksp_max_it 10000 -ksp_converged_reason -ksp_monitor_true_residual -ksp_view_pre -ksp_view -ksp_norm_type unpreconditioned -ksp_rtol 1e-8

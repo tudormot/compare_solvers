@@ -17,12 +17,14 @@ if __name__ == "__main__":
     true_residual=np.zeros((no_files,10005))
     no_iterations = np.zeros(no_files,dtype=int)
     f_i = fileinput.input(sys.argv[2:])
-
+    filenames = []
     file_number =-1
     for line in f_i:
         if f_i.filelineno() == 1:
             #print "firstline"
+            filenames.append(f_i.filename())
             file_number = file_number + 1
+            
             #print "file number is "+ str(file_number)
         l = line.split()
         #print l
@@ -39,15 +41,15 @@ if __name__ == "__main__":
 
     #determine file which had the least number of iterations completed:
     min_iterations = np.min(no_iterations)
-    print "min_iterations is " + str(min_iterations)
+    print "min_iterations is " + str(min_iterations) + "in file" + str(sys.argv[np.argmin(no_iterations)+2])
 
 
     #generate some better legend labels from command line input
-    legend_label = {x.replace('_', '').replace('petsc', '').replace('job','').replace for x in sys.argv[2:]}
+    legend_label = [x.replace('_', '').replace('petsc', '').replace('job','').replace('.out','').replace('results', '') for x in filenames]
 
     plt.figure(1)
     for i in xrange(no_files):
-        plt.plot(iter_number[i][0:min_iterations:5],true_tolerance[i][0:min_iterations:5]);
+        plt.plot(iter_number[i][0:no_iterations[i]:5],true_tolerance[i][0:no_iterations[i]:5],label=legend_label[i]);
 
 
     plt.xlabel('Iteration Number')
@@ -55,8 +57,9 @@ if __name__ == "__main__":
     plt.title(str(sys.argv[1])+"true tolerance")
     plt.grid(True)
     plt.xscale('log')
-    plt.legend(sys.argv[2:] ) #loc='upper left'
-    plt.figure(2)
+    plt.yscale('log')
+    plt.legend(loc='best' )
+    #plt.legend(legend_label,) #loc='upper left'
 
 
     #plt.figure(2)
