@@ -1,6 +1,6 @@
 #!/bin/bash
 source /etc/profile.d/modules.sh
-echo loading mkl,intelmpi,petsc,gcc/5
+#echo loading mkl,intelmpi,petsc,gcc/5
 #module unload intel
 #module load intel/17.0
 #module unload mpi.ibm
