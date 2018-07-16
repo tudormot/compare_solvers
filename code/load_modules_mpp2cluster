@@ -1,12 +1,12 @@
 #!/bin/bash
 source /etc/profile.d/modules.sh
-echo loading mkl,intelmpi,petsc,gcc/5
-module unload intel
-module load intel/17.0
-module unload mpi.ibm
-module unload mpi.intel
-module load mpi.intel/5.1
-module unload petsc
-module load petsc/3.7_debug
+#echo loading mkl,intelmpi,petsc,gcc/5
+#module unload intel
+#module load intel/17.0
+#module unload mpi.ibm
+#module unload mpi.intel
+#module load mpi.intel/5.1
+#module unload petsc
+module load petsc/3.9.1_gene
 module load gcc
 module load mkl
