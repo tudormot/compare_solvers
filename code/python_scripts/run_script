@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#script which makes calling the pythin script easier
+#taken from the python script comments:
+##arg  1 of command line should be name of graph
+##arg  2 of command line should be "--iterations" or "--time" ,which specifies
+##          whether the x-axis of our plots should display number of iterations
+##          or time taken
+##arg  3 of command line should be pardiso time to display for comparison purposes,
+##          this parameter only matter if script called with --time option
+##next args should be the files
+python plotresults.py mat_ --time 100 $@
