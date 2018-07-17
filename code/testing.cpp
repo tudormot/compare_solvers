@@ -94,7 +94,7 @@ bool test::check_row_i_range(const linear_sys &sys)
     {
         std::cout<<"matrix has elems in lower triagle. If matrix is also symmetric, then it means elems are stored in lower triangle\n";
     }
-    //TODO this is not efficient implementation..
+    //not very efficient implementation but it's a test..
     std::cout<<"DEBUG: sys.mat_dim = "<<sys.mat_dim<<'\n';
     for(size_t i = 0;i<sys.mat_dim-1;i++)
     {
@@ -144,7 +144,7 @@ bool test::calculate_sol_tolerance(double* true_sol, double* calc_sol, int vec_s
     rel_tol=rel_tol/true_sol_norm;
     std::cout<<"relative tolerance of solution is: "<<rel_tol<<"\n";
 
-    //TODO change this test so return false if tolerance is above acertain threshold, but need to decide which threshold
+    //test returns true no matter what, the tester should read the console output for this test
     return true;
 }
 bool test::check_row_i_no_diag(const linear_sys &sys)
@@ -185,7 +185,6 @@ bool test::create_structsymmat_from_symmat(linear_sys &sys)
 	{
 		myfile << std::fixed << std::setprecision(15)  <<sys.non_diag[i]<<' ';
 	}
-#if 0
 	/*now to not make the matrix perfectly symmetric change some elems in non_diag vector*/
 	//add some magic numbers to the matrix:
 	//we know that input is bigger than 35000 as our smallest matrix is bigger than that
@@ -193,7 +192,6 @@ bool test::create_structsymmat_from_symmat(linear_sys &sys)
 	{
 		sys.non_diag[i]=i/100;
 	}
-#endif
 	//add to file upper triangular section:
 	for(int i = 0;i<sys.non_diag_no;i++)
 	{
@@ -210,9 +208,6 @@ bool test::create_structsymmat_from_symmat(linear_sys &sys)
 		myfile<< std::fixed << std::setprecision(15)  <<sys.sol[i]<<' ';
 	}
 	myfile<<"\n";
-	//std::cout<<"Debug. Size of matrix just created.\n mat_dim is "
-
-
 
 	myfile.close();
 	return true;

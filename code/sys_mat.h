@@ -39,7 +39,7 @@ public:
 
 //a parallel object which contains different things depending on which process it is being created
 //if it is being created on process rank 0, it will contain the input vectors and the sparse matrix sizes
-//if it is being created on any other process, it will only contain the sparse matrix sizes(and some empty vectors TODO not very efficient) ( required for setting up PETSc)
+//if it is being created on any other process, it will only contain the sparse matrix sizes(and some empty vectors) ( required for setting up PETSc)
 class linear_sys{
 private:
 
@@ -63,7 +63,7 @@ public:
     virtual ~linear_sys();
 
     void release_mem_mat(); //releases memory from the vectors that are storing the matrix in "pardiso format"
-    void display_system_stats() const;
+    void display_system_stats() const; //quick test functions to check whether the linear system has been read successfully from file
 
 };
 

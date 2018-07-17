@@ -25,20 +25,7 @@ void parallel_timer::display_result(PetscInt node_rank)
         std::cout<<timing_description<<' '<<time<<'\n';
     }
 }
-#if 0
-void parallel_timer::print_to_file(PetscInt node_rank)
-{
-    if(node_rank==0)
-    {
-        //TODO not the best implementation as each print to file will open and close the file again
-        std::ofstream myfile;
-        myfile.open (parallel_timer::output_filename,std::ofstream::app);
-        myfile <<this->timing_description<<" (in seconds): "<<this->time<<'\n';
-        myfile.close();
 
-    }
-}
-#endif
 
 PetscScalar parallel_timer::get_time(PetscInt node_rank)
 {

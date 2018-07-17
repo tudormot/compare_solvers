@@ -20,7 +20,7 @@ int PETSc_solver::solve_sys(linear_sys& sys)
 	this->check_petsc_solution_alternative(sys);
 	//(void) (check_petsc_solution(sys)); old code
 
-	investigate_paral_scaling(sys,timer.get_time(sys.node_rank));
+	print_ksp_info(sys,timer.get_time(sys.node_rank));
 
 	return true; //dummy return for the time being
 }
@@ -30,7 +30,6 @@ PetscErrorCode PETSc_solver::create_petsc_mat(linear_sys& input_sys)
 
 	//first prepare the input a bit (IE input_sys).PETSc requires 0 based indexing, therefore we need to modify
 	//all entries of input_sys.row_i by x = x-1;
-	//TODO this could be done more efficiently in the loops that first read the file..
 	for (PetscInt i = 0; i < input_sys.non_diag_no; i++)
 	{
 		input_sys.row_i[i]--;
@@ -112,7 +111,7 @@ PetscErrorCode PETSc_solver::create_petsc_mat(linear_sys& input_sys)
 }
 PetscErrorCode PETSc_solver::create_petsc_vecs(linear_sys& input_sys)
 {
-	//need to create an indices array containing 0,1,2..mat_dim-1 TODO is there a better api for my case?
+	//need to create an indices array containing 0,1,2..mat_dim-1:
 	std::vector<PetscInt> indices(input_sys.mat_dim);
 	std::iota(std::begin(indices), std::end(indices), 0);
 
@@ -646,7 +645,7 @@ PetscErrorCode PETSc_solver::mat_preallocate_mem_MPISBAIJ(linear_sys& sys)
 }
 
 
-void PETSc_solver::investigate_paral_scaling(linear_sys& input_sys, PetscScalar time)
+void PETSc_solver::print_ksp_info(linear_sys& input_sys, PetscScalar time)
 {
 	if(input_sys.node_rank == 0)
 	{
@@ -670,7 +669,7 @@ void PETSc_solver::check_petsc_solution_alternative(linear_sys &sys)
 
 		if(sys.sol.size() != 0)
 		{
-			//need to create an indices array containing 0,1,2..mat_dim-1 TODO is there a better way?
+			//need to create an indices array containing 0,1,2..mat_dim-1:
 			std::vector<PetscInt> indices(sys.mat_dim);
 			std::iota(std::begin(indices), std::end(indices), 0);
 

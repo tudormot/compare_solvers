@@ -1,6 +1,7 @@
 #ifndef SYS_SOLVER_H_INCLUDED
 #define SYS_SOLVER_H_INCLUDED
 
+/*parent class from which the different solvers inherit*/
 class lin_sys_solver{
 protected:
      void CLCXformats_to_CRS(const std::vector<int> &row_i_old,const std::vector<int> &col_ch_old,const std::vector<double> &non_diag_old, const std::vector<double> &diag_old, //vectors storing input (variable name contains _old)
