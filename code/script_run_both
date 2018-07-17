@@ -1,0 +1,13 @@
+#this should be modified from system to system
+inputfile_path=/home/mot_tudor/workspace/unijob/input/my_structsym_mat.txt
+#/home/mot_tudor/workspace/unijob/input/beamp.txt
+#/home/mot_tudor/Downloads/mtu_matrices/job3.sti
+outputfile_path=/home/mot_tudor/workspace/unijob/input/petsc_asym_sol.txt
+exec_name=time_solvers
+solver_option=--solve-with-both
+
+#create output file if it does not exist
+touch ${outputfile_path}
+OMP_NUM_THREADS=1
+
+mpiexec.hydra -n 1 ./${exec_name} ${solver_option} ${inputfile_path} ${outputfile_path} -mat_type mpiaij -log_view  -ksp_converged_reason -ksp_type gmres -mat_view draw -draw_pause 5 -ksp_gmres_restart 200 

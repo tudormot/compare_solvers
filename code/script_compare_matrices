@@ -1,0 +1,9 @@
+#!/bin/bash
+
+#this should be modified from system to system
+inputfile1_path=/home/mot_tudor/workspace/unijob/input/my_structsym_mat.txt
+inputfile2_path=/home/mot_tudor/workspace/unijob/input/beamp.txt
+exec_name=time_solvers
+exec_option=--compare-matrices
+
+mpiexec.hydra -n 1 ./${exec_name}  ${exec_option} ${inputfile1_path} ${inputfile2_path} 
