@@ -1,0 +1,108 @@
+INFO(petsc/3.9.1_gene): invoking mpi.intel version for Medium_Node.
+[0] DAPL startup: RLIMIT_MEMLOCK too small
+warning:seems as no solution array provided in input file(or err in read nsz vector)
+Timing of PETSc INIT1 0.0827401
+Timing of PETSc INIT2 1.06785
+KSP Object: 1 MPI processes
+  type: gmres
+    restart=500, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+    happy breakdown tolerance 1e-30
+  maximum iterations=4000, initial guess is zero
+  tolerances:  relative=1e-08, absolute=1e-50, divergence=10000.
+  left preconditioning
+  using PRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: bjacobi
+    number of blocks = 1
+    Local solve is same for all blocks, in the following KSP and PC objects:
+  KSP Object: (sub_) 1 MPI processes
+    type: preonly
+    maximum iterations=10000, initial guess is zero
+    tolerances:  relative=1e-05, absolute=1e-50, divergence=10000.
+    left preconditioning
+    using DEFAULT norm type for convergence test
+  PC Object: (sub_) 1 MPI processes
+    type: ilu
+    PC has not been set up so information may be incomplete
+      out-of-place factorization
+      0 levels of fill
+      tolerance for zero pivot 2.22045e-14
+      matrix ordering: natural
+    linear system matrix = precond matrix:
+    Mat Object: 1 MPI processes
+      type: seqaij
+      rows=3847164, cols=3847164
+      total: nonzeros=435100862, allocated nonzeros=435100862
+      total number of mallocs used during MatSetValues calls =0
+        using I-node routines: found 1282308 nodes, limit used is 5
+  linear system matrix = precond matrix:
+  Mat Object: 1 MPI processes
+    type: seqaij
+    rows=3847164, cols=3847164
+    total: nonzeros=435100862, allocated nonzeros=435100862
+    total number of mallocs used during MatSetValues calls =0
+      using I-node routines: found 1282308 nodes, limit used is 5
+  0 KSP preconditioned resid norm 1.878032981160e+18 true resid norm 7.904674969817e+03 ||r(i)||/||b|| 1.000000000000e+00
+  1 KSP preconditioned resid norm 6.946909310570e+16 true resid norm 7.904675087486e+03 ||r(i)||/||b|| 1.000000014886e+00
+  2 KSP preconditioned resid norm 5.149223703848e+15 true resid norm 7.904675093290e+03 ||r(i)||/||b|| 1.000000015620e+00
+  3 KSP preconditioned resid norm 1.417886794810e+15 true resid norm 7.904675108899e+03 ||r(i)||/||b|| 1.000000017595e+00
+  4 KSP preconditioned resid norm 2.200509283721e+13 true resid norm 7.904675206544e+03 ||r(i)||/||b|| 1.000000029948e+00
+  5 KSP preconditioned resid norm 5.185625111735e+12 true resid norm 7.904675207302e+03 ||r(i)||/||b|| 1.000000030044e+00
+  6 KSP preconditioned resid norm 1.949725257563e+12 true resid norm 7.904675206489e+03 ||r(i)||/||b|| 1.000000029941e+00
+  7 KSP preconditioned resid norm 4.482868580095e+11 true resid norm 7.904675202997e+03 ||r(i)||/||b|| 1.000000029499e+00
+  8 KSP preconditioned resid norm 2.116093410810e+11 true resid norm 7.904675213092e+03 ||r(i)||/||b|| 1.000000030776e+00
+  9 KSP preconditioned resid norm 1.661797340794e+11 true resid norm 7.904675220340e+03 ||r(i)||/||b|| 1.000000031693e+00
+ 10 KSP preconditioned resid norm 1.100881107280e+10 true resid norm 7.904675249613e+03 ||r(i)||/||b|| 1.000000035396e+00
+Linear solve converged due to CONVERGED_RTOL iterations 10
+KSP Object: 1 MPI processes
+  type: gmres
+    restart=500, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+    happy breakdown tolerance 1e-30
+  maximum iterations=4000, initial guess is zero
+  tolerances:  relative=1e-08, absolute=1e-50, divergence=10000.
+  left preconditioning
+  using PRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: bjacobi
+    number of blocks = 1
+    Local solve is same for all blocks, in the following KSP and PC objects:
+  KSP Object: (sub_) 1 MPI processes
+    type: preonly
+    maximum iterations=10000, initial guess is zero
+    tolerances:  relative=1e-05, absolute=1e-50, divergence=10000.
+    left preconditioning
+    using NONE norm type for convergence test
+  PC Object: (sub_) 1 MPI processes
+    type: ilu
+      out-of-place factorization
+      0 levels of fill
+      tolerance for zero pivot 2.22045e-14
+      matrix ordering: natural
+      factor fill ratio given 1., needed 1.
+        Factored matrix follows:
+          Mat Object: 1 MPI processes
+            type: seqaij
+            rows=3847164, cols=3847164
+            package used to perform factorization: petsc
+            total: nonzeros=435100862, allocated nonzeros=435100862
+            total number of mallocs used during MatSetValues calls =0
+              using I-node routines: found 1282308 nodes, limit used is 5
+    linear system matrix = precond matrix:
+    Mat Object: 1 MPI processes
+      type: seqaij
+      rows=3847164, cols=3847164
+      total: nonzeros=435100862, allocated nonzeros=435100862
+      total number of mallocs used during MatSetValues calls =0
+        using I-node routines: found 1282308 nodes, limit used is 5
+  linear system matrix = precond matrix:
+  Mat Object: 1 MPI processes
+    type: seqaij
+    rows=3847164, cols=3847164
+    total: nonzeros=435100862, allocated nonzeros=435100862
+    total number of mallocs used during MatSetValues calls =0
+      using I-node routines: found 1282308 nodes, limit used is 5
+Timing of PETSc KSPSolve routine 109.893
+Warning! input did not contain a solution, hence result can't be verified. Ignore the following relative error as it is not valid
+The relative error in solutions is: inf
+Number of KSP iterations is 10
+Time spent per KSP iteration is 10.9893

@@ -1,0 +1,22 @@
+INFO(petsc/3.9.1_gene): invoking mpi.intel version for Medium_Node.
+[0] DAPL startup: RLIMIT_MEMLOCK too small
+warning:seems as no solution array provided in input file(or err in read nsz vector)
+Timing of PETSc INIT1 0.0521021
+[0]PETSC ERROR: ------------------------------------------------------------------------
+[0]PETSC ERROR: Caught signal number 11 SEGV: Segmentation Violation, probably memory access out of range
+[0]PETSC ERROR: Try option -start_in_debugger or -on_error_attach_debugger
+[0]PETSC ERROR: or see http://www.mcs.anl.gov/petsc/documentation/faq.html#valgrind
+[0]PETSC ERROR: or try http://valgrind.org on GNU/linux and Apple Mac OS X to find memory corruption errors
+[0]PETSC ERROR: configure using --with-debugging=yes, recompile, link, and run 
+[0]PETSC ERROR: to get more information on the crash.
+[0]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[0]PETSC ERROR: Signal received
+[0]PETSC ERROR: See http://www.mcs.anl.gov/petsc/documentation/faq.html for trouble shooting.
+[0]PETSC ERROR: Petsc Release Version 3.9.1, Apr, 29, 2018 
+[0]PETSC ERROR: /home/hpc/pr63so/ga53lov2/timing_results_petsc.txt on a  named mpp2r01c03s09 by ga53lov2 Thu Jul 19 04:03:52 2018
+[0]PETSC ERROR: Configure options --with-clean=0 --prefix=/lrz/sys/libraries/petsc/3.9.1/Medium_Node/arch-linux-3-c-3.9.1-Medium_Node-real_mpi.intel_5.1_opt_gene --with-debugging=0 --with-valgrind-dir=/lrz/sys/tools/valgrind/3.10.0 --with-scalar-type=real --with-blaslapack-dir=/lrz/sys/intel/studio2017_u6/compilers_and_libraries_2017.6.256/linux/mkl PETSC_DIR=/lrz/noarch/src/petsc/petsc-3.9.1 PETSC_ARCH=arch-linux-3-c-3.9.1-Medium_Node-real_mpi.intel_5.1_opt_gene COPTFLAGS="-O3 -xHOST -pipe" CXXOPTFLAGS="-O3 -xHOST -pipe" FOPTFLAGS="-O3 -xHOST -pipe" --with-scalapack=1 --with-scalapack-lib="-L/lrz/sys/intel/studio2017_u6/compilers_and_libraries_2017.6.256/linux/mkl/lib/intel64 -Wl,-static -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64 -Wl,-dy" --known-level1-dcache-linesize=32 --known-level1-dcache-assoc=0 --known-memcmp-ok=1 --known-sizeof-char=1 --known-sizeof-void-p=8 --known-sizeof-short=2 --known-sizeof-int=4 --known-sizeof-long=8 --known-sizeof-long-long=8 --known-sizeof-float=4 --known-sizeof-double=8 --known-sizeof-size_t=8 --known-bits-per-byte=8 --known-sizeof-MPI_Comm=4 --known-sizeof-MPI_Fint=4 --known-mpi-long-double=1 --known-mpi-int64_t=1 --known-sdot-returns-double=0 --known-snrm2-returns-double=0 --known-has-attribute-aligned=1 --with-fortran --with-clanguage=cxx --known-mpi-shared-libraries=no --with-batch=0 --with-64-bit-pointers=1
+[0]PETSC ERROR: #1 User provided function() line 0 in  unknown file
+application called MPI_Abort(MPI_COMM_WORLD, 59) - process 0
+[unset]: write_line error; fd=-1 buf=:cmd=abort exitcode=59
+:
+system msg for write_line failure : Bad file descriptor

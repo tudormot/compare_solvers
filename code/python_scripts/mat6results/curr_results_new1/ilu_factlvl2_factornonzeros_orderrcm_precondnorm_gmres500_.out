@@ -1,0 +1,72 @@
+INFO(petsc/3.9.1_gene): invoking mpi.intel version for Medium_Node.
+[0] DAPL startup: RLIMIT_MEMLOCK too small
+warning:seems as no solution array provided in input file(or err in read nsz vector)
+Timing of PETSc INIT1 0.0724862
+Timing of PETSc INIT2 2202.17
+KSP Object: 1 MPI processes
+  type: gmres
+    restart=500, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+    happy breakdown tolerance 1e-30
+  maximum iterations=4000, initial guess is zero
+  tolerances:  relative=1e-08, absolute=1e-50, divergence=10000.
+  left preconditioning
+  using PRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: ilu
+    out-of-place factorization
+    2 levels of fill
+    tolerance for zero pivot 2.22045e-14
+    matrix ordering: rcm
+    factor fill ratio given 1., needed 4.21349
+      Factored matrix follows:
+        Mat Object: 1 MPI processes
+          type: seqaij
+          rows=3847164, cols=3847164
+          package used to perform factorization: petsc
+          total: nonzeros=1833293948, allocated nonzeros=1833293948
+          total number of mallocs used during MatSetValues calls =0
+            using I-node routines: found 1275984 nodes, limit used is 5
+  linear system matrix = precond matrix:
+  Mat Object: 1 MPI processes
+    type: seqaij
+    rows=3847164, cols=3847164
+    total: nonzeros=435100862, allocated nonzeros=435100862
+    total number of mallocs used during MatSetValues calls =0
+      using I-node routines: found 1282308 nodes, limit used is 5
+Linear solve did not converge due to DIVERGED_PCSETUP_FAILED iterations 0
+               PCSETUP_FAILED due to FACTOR_NUMERIC_ZEROPIVOT 
+KSP Object: 1 MPI processes
+  type: gmres
+    restart=500, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+    happy breakdown tolerance 1e-30
+  maximum iterations=4000, initial guess is zero
+  tolerances:  relative=1e-08, absolute=1e-50, divergence=10000.
+  left preconditioning
+  using PRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: ilu
+    out-of-place factorization
+    2 levels of fill
+    tolerance for zero pivot 2.22045e-14
+    matrix ordering: rcm
+    factor fill ratio given 1., needed 4.21349
+      Factored matrix follows:
+        Mat Object: 1 MPI processes
+          type: seqaij
+          rows=3847164, cols=3847164
+          package used to perform factorization: petsc
+          total: nonzeros=1833293948, allocated nonzeros=1833293948
+          total number of mallocs used during MatSetValues calls =0
+            using I-node routines: found 1275984 nodes, limit used is 5
+  linear system matrix = precond matrix:
+  Mat Object: 1 MPI processes
+    type: seqaij
+    rows=3847164, cols=3847164
+    total: nonzeros=435100862, allocated nonzeros=435100862
+    total number of mallocs used during MatSetValues calls =0
+      using I-node routines: found 1282308 nodes, limit used is 5
+Timing of PETSc KSPSolve routine 0.173441
+Warning! input did not contain a solution, hence result can't be verified. Ignore the following relative error as it is not valid
+The relative error in solutions is: inf
+Number of KSP iterations is 0
+Time spent per KSP iteration is inf

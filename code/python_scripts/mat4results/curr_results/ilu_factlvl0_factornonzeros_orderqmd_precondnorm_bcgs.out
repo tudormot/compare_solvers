@@ -1,0 +1,73 @@
+INFO(petsc/3.9.1_gene): invoking mpi.intel version for Medium_Node.
+[0] DAPL startup: RLIMIT_MEMLOCK too small
+warning:seems as no solution array provided in input file(or err in read nsz vector)
+Timing of PETSc INIT1 0.0155442
+Timing of PETSc INIT2 107.223
+KSP Object: 1 MPI processes
+  type: bcgsl
+    Ell = 2
+    Delta = 0
+  maximum iterations=4000, initial guess is zero
+  tolerances:  relative=1e-08, absolute=1e-50, divergence=10000.
+  left preconditioning
+  using PRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: ilu
+    out-of-place factorization
+    0 levels of fill
+    tolerance for zero pivot 2.22045e-14
+    matrix ordering: qmd
+    factor fill ratio given 1., needed 1.
+      Factored matrix follows:
+        Mat Object: 1 MPI processes
+          type: seqaij
+          rows=1898468, cols=1898468
+          package used to perform factorization: petsc
+          total: nonzeros=143056988, allocated nonzeros=143056988
+          total number of mallocs used during MatSetValues calls =0
+            using I-node routines: found 616736 nodes, limit used is 5
+  linear system matrix = precond matrix:
+  Mat Object: 1 MPI processes
+    type: seqaij
+    rows=1898468, cols=1898468
+    total: nonzeros=143056988, allocated nonzeros=143056988
+    total number of mallocs used during MatSetValues calls =0
+      using I-node routines: found 617989 nodes, limit used is 5
+  0 KSP preconditioned resid norm 1.763932480831e+00 true resid norm 3.638942060596e+06 ||r(i)||/||b|| 1.000000000000e+00
+  2 KSP preconditioned resid norm 4.950080521648e-01 true resid norm 2.048693225825e+05 ||r(i)||/||b|| 5.629914386405e-02
+Linear solve did not converge due to DIVERGED_DTOL iterations 3
+KSP Object: 1 MPI processes
+  type: bcgsl
+    Ell = 2
+    Delta = 0
+  maximum iterations=4000, initial guess is zero
+  tolerances:  relative=1e-08, absolute=1e-50, divergence=10000.
+  left preconditioning
+  using PRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: ilu
+    out-of-place factorization
+    0 levels of fill
+    tolerance for zero pivot 2.22045e-14
+    matrix ordering: qmd
+    factor fill ratio given 1., needed 1.
+      Factored matrix follows:
+        Mat Object: 1 MPI processes
+          type: seqaij
+          rows=1898468, cols=1898468
+          package used to perform factorization: petsc
+          total: nonzeros=143056988, allocated nonzeros=143056988
+          total number of mallocs used during MatSetValues calls =0
+            using I-node routines: found 616736 nodes, limit used is 5
+  linear system matrix = precond matrix:
+  Mat Object: 1 MPI processes
+    type: seqaij
+    rows=1898468, cols=1898468
+    total: nonzeros=143056988, allocated nonzeros=143056988
+    total number of mallocs used during MatSetValues calls =0
+      using I-node routines: found 617989 nodes, limit used is 5
+Timing of PETSc KSPSolve routine 11.5845
+Warning! input did not contain a solution, hence result can't be verified. Ignore the following relative error as it is not valid
+The relative error in solutions is: inf
+Number of KSP iterations is 3
+Time spent per KSP iteration is 3.86151
