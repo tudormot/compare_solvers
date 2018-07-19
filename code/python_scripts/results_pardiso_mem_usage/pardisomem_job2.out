@@ -1,0 +1,24 @@
+INFO(petsc/3.9.1_gene): invoking mpi.intel version for Medium_Node.
+[0] DAPL startup: RLIMIT_MEMLOCK too small
+warning:seems as no solution array provided in input file(or err in read nsz vector)
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 11200 RUNNING AT mpp2r01c02s08
+=   EXIT CODE: 9
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+slurmstepd: Exceeded job memory limit at some point.
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 11200 RUNNING AT mpp2r01c02s08
+=   EXIT CODE: 9
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+   Intel(R) MPI Library troubleshooting guide:
+      https://software.intel.com/node/561764
+===================================================================================
+slurmstepd: Exceeded job memory limit at some point.
