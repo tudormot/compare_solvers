@@ -131,11 +131,13 @@ int pardiso_solver::solve_sys(linear_sys &sys)
     MKL_INT mtype=-99;//illegal magic number
     if(sys.is_asymmetric == true)
     {
-        mtype =  1;       /*real structurally symmetric matrix*/
+        //mtype =  1;       /*real structurally symmetric matrix*/
+        mtype = 11; //using this type just to see how much time could be one by just setting the correct option
     }
     else
     {
         mtype = -2;       /* Real symmetric matrix */
+
     }
 
 
