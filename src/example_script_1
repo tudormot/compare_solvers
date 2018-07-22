@@ -1,0 +1,23 @@
+#!/bin/bash
+#$1 should be --solve-with-PETSc or --solve-with-pardiso or --solve-with-both
+#a typical workflow of testing the libraries using this script would be two modify input matrix, change petsc settings, then choose whether
+#to solve the system using PETSc or pardiso, then call this script, and redirect the output to a file.
+#IE: ./example_script_1 --solve-with-PETSc > some_file.txt . Then contents of some_file.txt can be parsed with the provided python script
+
+#this should be modified from system to system
+inputfile_path=/home/mot_tudor/workspace/unijob/input/beamp.txti
+outputfile_path=/home/mot_tudor/workspace/unijob/input/petsc_1mpi.dat #note: normally nothing gets printed to this file(unless you make some modifications to main.cpp)
+
+exec_name=time_solvers
+
+#options to pass to petsc_solver. The amount of available options is very large, I recommend reading the PETSc manual..
+#petsc_options can be left blank if $1 is --solve-with-pardiso. Even if it is not blank, all petsc_options will be ignored when solving with pardiso. When using option --solve-with-both petsc_options should be set
+#in case $1 is --solve-with-pardiso, there are a few petsc_options which MUST be specified. They are : -mat_type, -pc_type,  -ksp_type. The rest are optional
+petsc_options=-mat_type seqaij  -ksp_converged_reason -pc_type ilu -pc_factor_levels 0 -pc_factor_nonzeros_along_diagonal -ksp_type gmres -pc_factor_mat_ordering_type rcm  -ksp_monitor_true_residual -ksp_gmres_restart 100 -ksp_view_pre -ksp_view -ksp_norm_type unpreconditioned -ksp_monitor_singular_value
+
+
+#create output file if it does not exist
+touch ${outputfile_path}
+
+mpiexec.hydra -n 1 ./${exec_name}  $1 ${inputfile_path} ${outputfile_path} ${petsc_options}
+
