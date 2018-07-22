@@ -1,0 +1,72 @@
+/var/slurmd-mpp2/job635328/slurm_script: line 16: ./load_modules_mpp2cluster: Permission denied
+warning:seems as no solution array provided in input file(or err in read nsz vector)
+Timing of PETSc INIT1 0.044812
+Timing of PETSc INIT2 2257.01
+KSP Object: 1 MPI processes
+  type: gmres
+    restart=500, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+    happy breakdown tolerance 1e-30
+  maximum iterations=2000, initial guess is zero
+  tolerances:  relative=1e-08, absolute=1e-50, divergence=10000.
+  right preconditioning
+  using UNPRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: ilu
+    out-of-place factorization
+    1 level of fill
+    tolerance for zero pivot 2.22045e-14
+    matrix ordering: natural
+    factor fill ratio given 1., needed 4.53285
+      Factored matrix follows:
+        Mat Object: 1 MPI processes
+          type: seqaij
+          rows=3847164, cols=3847164
+          package used to perform factorization: petsc
+          total: nonzeros=1972247096, allocated nonzeros=1972247096
+          total number of mallocs used during MatSetValues calls =0
+            using I-node routines: found 1261415 nodes, limit used is 5
+  linear system matrix = precond matrix:
+  Mat Object: 1 MPI processes
+    type: seqaij
+    rows=3847164, cols=3847164
+    total: nonzeros=435100862, allocated nonzeros=435100862
+    total number of mallocs used during MatSetValues calls =0
+      using I-node routines: found 1282308 nodes, limit used is 5
+  0 KSP unpreconditioned resid norm 7.904674969817e+03 true resid norm           -nan ||r(i)||/||b||           -nan
+Linear solve did not converge due to DIVERGED_PCSETUP_FAILED iterations 0
+               PCSETUP_FAILED due to FACTOR_NUMERIC_ZEROPIVOT 
+KSP Object: 1 MPI processes
+  type: gmres
+    restart=500, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+    happy breakdown tolerance 1e-30
+  maximum iterations=2000, initial guess is zero
+  tolerances:  relative=1e-08, absolute=1e-50, divergence=10000.
+  right preconditioning
+  using UNPRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: ilu
+    out-of-place factorization
+    1 level of fill
+    tolerance for zero pivot 2.22045e-14
+    matrix ordering: natural
+    factor fill ratio given 1., needed 4.53285
+      Factored matrix follows:
+        Mat Object: 1 MPI processes
+          type: seqaij
+          rows=3847164, cols=3847164
+          package used to perform factorization: petsc
+          total: nonzeros=1972247096, allocated nonzeros=1972247096
+          total number of mallocs used during MatSetValues calls =0
+            using I-node routines: found 1261415 nodes, limit used is 5
+  linear system matrix = precond matrix:
+  Mat Object: 1 MPI processes
+    type: seqaij
+    rows=3847164, cols=3847164
+    total: nonzeros=435100862, allocated nonzeros=435100862
+    total number of mallocs used during MatSetValues calls =0
+      using I-node routines: found 1282308 nodes, limit used is 5
+Timing of PETSc KSPSolve routine 2.49152
+Warning! input did not contain a solution, hence result can't be verified. Ignore the following relative error as it is not valid
+The relative error in solutions is: inf
+Number of KSP iterations is 0
+Time spent per KSP iteration is inf

@@ -1,7 +1,7 @@
-/var/slurmd-mpp2/job635310/slurm_script: line 19: ./load_modules_mpp2cluster: Permission denied
+/var/slurmd-mpp2/job635320/slurm_script: line 19: ./load_modules_mpp2cluster: Permission denied
 warning:seems as no solution array provided in input file(or err in read nsz vector)
 
-=== PARDISO: solving a real structurally symmetric system ===
+=== PARDISO: solving a real nonsymmetric system ===
 1-based array indexing is turned ON
 PARDISO double precision computation is turned ON
 METIS algorithm at reorder step is turned ON
@@ -13,13 +13,13 @@ Summary: ( reordering phase )
 
 Times:
 ======
-Time spent in calculations of symmetric matrix portrait (fulladj): 0.234505 s
-Time spent in reordering of the initial matrix (reorder)         : 6.527563 s
-Time spent in symbolic factorization (symbfct)                   : 3.337898 s
-Time spent in data preparations for factorization (parlist)      : 0.019890 s
-Time spent in allocation of internal data structures (malloc)    : 0.043465 s
-Time spent in additional calculations                            : 3.982901 s
-Total time spent                                                 : 14.146222 s
+Time spent in calculations of symmetric matrix portrait (fulladj): 1.850230 s
+Time spent in reordering of the initial matrix (reorder)         : 6.534224 s
+Time spent in symbolic factorization (symbfct)                   : 3.384737 s
+Time spent in data preparations for factorization (parlist)      : 0.020003 s
+Time spent in allocation of internal data structures (malloc)    : 0.051419 s
+Time spent in additional calculations                            : 3.982298 s
+Total time spent                                                 : 15.822911 s
 
 Statistics:
 ===========
@@ -45,8 +45,8 @@ Parallel Direct Factorization is running on 1 OpenMP
 Reordering completed ... 
 Number of nonzeros in factors = 1787788918
 Number of factorization MFLOPS = 5304907--------Memory usage information--------
-Peak memory on symbolic factorization: 3595178
-Permanent memory on symbolic factorization: 2541303
+Peak memory on symbolic factorization: 5491670
+Permanent memory on symbolic factorization: 3489550
 Peak memory on numerical factorization and solution: 14935942
 Peak total memory used by pardiso (maximum of above 3 according to intel manual): 14935942 
 === PARDISO is running in In-Core mode, because iparam(60)=0 ===
@@ -54,7 +54,7 @@ Peak total memory used by pardiso (maximum of above 3 according to intel manual)
 Percentage of computed non-zeros for LL^T factorization
  1 %  2 %  3 %  4 %  5 %  6 %  7 %  8 %  9 %  10 %  11 %  12 %  13 %  14 %  15 %  16 %  17 %  18 %  19 %  20 %  21 %  22 %  23 %  24 %  25 %  26 %  27 %  28 %  29 %  30 %  31 %  32 %  33 %  34 %  35 %  36 %  37 %  38 %  39 %  40 %  41 %  42 %  43 %  44 %  45 %  46 %  47 %  48 %  49 %  50 %  51 %  52 %  53 %  54 %  55 %  56 %  57 %  58 %  59 %  60 %  61 %  62 %  63 %  64 %  65 %  66 %  67 %  68 %  69 %  70 %  71 %  72 %  73 %  74 %  75 %  76 %  77 %  78 %  79 %  80 %  81 %  82 %  83 %  84 %  85 %  86 %  87 %  88 %  89 %  90 %  91 %  92 %  93 %  94 %  95 %  96 %  97 %  98 %  99 %  100 % 
 
-=== PARDISO: solving a real structurally symmetric system ===
+=== PARDISO: solving a real nonsymmetric system ===
 Single-level factorization algorithm is turned ON
 
 
@@ -64,10 +64,10 @@ Summary: ( factorization phase )
 Times:
 ======
 Time spent in copying matrix to internal data structure (A to LU): 0.000000 s
-Time spent in factorization step (numfct)                        : 201.786189 s
-Time spent in allocation of internal data structures (malloc)    : 0.000543 s
-Time spent in additional calculations                            : 0.000003 s
-Total time spent                                                 : 201.786735 s
+Time spent in factorization step (numfct)                        : 201.756072 s
+Time spent in allocation of internal data structures (malloc)    : 0.000551 s
+Time spent in additional calculations                            : 0.000002 s
+Total time spent                                                 : 201.756625 s
 
 Statistics:
 ===========
@@ -91,16 +91,16 @@ Parallel Direct Factorization is running on 1 OpenMP
              number of non-zeros in L+U:              1787788918
              gflop   for the numerical factorization: 5304.907234
 
-             gflop/s for the numerical factorization: 26.289744
+             gflop/s for the numerical factorization: 26.293668
 
 
 Factorization completed ... --------Memory usage information--------
-Peak memory on symbolic factorization: 3595178
-Permanent memory on symbolic factorization: 2541303
+Peak memory on symbolic factorization: 5491670
+Permanent memory on symbolic factorization: 3489550
 Peak memory on numerical factorization and solution: 14923760
 Peak total memory used by pardiso (maximum of above 3 according to intel manual): 14923760 
 
-=== PARDISO: solving a real structurally symmetric system ===
+=== PARDISO: solving a real nonsymmetric system ===
 
 
 Summary: ( solution phase )
@@ -108,9 +108,9 @@ Summary: ( solution phase )
 
 Times:
 ======
-Time spent in direct solver at solve step (solve)                : 1.673680 s
-Time spent in additional calculations                            : 3.251914 s
-Total time spent                                                 : 4.925594 s
+Time spent in direct solver at solve step (solve)                : 1.497049 s
+Time spent in additional calculations                            : 3.379337 s
+Total time spent                                                 : 4.876386 s
 
 Statistics:
 ===========
@@ -134,12 +134,12 @@ Parallel Direct Factorization is running on 1 OpenMP
              number of non-zeros in L+U:              1787788918
              gflop   for the numerical factorization: 5304.907234
 
-             gflop/s for the numerical factorization: 26.289744
+             gflop/s for the numerical factorization: 26.293668
 
 
 Solve completed ... --------Memory usage information--------
-Peak memory on symbolic factorization: 3595178
-Permanent memory on symbolic factorization: 2541303
-Peak memory on numerical factorization and solution: 14935942
-Peak total memory used by pardiso (maximum of above 3 according to intel manual): 14935942 
+Peak memory on symbolic factorization: 5491670
+Permanent memory on symbolic factorization: 3489550
+Peak memory on numerical factorization and solution: 14935941
+Peak total memory used by pardiso (maximum of above 3 according to intel manual): 14935941 
 Solution not provided in input file, storing pardiso solution as system solution

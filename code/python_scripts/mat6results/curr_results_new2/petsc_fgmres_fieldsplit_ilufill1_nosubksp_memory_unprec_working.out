@@ -1,0 +1,336 @@
+/var/slurmd-mpp2/job635612/slurm_script: line 16: ./load_modules_mpp2cluster: Permission denied
+warning:seems as no solution array provided in input file(or err in read nsz vector)
+[0] PetscInitialize(): PETSc successfully started: number of processors = 1
+[0] PetscGetHostName(): Rejecting domainname, likely is NIS mpp2r01c05s11.
+[0] PetscInitialize(): Running on machine: mpp2r01c05s11
+[0] PetscCommDuplicate(): Duplicating a communicator 1140850688 -2080374784 max tags = 2147483647
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850688 -2080374784
+Timing of PETSc INIT1 0.0453169
+[0] MatAssemblyEnd_SeqAIJ(): Matrix size: 3847164 X 3847164; storage space: 0 unneeded,435100862 used
+[0] MatAssemblyEnd_SeqAIJ(): Number of mallocs during MatSetValues() is 0
+[0] MatAssemblyEnd_SeqAIJ(): Maximum nonzeros in any row is 1032
+[0] MatCheckCompressedRow(): Found the ratio (num_zerorows 0)/(num_localrows 3847164) < 0.6. Do not use CompressedRow routines.
+[0] MatSeqAIJCheckInode(): Found 1282308 nodes of 3847164. Limit used: 5. Using Inode routines
+[0] VecAssemblyBegin_MPI_BTS(): Stash has 0 entries, uses 0 mallocs.
+[0] VecAssemblyBegin_MPI_BTS(): Block-Stash has 0 entries, uses 0 mallocs.
+[0] VecAssemblyBegin_MPI_BTS(): Stash has 0 entries, uses 0 mallocs.
+[0] VecAssemblyBegin_MPI_BTS(): Block-Stash has 0 entries, uses 0 mallocs.
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850688 -2080374784
+[0] PetscGetHostName(): Rejecting domainname, likely is NIS mpp2r01c05s11.
+[0] PCSetUp(): Setting up PC for first time
+[0] MatAssemblyEnd_SeqAIJ(): Matrix size: 3847164 X 3847164; storage space: 0 unneeded,435100862 used
+[0] MatAssemblyEnd_SeqAIJ(): Number of mallocs during MatSetValues() is 0
+[0] MatAssemblyEnd_SeqAIJ(): Maximum nonzeros in any row is 1032
+[0] MatCheckCompressedRow(): Found the ratio (num_zerorows 0)/(num_localrows 3847164) < 0.6. Do not use CompressedRow routines.
+[0] MatSeqAIJCheckInode(): Found 1282308 nodes of 3847164. Limit used: 5. Using Inode routines
+[0] VecScatterCreate_Seq(): Special case: sequential vector general to stride
+[0] MatAssemblyEnd_SeqAIJ(): Matrix size: 0 X 0; storage space: 0 unneeded,0 used
+[0] MatAssemblyEnd_SeqAIJ(): Number of mallocs during MatSetValues() is 0
+[0] MatAssemblyEnd_SeqAIJ(): Maximum nonzeros in any row is 0
+[0] MatCheckCompressedRow(): Found the ratio (num_zerorows 0)/(num_localrows 0) > 0.6. Use CompressedRow routines.
+[0] MatSeqAIJCheckInode(): Found 0 nodes out of 0 rows. Not using Inode routines
+[0] VecScatterCreate_Seq(): Special case: sequential vector general to stride
+[0] MatAssemblyEnd_SeqAIJ(): Matrix size: 3847164 X 0; storage space: 0 unneeded,0 used
+[0] MatAssemblyEnd_SeqAIJ(): Number of mallocs during MatSetValues() is 0
+[0] MatAssemblyEnd_SeqAIJ(): Maximum nonzeros in any row is 0
+[0] MatCheckCompressedRow(): Found the ratio (num_zerorows 3847164)/(num_localrows 3847164) > 0.6. Use CompressedRow routines.
+[0] MatSeqAIJCheckInode(): Found 769433 nodes of 3847164. Limit used: 5. Using Inode routines
+[0] MatAssemblyEnd_SeqAIJ(): Matrix size: 0 X 3847164; storage space: 0 unneeded,0 used
+[0] MatAssemblyEnd_SeqAIJ(): Number of mallocs during MatSetValues() is 0
+[0] MatAssemblyEnd_SeqAIJ(): Maximum nonzeros in any row is 0
+[0] MatCheckCompressedRow(): Found the ratio (num_zerorows 0)/(num_localrows 0) > 0.6. Use CompressedRow routines.
+[0] MatSeqAIJCheckInode(): Found 0 nodes out of 0 rows. Not using Inode routines
+Timing of PETSc INIT2 23.2665
+KSP Object: 1 MPI processes
+  type: fgmres
+    restart=30, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+    happy breakdown tolerance 1e-30
+  maximum iterations=2000, initial guess is zero
+  tolerances:  relative=1e-08, absolute=1e-50, divergence=10000.
+  right preconditioning
+  using UNPRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: fieldsplit
+    FieldSplit with Schur preconditioner, blocksize = 1, factorization FULL
+    Preconditioner for the Schur complement formed from A11
+    Split info:
+    Split number 0 Defined by IS
+    Split number 1 Defined by IS
+    KSP solver for A00 block
+  KSP Object: (fieldsplit_0_) 1 MPI processes
+    type: preonly
+    maximum iterations=10000, initial guess is zero
+    tolerances:  relative=1e-05, absolute=1e-50, divergence=10000.
+    left preconditioning
+    using DEFAULT norm type for convergence test
+  PC Object: (fieldsplit_0_) 1 MPI processes
+    type: ilu
+    PC has not been set up so information may be incomplete
+      out-of-place factorization
+      1 level of fill
+      tolerance for zero pivot 2.22045e-14
+      matrix ordering: natural
+    linear system matrix = precond matrix:
+    Mat Object: (fieldsplit_0_) 1 MPI processes
+      type: seqaij
+      rows=3847164, cols=3847164
+      total: nonzeros=435100862, allocated nonzeros=435100862
+      total number of mallocs used during MatSetValues calls =0
+        using I-node routines: found 1282308 nodes, limit used is 5
+    KSP solver for S = A11 - A10 inv(A00) A01 
+  KSP Object: (fieldsplit_1_) 1 MPI processes
+    type: preonly
+    maximum iterations=10000, initial guess is zero
+    tolerances:  relative=1e-05, absolute=1e-50, divergence=10000.
+    left preconditioning
+    using DEFAULT norm type for convergence test
+  PC Object: (fieldsplit_1_) 1 MPI processes
+    type: ilu
+    PC has not been set up so information may be incomplete
+      out-of-place factorization
+      1 level of fill
+      tolerance for zero pivot 2.22045e-14
+      matrix ordering: natural
+    linear system matrix followed by preconditioner matrix:
+    Mat Object: (fieldsplit_1_) 1 MPI processes
+      type: schurcomplement
+      rows=0, cols=0
+        Schur complement A11 - A10 inv(A00) A01
+        A11
+          Mat Object: (fieldsplit_1_) 1 MPI processes
+            type: seqaij
+            rows=0, cols=0
+            total: nonzeros=0, allocated nonzeros=0
+            total number of mallocs used during MatSetValues calls =0
+              not using I-node routines
+        A10
+          Mat Object: 1 MPI processes
+            type: seqaij
+            rows=0, cols=3847164
+            total: nonzeros=0, allocated nonzeros=0
+            total number of mallocs used during MatSetValues calls =0
+              not using I-node routines
+        KSP of A00
+  KSP Object: (fieldsplit_0_) 1 MPI processes
+    type: preonly
+    maximum iterations=10000, initial guess is zero
+    tolerances:  relative=1e-05, absolute=1e-50, divergence=10000.
+    left preconditioning
+    using DEFAULT norm type for convergence test
+  PC Object: (fieldsplit_0_) 1 MPI processes
+    type: ilu
+    PC has not been set up so information may be incomplete
+      out-of-place factorization
+      1 level of fill
+      tolerance for zero pivot 2.22045e-14
+      matrix ordering: natural
+    linear system matrix = precond matrix:
+    Mat Object: (fieldsplit_0_) 1 MPI processes
+      type: seqaij
+      rows=3847164, cols=3847164
+      total: nonzeros=435100862, allocated nonzeros=435100862
+      total number of mallocs used during MatSetValues calls =0
+        using I-node routines: found 1282308 nodes, limit used is 5
+        A01
+          Mat Object: 1 MPI processes
+            type: seqaij
+            rows=3847164, cols=0
+            total: nonzeros=0, allocated nonzeros=0
+            total number of mallocs used during MatSetValues calls =0
+              using I-node routines: found 769433 nodes, limit used is 5
+    Mat Object: (fieldsplit_1_) 1 MPI processes
+      type: seqaij
+      rows=0, cols=0
+      total: nonzeros=0, allocated nonzeros=0
+      total number of mallocs used during MatSetValues calls =0
+        not using I-node routines
+  linear system matrix = precond matrix:
+  Mat Object: 1 MPI processes
+    type: seqaij
+    rows=3847164, cols=3847164
+    total: nonzeros=435100862, allocated nonzeros=435100862
+    total number of mallocs used during MatSetValues calls =0
+      using I-node routines: found 1282308 nodes, limit used is 5
+  0 KSP unpreconditioned resid norm 7.904674969817e+03 true resid norm 7.904674969817e+03 ||r(i)||/||b|| 1.000000000000e+00
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Setting up PC for first time
+[0] PetscCommDuplicate(): Duplicating a communicator 1140850689 -2080374783 max tags = 2147483647
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850689 -2080374783
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850689 -2080374783
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850689 -2080374783
+[0] MatILUFactorSymbolic_SeqAIJ(): Reallocs 1 Fill ratio:given 3. needed 4.53285
+[0] MatILUFactorSymbolic_SeqAIJ(): Run with -[sub_]pc_factor_fill 4.53285 or use 
+[0] MatILUFactorSymbolic_SeqAIJ(): PCFactorSetFill([sub]pc,4.53285);
+[0] MatILUFactorSymbolic_SeqAIJ(): for best performance.
+[0] MatSeqAIJCheckInode_FactorLU(): Found 1261415 nodes of 3847164. Limit used: 5. Using Inode routines
+[0] MatPivotCheck_none(): Detected zero pivot in factorization in row 1287256 value 0. tolerance 2.22045e-14
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] MatSolve(): MatFactorError 2
+[0] PCSetUp(): Setting up PC for first time
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850689 -2080374783
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850689 -2080374783
+[0] MatILUFactorSymbolic_SeqAIJ(): Reallocs 0 Fill ratio:given 3. needed inf.
+[0] MatILUFactorSymbolic_SeqAIJ(): Run with -[sub_]pc_factor_fill inf. or use 
+[0] MatILUFactorSymbolic_SeqAIJ(): PCFactorSetFill([sub]pc,inf.);
+[0] MatILUFactorSymbolic_SeqAIJ(): for best performance.
+[0] MatSeqAIJCheckInode_FactorLU(): Found 0 nodes out of 0 rows. Not using Inode routines
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] MatSolve(): MatFactorError 2
+Linear solve did not converge due to DIVERGED_NANORINF iterations 0
+KSP Object: 1 MPI processes
+  type: fgmres
+    restart=30, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+    happy breakdown tolerance 1e-30
+  maximum iterations=2000, initial guess is zero
+  tolerances:  relative=1e-08, absolute=1e-50, divergence=10000.
+  right preconditioning
+  using UNPRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: fieldsplit
+    FieldSplit with Schur preconditioner, blocksize = 1, factorization FULL
+    Preconditioner for the Schur complement formed from A11
+    Split info:
+    Split number 0 Defined by IS
+    Split number 1 Defined by IS
+    KSP solver for A00 block
+  KSP Object: (fieldsplit_0_) 1 MPI processes
+    type: preonly
+    maximum iterations=10000, initial guess is zero
+    tolerances:  relative=1e-05, absolute=1e-50, divergence=10000.
+    left preconditioning
+    using NONE norm type for convergence test
+  PC Object: (fieldsplit_0_) 1 MPI processes
+    type: ilu
+      out-of-place factorization
+      1 level of fill
+      tolerance for zero pivot 2.22045e-14
+      matrix ordering: natural
+      factor fill ratio given 3., needed 4.53285
+        Factored matrix follows:
+          Mat Object: 1 MPI processes
+            type: seqaij
+            rows=3847164, cols=3847164
+            package used to perform factorization: petsc
+            total: nonzeros=1972247096, allocated nonzeros=1972247096
+            total number of mallocs used during MatSetValues calls =0
+              using I-node routines: found 1261415 nodes, limit used is 5
+    linear system matrix = precond matrix:
+    Mat Object: (fieldsplit_0_) 1 MPI processes
+      type: seqaij
+      rows=3847164, cols=3847164
+      total: nonzeros=435100862, allocated nonzeros=435100862
+      total number of mallocs used during MatSetValues calls =0
+        using I-node routines: found 1282308 nodes, limit used is 5
+    KSP solver for S = A11 - A10 inv(A00) A01 
+  KSP Object: (fieldsplit_1_) 1 MPI processes
+    type: preonly
+    maximum iterations=10000, initial guess is zero
+    tolerances:  relative=1e-05, absolute=1e-50, divergence=10000.
+    left preconditioning
+    using NONE norm type for convergence test
+  PC Object: (fieldsplit_1_) 1 MPI processes
+    type: ilu
+      out-of-place factorization
+      1 level of fill
+      tolerance for zero pivot 2.22045e-14
+      matrix ordering: natural
+      factor fill ratio given 3., needed inf.
+        Factored matrix follows:
+          Mat Object: 1 MPI processes
+            type: seqaij
+            rows=0, cols=0
+            package used to perform factorization: petsc
+            total: nonzeros=1, allocated nonzeros=1
+            total number of mallocs used during MatSetValues calls =0
+              not using I-node routines
+    linear system matrix followed by preconditioner matrix:
+    Mat Object: (fieldsplit_1_) 1 MPI processes
+      type: schurcomplement
+      rows=0, cols=0
+        Schur complement A11 - A10 inv(A00) A01
+        A11
+          Mat Object: (fieldsplit_1_) 1 MPI processes
+            type: seqaij
+            rows=0, cols=0
+            total: nonzeros=0, allocated nonzeros=0
+            total number of mallocs used during MatSetValues calls =0
+              not using I-node routines
+        A10
+          Mat Object: 1 MPI processes
+            type: seqaij
+            rows=0, cols=3847164
+            total: nonzeros=0, allocated nonzeros=0
+            total number of mallocs used during MatSetValues calls =0
+              not using I-node routines
+        KSP of A00
+  KSP Object: (fieldsplit_0_) 1 MPI processes
+    type: preonly
+    maximum iterations=10000, initial guess is zero
+    tolerances:  relative=1e-05, absolute=1e-50, divergence=10000.
+    left preconditioning
+    using NONE norm type for convergence test
+  PC Object: (fieldsplit_0_) 1 MPI processes
+    type: ilu
+      out-of-place factorization
+      1 level of fill
+      tolerance for zero pivot 2.22045e-14
+      matrix ordering: natural
+      factor fill ratio given 3., needed 4.53285
+        Factored matrix follows:
+          Mat Object: 1 MPI processes
+            type: seqaij
+            rows=3847164, cols=3847164
+            package used to perform factorization: petsc
+            total: nonzeros=1972247096, allocated nonzeros=1972247096
+            total number of mallocs used during MatSetValues calls =0
+              using I-node routines: found 1261415 nodes, limit used is 5
+    linear system matrix = precond matrix:
+    Mat Object: (fieldsplit_0_) 1 MPI processes
+      type: seqaij
+      rows=3847164, cols=3847164
+      total: nonzeros=435100862, allocated nonzeros=435100862
+      total number of mallocs used during MatSetValues calls =0
+        using I-node routines: found 1282308 nodes, limit used is 5
+        A01
+          Mat Object: 1 MPI processes
+            type: seqaij
+            rows=3847164, cols=0
+            total: nonzeros=0, allocated nonzeros=0
+            total number of mallocs used during MatSetValues calls =0
+              using I-node routines: found 769433 nodes, limit used is 5
+    Mat Object: (fieldsplit_1_) 1 MPI processes
+      type: seqaij
+      rows=0, cols=0
+      total: nonzeros=0, allocated nonzeros=0
+      total number of mallocs used during MatSetValues calls =0
+        not using I-node routines
+  linear system matrix = precond matrix:
+  Mat Object: 1 MPI processes
+    type: seqaij
+    rows=3847164, cols=3847164
+    total: nonzeros=435100862, allocated nonzeros=435100862
+    total number of mallocs used during MatSetValues calls =0
+      using I-node routines: found 1282308 nodes, limit used is 5
+Timing of PETSc KSPSolve routine 2242.15
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850688 -2080374784
+Warning! input did not contain a solution, hence result can't be verified. Ignore the following relative error as it is not valid
+[0] VecAssemblyBegin_MPI_BTS(): Stash has 0 entries, uses 0 mallocs.
+[0] VecAssemblyBegin_MPI_BTS(): Block-Stash has 0 entries, uses 0 mallocs.
+The relative error in solutions is: -nan
+Number of KSP iterations is 0
+Time spent per KSP iteration is inf
+[0] Petsc_DelComm_Inner(): Removing reference to PETSc communicator embedded in a user MPI_Comm -2080374783
+[0] Petsc_DelComm_Outer(): User MPI_Comm 1140850689 is being freed after removing reference from inner PETSc comm to this outer comm
+[0] PetscCommDestroy(): Deleting PETSc MPI_Comm -2080374783
+[0] Petsc_DelCounter(): Deleting counter data in an MPI_Comm -2080374783
+[0] PetscFinalize(): PetscFinalize() called
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850688 -2080374784
+Summary of Memory Usage in PETSc
+Maximum (over computational time) process memory:        total 3.5034e+10 max 3.5034e+10 min 3.5034e+10
+Current process memory:                                  total 1.3351e+08 max 1.3351e+08 min 1.3351e+08
+[0] Petsc_DelViewer(): Removing viewer data attribute in an MPI_Comm -2080374784
+[0] Petsc_DelComm_Inner(): Removing reference to PETSc communicator embedded in a user MPI_Comm -2080374784
+[0] Petsc_DelComm_Outer(): User MPI_Comm 1140850688 is being freed after removing reference from inner PETSc comm to this outer comm
+[0] PetscCommDestroy(): Deleting PETSc MPI_Comm -2080374784
+[0] Petsc_DelCounter(): Deleting counter data in an MPI_Comm -2080374784

@@ -1,4 +1,4 @@
-/var/slurmd-mpp2/job635309/slurm_script: line 19: ./load_modules_mpp2cluster: Permission denied
+/var/slurmd-mpp2/job635321/slurm_script: line 19: ./load_modules_mpp2cluster: Permission denied
 warning:seems as no solution array provided in input file(or err in read nsz vector)
 
 === PARDISO: solving a symmetric indefinite system ===
@@ -13,13 +13,13 @@ Summary: ( reordering phase )
 
 Times:
 ======
-Time spent in calculations of symmetric matrix portrait (fulladj): 0.846024 s
-Time spent in reordering of the initial matrix (reorder)         : 9.091208 s
-Time spent in symbolic factorization (symbfct)                   : 3.769008 s
-Time spent in data preparations for factorization (parlist)      : 0.034822 s
-Time spent in allocation of internal data structures (malloc)    : 0.186264 s
-Time spent in additional calculations                            : 3.830499 s
-Total time spent                                                 : 17.757825 s
+Time spent in calculations of symmetric matrix portrait (fulladj): 0.910752 s
+Time spent in reordering of the initial matrix (reorder)         : 9.095713 s
+Time spent in symbolic factorization (symbfct)                   : 3.767104 s
+Time spent in data preparations for factorization (parlist)      : 0.034798 s
+Time spent in allocation of internal data structures (malloc)    : 0.194941 s
+Time spent in additional calculations                            : 4.147660 s
+Total time spent                                                 : 18.150968 s
 
 Statistics:
 ===========
@@ -64,10 +64,10 @@ Summary: ( factorization phase )
 Times:
 ======
 Time spent in copying matrix to internal data structure (A to LU): 0.000000 s
-Time spent in factorization step (numfct)                        : 79.378412 s
-Time spent in allocation of internal data structures (malloc)    : 0.000527 s
-Time spent in additional calculations                            : 0.000002 s
-Total time spent                                                 : 79.378941 s
+Time spent in factorization step (numfct)                        : 79.429568 s
+Time spent in allocation of internal data structures (malloc)    : 0.000522 s
+Time spent in additional calculations                            : 0.000003 s
+Total time spent                                                 : 79.430093 s
 
 Statistics:
 ===========
@@ -91,7 +91,7 @@ Parallel Direct Factorization is running on 1 OpenMP
              number of non-zeros in L+U:              1030473727
              gflop   for the numerical factorization: 2272.521553
 
-             gflop/s for the numerical factorization: 28.628962
+             gflop/s for the numerical factorization: 28.610524
 
 
 Factorization completed ... --------Memory usage information--------
@@ -108,9 +108,9 @@ Summary: ( solution phase )
 
 Times:
 ======
-Time spent in direct solver at solve step (solve)                : 1.234087 s
-Time spent in additional calculations                            : 2.718133 s
-Total time spent                                                 : 3.952220 s
+Time spent in direct solver at solve step (solve)                : 1.209418 s
+Time spent in additional calculations                            : 2.837191 s
+Total time spent                                                 : 4.046609 s
 
 Statistics:
 ===========
@@ -134,7 +134,7 @@ Parallel Direct Factorization is running on 1 OpenMP
              number of non-zeros in L+U:              1030473727
              gflop   for the numerical factorization: 2272.521553
 
-             gflop/s for the numerical factorization: 28.628962
+             gflop/s for the numerical factorization: 28.610524
 
 
 Solve completed ... --------Memory usage information--------
