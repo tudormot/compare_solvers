@@ -26,9 +26,11 @@ if __name__ == "__main__":
     prec_residual= np.zeros((no_files,10005))
     true_residual=np.zeros((no_files,10005))
     no_iterations = np.zeros(no_files,dtype=int)
-    petsc_total_time = np.zeros(no_files)
+    petsc_ksp_time = np.zeros(no_files)
+    petsc_setup_time = np.zeros(no_files)
     f_i = fileinput.input(sys.argv[4:])
     filenames = []
+    last_token_found = [False for x in xrange(no_files)]
     file_number =-1
     for line in f_i:
         if f_i.filelineno() == 1:
@@ -49,13 +51,15 @@ if __name__ == "__main__":
             #print no_iterations[file_number]
         if l and l[0] == 'Timing':
             if l[4] == 'routine':
-                petsc_total_time[file_number] = petsc_total_time[file_number] + float(l[5])
+                petsc_ksp_time[file_number] = petsc_ksp_time[file_number] + float(l[5])
+                last_token_found[file_number] = True
             else:
-                petsc_total_time[file_number] = petsc_total_time[file_number] + float(l[4])
+                petsc_setup_time[file_number] = petsc_setup_time[file_number] + float(l[4])
 
     #determine file which had the least number of iterations completed:
     min_iterations = np.min(no_iterations)
     print "min_iterations is " + str(min_iterations) + "in file" + str(sys.argv[np.argmin(no_iterations)+4])
+
 
 
     #generate some better legend labels from command line input
@@ -75,8 +79,13 @@ if __name__ == "__main__":
     elif sys.argv[2] == '--time':
         plt.figure(1)
         for i in xrange(no_files):
-            time_per_iteration = petsc_total_time[i]/no_iterations[i]
-            plt.plot([x * time_per_iteration for x in iter_number[i][0:no_iterations[i]:5]],true_tolerance[i][0:no_iterations[i]:5],label=legend_label[i])
+            if last_token_found[i] is False:
+                print "Error: Timing of KSP routine not found in input file: " +str(filenames[i])
+                print "Can't plot timing data for this file"
+                print "Did the program terminate early (due to cancel?)"
+            else:
+                time_per_iteration = petsc_ksp_time[i]/no_iterations[i]
+                plt.plot([x * time_per_iteration + petsc_setup_time[i] for x in iter_number[i][0:no_iterations[i]:5]],true_tolerance[i][0:no_iterations[i]:5],label=legend_label[i])
         plt.axvline(x=float(sys.argv[3]), color='k', label='pardiso timing') #this introduces a vertical line to show pardiso time
         plt.xlabel('Time (s)')
         plt.ylabel('||r(i)||/||b||')
