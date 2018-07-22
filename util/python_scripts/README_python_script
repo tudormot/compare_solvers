@@ -1,0 +1,45 @@
+##parse output and generate plots python script##
+##README##
+
+1. Short description:
+The purpose of this python script is to make the analysis of PETSc data a bit easier, and 
+to provide a systemic way of comparing different solvers.
+
+The python script accepts files containing petsc output (more details to follow on exactly the petsc options required for meaningful parsing)
+and parses them for the following things:
+-number of ksp iterations
+-total timing of the PETSc library
+-true relative error at the end of each ksp iteration
+
+Afterwards the relative error will be plotted again iteration number(or time, depeding on command line arguments, more details later). If error was plotted against time, the user must also provide a pardiso time that needs to beat, via the command line argument
+
+2.Description of command line arguments:
+We recommend taking a look at the example scripts run_script_iterations and run_script_time, as it is pretty self explanatory
+Taken from run_script_iterations:
+ 
+##arg  1 of command line should be name of graph
+##arg  2 of command line should be "--iterations" or "--time" ,which specifies
+##          whether the x-axis of our plots should display number of iterations
+##          or time taken
+##arg  3 of command line should be pardiso time to display for comparison purposes,
+##          this parameter only matter if script called with --time option. However, even without the --time option,
+##          a placeholder should be used (which does not matter)
+##next args should be the files
+
+3.Description of tokens expected in the input files, and required petsc options in order to generate these tokens:
+    --> The python script parses for strings
+            -"Timing of PETSc INIT1"
+            -"Timing of PETSc INIT2"
+            -"Timing of PETSc KSPSolve routine"
+            -beginning of line + integer + "KSP"
+    --> There are two things that the user of this string must do to ensure correct parsing:
+         - run with --solve-with-PETSc and use command line argument  -ksp_monitor_true_residual
+         - ensure that the program finishes normally and is not cancelled halfway through
+
+4. Quick demonstration of python script:
+try running:
+./run_script_iterations ../../example_results/*
+
+
+
+    

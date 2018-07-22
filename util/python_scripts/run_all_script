@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-python plotresults.py mat1 mat1results/* &
-python plotresults.py mat2 mat2results/* &
-python plotresults.py mat3 mat3results/* & 
-python plotresults.py mat4 mat4results/* &
-python plotresults.py mat5 mat5results/* &
-python plotresults.py mat6 mat6results/* &

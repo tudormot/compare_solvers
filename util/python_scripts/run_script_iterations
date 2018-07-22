@@ -8,4 +8,6 @@
 ##arg  3 of command line should be pardiso time to display for comparison purposes,
 ##          this parameter only matter if script called with --time option
 ##next args should be the files
-python plotresults.py mat_ --iterations 100 $@
+
+python plotresults.py example_results --iterations 100 $@
+#note that "100" is just a placeholder as we are not using the --time command
