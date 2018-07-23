@@ -2353,3 +2353,395 @@ PC Object: 1 MPI processes
 572 KSP unpreconditioned resid norm 1.236679050636e+02 true resid norm 1.239933274391e+02 ||r(i)||/||b|| 3.536081746704e-04
 [0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
 [0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+573 KSP unpreconditioned resid norm 1.226452999111e+02 true resid norm 1.230316167189e+02 ||r(i)||/||b|| 3.508655369869e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+574 KSP unpreconditioned resid norm 1.214196127547e+02 true resid norm 1.218955139024e+02 ||r(i)||/||b|| 3.476255622923e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+575 KSP unpreconditioned resid norm 1.201101949620e+02 true resid norm 1.206938510477e+02 ||r(i)||/||b|| 3.441986213642e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+576 KSP unpreconditioned resid norm 1.188858823092e+02 true resid norm 1.195986040799e+02 ||r(i)||/||b|| 3.410751606983e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+577 KSP unpreconditioned resid norm 1.173116309377e+02 true resid norm 1.182126270630e+02 ||r(i)||/||b|| 3.371225866912e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+578 KSP unpreconditioned resid norm 1.156623362758e+02 true resid norm 1.167890590955e+02 ||r(i)||/||b|| 3.330628095976e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+579 KSP unpreconditioned resid norm 1.139539848142e+02 true resid norm 1.153400072164e+02 ||r(i)||/||b|| 3.289303566620e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+580 KSP unpreconditioned resid norm 1.124636178196e+02 true resid norm 1.140969380098e+02 ||r(i)||/||b|| 3.253853317627e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+581 KSP unpreconditioned resid norm 1.110276002965e+02 true resid norm 1.129355971576e+02 ||r(i)||/||b|| 3.220733824230e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+582 KSP unpreconditioned resid norm 1.090423045881e+02 true resid norm 1.113463373512e+02 ||r(i)||/||b|| 3.175410799935e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+583 KSP unpreconditioned resid norm 1.067129991369e+02 true resid norm 1.095292254212e+02 ||r(i)||/||b|| 3.123589815208e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+584 KSP unpreconditioned resid norm 1.044753206130e+02 true resid norm 1.077935623571e+02 ||r(i)||/||b|| 3.074091615537e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+585 KSP unpreconditioned resid norm 1.028361964088e+02 true resid norm 1.065601573690e+02 ||r(i)||/||b|| 3.038916973846e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+586 KSP unpreconditioned resid norm 1.011198995185e+02 true resid norm 1.053426582126e+02 ||r(i)||/||b|| 3.004195939800e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+587 KSP unpreconditioned resid norm 9.908458021625e+01 true resid norm 1.039645143619e+02 ||r(i)||/||b|| 2.964893588493e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+588 KSP unpreconditioned resid norm 9.704189559952e+01 true resid norm 1.026656832252e+02 ||r(i)||/||b|| 2.927853102770e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+589 KSP unpreconditioned resid norm 9.509632826518e+01 true resid norm 1.015417077627e+02 ||r(i)||/||b|| 2.895799207622e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+590 KSP unpreconditioned resid norm 9.265366950345e+01 true resid norm 1.002185502988e+02 ||r(i)||/||b|| 2.858064975849e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+591 KSP unpreconditioned resid norm 9.053153038258e+01 true resid norm 9.918743317572e+01 ||r(i)||/||b|| 2.828659244807e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+592 KSP unpreconditioned resid norm 8.823889479139e+01 true resid norm 9.824452616476e+01 ||r(i)||/||b|| 2.801769118224e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+593 KSP unpreconditioned resid norm 8.554638328265e+01 true resid norm 9.721566388362e+01 ||r(i)||/||b|| 2.772427691493e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+594 KSP unpreconditioned resid norm 8.242990612679e+01 true resid norm 9.620951408316e+01 ||r(i)||/||b|| 2.743733986619e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+595 KSP unpreconditioned resid norm 7.880713242221e+01 true resid norm 9.501280986337e+01 ||r(i)||/||b|| 2.709605989289e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+596 KSP unpreconditioned resid norm 7.529932828277e+01 true resid norm 9.388668490936e+01 ||r(i)||/||b|| 2.677490794249e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+597 KSP unpreconditioned resid norm 7.154444482631e+01 true resid norm 9.283409716159e+01 ||r(i)||/||b|| 2.647472757000e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+598 KSP unpreconditioned resid norm 6.848745591619e+01 true resid norm 9.206381828924e+01 ||r(i)||/||b|| 2.625505695412e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+599 KSP unpreconditioned resid norm 6.548850707907e+01 true resid norm 9.169984713438e+01 ||r(i)||/||b|| 2.615125848499e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+600 KSP unpreconditioned resid norm 6.228047188209e+01 true resid norm 9.147171337783e+01 ||r(i)||/||b|| 2.608619856370e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+601 KSP unpreconditioned resid norm 5.927077094929e+01 true resid norm 9.153595260103e+01 ||r(i)||/||b|| 2.610451851279e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+602 KSP unpreconditioned resid norm 5.607157293460e+01 true resid norm 9.175145971846e+01 ||r(i)||/||b|| 2.616597752836e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+603 KSP unpreconditioned resid norm 5.341710913174e+01 true resid norm 9.207832165449e+01 ||r(i)||/||b|| 2.625919307064e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+604 KSP unpreconditioned resid norm 5.069080250434e+01 true resid norm 9.240233199662e+01 ||r(i)||/||b|| 2.635159538617e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+605 KSP unpreconditioned resid norm 4.846531500980e+01 true resid norm 9.273430237632e+01 ||r(i)||/||b|| 2.644626777092e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+606 KSP unpreconditioned resid norm 4.643304266499e+01 true resid norm 9.304895471390e+01 ||r(i)||/||b|| 2.653600134050e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+607 KSP unpreconditioned resid norm 4.452317252824e+01 true resid norm 9.335523453797e+01 ||r(i)||/||b|| 2.662334720964e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+608 KSP unpreconditioned resid norm 4.277068784974e+01 true resid norm 9.365423228016e+01 ||r(i)||/||b|| 2.670861635115e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+609 KSP unpreconditioned resid norm 4.101080155739e+01 true resid norm 9.390981424719e+01 ||r(i)||/||b|| 2.678150404173e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+610 KSP unpreconditioned resid norm 3.943047552689e+01 true resid norm 9.416971884845e+01 ||r(i)||/||b|| 2.685562447509e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+611 KSP unpreconditioned resid norm 3.794751497916e+01 true resid norm 9.443737939258e+01 ||r(i)||/||b|| 2.693195677329e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+612 KSP unpreconditioned resid norm 3.661904716972e+01 true resid norm 9.469776165617e+01 ||r(i)||/||b|| 2.700621342794e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+613 KSP unpreconditioned resid norm 3.532687214154e+01 true resid norm 9.488207500315e+01 ||r(i)||/||b|| 2.705877650334e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+614 KSP unpreconditioned resid norm 3.410623775287e+01 true resid norm 9.509289365139e+01 ||r(i)||/||b|| 2.711889844613e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+615 KSP unpreconditioned resid norm 3.297706208573e+01 true resid norm 9.529240585508e+01 ||r(i)||/||b|| 2.717579598056e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+616 KSP unpreconditioned resid norm 3.192876531082e+01 true resid norm 9.545701017409e+01 ||r(i)||/||b|| 2.722273837173e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+617 KSP unpreconditioned resid norm 3.098606555170e+01 true resid norm 9.562914492015e+01 ||r(i)||/||b|| 2.727182831440e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+618 KSP unpreconditioned resid norm 2.998696542739e+01 true resid norm 9.576970068289e+01 ||r(i)||/||b|| 2.731191246064e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+619 KSP unpreconditioned resid norm 2.914600057376e+01 true resid norm 9.591983610400e+01 ||r(i)||/||b|| 2.735472856479e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+620 KSP unpreconditioned resid norm 2.828202388599e+01 true resid norm 9.605093756895e+01 ||r(i)||/||b|| 2.739211650386e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+621 KSP unpreconditioned resid norm 2.750778968551e+01 true resid norm 9.617361664336e+01 ||r(i)||/||b|| 2.742710251840e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+622 KSP unpreconditioned resid norm 2.676096747674e+01 true resid norm 9.628374530258e+01 ||r(i)||/||b|| 2.745850936502e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+623 KSP unpreconditioned resid norm 2.606180362043e+01 true resid norm 9.639288683119e+01 ||r(i)||/||b|| 2.748963469855e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+624 KSP unpreconditioned resid norm 2.538105356393e+01 true resid norm 9.649312367674e+01 ||r(i)||/||b|| 2.751822056580e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+625 KSP unpreconditioned resid norm 2.475055824470e+01 true resid norm 9.658047760524e+01 ||r(i)||/||b|| 2.754313244118e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+626 KSP unpreconditioned resid norm 2.416308730679e+01 true resid norm 9.667286133334e+01 ||r(i)||/||b|| 2.756947873105e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+627 KSP unpreconditioned resid norm 2.359281823269e+01 true resid norm 9.674425301298e+01 ||r(i)||/||b|| 2.758983844076e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+628 KSP unpreconditioned resid norm 2.306496081358e+01 true resid norm 9.682534863024e+01 ||r(i)||/||b|| 2.761296555073e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+629 KSP unpreconditioned resid norm 2.254775165875e+01 true resid norm 9.688868474702e+01 ||r(i)||/||b|| 2.763102794901e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+630 KSP unpreconditioned resid norm 2.206612992204e+01 true resid norm 9.696046479996e+01 ||r(i)||/||b|| 2.765149841627e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+631 KSP unpreconditioned resid norm 2.158984021274e+01 true resid norm 9.701523837236e+01 ||r(i)||/||b|| 2.766711892050e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+632 KSP unpreconditioned resid norm 2.114452256374e+01 true resid norm 9.708170595594e+01 ||r(i)||/||b|| 2.768607436059e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+633 KSP unpreconditioned resid norm 2.071118794366e+01 true resid norm 9.712864788290e+01 ||r(i)||/||b|| 2.769946141089e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+634 KSP unpreconditioned resid norm 2.030582989199e+01 true resid norm 9.718764281374e+01 ||r(i)||/||b|| 2.771628577575e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+635 KSP unpreconditioned resid norm 1.991444390441e+01 true resid norm 9.722945678486e+01 ||r(i)||/||b|| 2.772821041904e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+636 KSP unpreconditioned resid norm 1.954622856955e+01 true resid norm 9.727975186240e+01 ||r(i)||/||b|| 2.774255373164e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+637 KSP unpreconditioned resid norm 1.919219893145e+01 true resid norm 9.731838492009e+01 ||r(i)||/||b|| 2.775357123177e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+638 KSP unpreconditioned resid norm 1.885658677099e+01 true resid norm 9.736074211489e+01 ||r(i)||/||b|| 2.776565079335e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+639 KSP unpreconditioned resid norm 1.853430118752e+01 true resid norm 9.739669117212e+01 ||r(i)||/||b|| 2.777590286156e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+640 KSP unpreconditioned resid norm 1.822670250919e+01 true resid norm 9.743285670052e+01 ||r(i)||/||b|| 2.778621666372e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+641 KSP unpreconditioned resid norm 1.793162488061e+01 true resid norm 9.746600433323e+01 ||r(i)||/||b|| 2.779566981264e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+642 KSP unpreconditioned resid norm 1.764906293499e+01 true resid norm 9.749749160196e+01 ||r(i)||/||b|| 2.780464945361e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+643 KSP unpreconditioned resid norm 1.737821846492e+01 true resid norm 9.752767822553e+01 ||r(i)||/||b|| 2.781325817238e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+644 KSP unpreconditioned resid norm 1.711838317637e+01 true resid norm 9.755551191124e+01 ||r(i)||/||b|| 2.782119587274e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+645 KSP unpreconditioned resid norm 1.686919337634e+01 true resid norm 9.758279592029e+01 ||r(i)||/||b|| 2.782897681454e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+646 KSP unpreconditioned resid norm 1.662973061713e+01 true resid norm 9.760768516016e+01 ||r(i)||/||b|| 2.783607480832e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+647 KSP unpreconditioned resid norm 1.639978283517e+01 true resid norm 9.763228462550e+01 ||r(i)||/||b|| 2.784309016328e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+648 KSP unpreconditioned resid norm 1.617849777725e+01 true resid norm 9.765473794348e+01 ||r(i)||/||b|| 2.784949347300e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+649 KSP unpreconditioned resid norm 1.596570681227e+01 true resid norm 9.767691965182e+01 ||r(i)||/||b|| 2.785581932420e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+650 KSP unpreconditioned resid norm 1.576069606062e+01 true resid norm 9.769730505936e+01 ||r(i)||/||b|| 2.786163290054e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+651 KSP unpreconditioned resid norm 1.556327812859e+01 true resid norm 9.771733976742e+01 ||r(i)||/||b|| 2.786734646328e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+652 KSP unpreconditioned resid norm 1.537286891982e+01 true resid norm 9.773593120305e+01 ||r(i)||/||b|| 2.787264842892e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+653 KSP unpreconditioned resid norm 1.518924540475e+01 true resid norm 9.775408104230e+01 ||r(i)||/||b|| 2.787782445867e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+654 KSP unpreconditioned resid norm 1.501193176738e+01 true resid norm 9.777109284991e+01 ||r(i)||/||b|| 2.788267594090e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+655 KSP unpreconditioned resid norm 1.484068162470e+01 true resid norm 9.778760130507e+01 ||r(i)||/||b|| 2.788738387544e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+656 KSP unpreconditioned resid norm 1.467510725019e+01 true resid norm 9.780321029240e+01 ||r(i)||/||b|| 2.789183529685e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+657 KSP unpreconditioned resid norm 1.451495859625e+01 true resid norm 9.781829319772e+01 ||r(i)||/||b|| 2.789613668849e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+658 KSP unpreconditioned resid norm 1.435991771310e+01 true resid norm 9.783265134049e+01 ||r(i)||/||b|| 2.790023139000e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+659 KSP unpreconditioned resid norm 1.420974625125e+01 true resid norm 9.784649288326e+01 ||r(i)||/||b|| 2.790417876586e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+660 KSP unpreconditioned resid norm 1.406418016334e+01 true resid norm 9.785973390763e+01 ||r(i)||/||b|| 2.790795488394e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+661 KSP unpreconditioned resid norm 1.392300111022e+01 true resid norm 9.787248793845e+01 ||r(i)||/||b|| 2.791159211963e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+662 KSP unpreconditioned resid norm 1.378598630076e+01 true resid norm 9.788473040399e+01 ||r(i)||/||b|| 2.791508346548e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+663 KSP unpreconditioned resid norm 1.365294012263e+01 true resid norm 9.789652479569e+01 ||r(i)||/||b|| 2.791844702819e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+664 KSP unpreconditioned resid norm 1.352367169434e+01 true resid norm 9.790787361876e+01 ||r(i)||/||b|| 2.792168352219e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+665 KSP unpreconditioned resid norm 1.339800757892e+01 true resid norm 9.791881533899e+01 ||r(i)||/||b|| 2.792480391730e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+666 KSP unpreconditioned resid norm 1.327578217349e+01 true resid norm 9.792936290390e+01 ||r(i)||/||b|| 2.792781190591e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+667 KSP unpreconditioned resid norm 1.315684220154e+01 true resid norm 9.793954247017e+01 ||r(i)||/||b|| 2.793071494749e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+668 KSP unpreconditioned resid norm 1.304104263594e+01 true resid norm 9.794936979356e+01 ||r(i)||/||b|| 2.793351753531e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+669 KSP unpreconditioned resid norm 1.292824792959e+01 true resid norm 9.795886471702e+01 ||r(i)||/||b|| 2.793622532823e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+670 KSP unpreconditioned resid norm 1.281833018958e+01 true resid norm 9.796804272202e+01 ||r(i)||/||b|| 2.793884274133e-04
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
+[0] PCSetUp(): Leaving PC with identical preconditioner since operator is unchanged
