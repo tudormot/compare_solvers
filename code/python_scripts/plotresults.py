@@ -63,7 +63,7 @@ if __name__ == "__main__":
 
 
     #generate some better legend labels from command line input
-    legend_label = [x.replace('_', '').replace('petsc', '').replace('job','').replace('.out','').replace('results', '') for x in filenames]
+    legend_label = [x.replace('_', '').replace('petsc', '').replace('job','').replace('.out','').replace('results', '').split('/')[-1] for x in filenames]
 
     if sys.argv[2] == "--iterations":
         plt.figure(1)
