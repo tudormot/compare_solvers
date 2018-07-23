@@ -1,0 +1,84 @@
+/var/slurmd-mpp2/job635679/slurm_script: line 16: ./load_modules_mpp2cluster: Permission denied
+warning:seems as no solution array provided in input file(or err in read nsz vector)
+[0] PetscInitialize(): PETSc successfully started: number of processors = 1
+[0] PetscGetHostName(): Rejecting domainname, likely is NIS mpp2r08c06s01.
+[0] PetscInitialize(): Running on machine: mpp2r08c06s01
+[0] PetscCommDuplicate(): Duplicating a communicator 1140850688 -2080374784 max tags = 2147483647
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850688 -2080374784
+Timing of PETSc INIT1 0.151743
+[0] MatAssemblyEnd_SeqAIJ(): Matrix size: 3847164 X 3847164; storage space: 0 unneeded,435100862 used
+[0] MatAssemblyEnd_SeqAIJ(): Number of mallocs during MatSetValues() is 0
+[0] MatAssemblyEnd_SeqAIJ(): Maximum nonzeros in any row is 1032
+[0] MatCheckCompressedRow(): Found the ratio (num_zerorows 0)/(num_localrows 3847164) < 0.6. Do not use CompressedRow routines.
+[0] MatSeqAIJCheckInode(): Found 1282308 nodes of 3847164. Limit used: 5. Using Inode routines
+[0] VecAssemblyBegin_MPI_BTS(): Stash has 0 entries, uses 0 mallocs.
+[0] VecAssemblyBegin_MPI_BTS(): Block-Stash has 0 entries, uses 0 mallocs.
+[0] VecAssemblyBegin_MPI_BTS(): Stash has 0 entries, uses 0 mallocs.
+[0] VecAssemblyBegin_MPI_BTS(): Block-Stash has 0 entries, uses 0 mallocs.
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850688 -2080374784
+[0] PetscGetHostName(): Rejecting domainname, likely is NIS mpp2r08c06s01.
+[0] PCSetUp(): Setting up PC for first time
+[0] PetscCommDuplicate(): Duplicating a communicator 1140850689 -2080374783 max tags = 2147483647
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850689 -2080374783
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850689 -2080374783
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850689 -2080374783
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850689 -2080374783
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850689 -2080374783
+[0]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[0]PETSC ERROR: Out of memory. This could be due to allocating
+[0]PETSC ERROR: too large an object or bleeding by not properly
+[0]PETSC ERROR: destroying unneeded objects.
+[0]PETSC ERROR: Memory allocated 0 Memory used by process 27340251136
+[0]PETSC ERROR: Try running with -malloc_dump or -malloc_log for info.
+[0]PETSC ERROR: Memory requested 18446744065126717440
+[0]PETSC ERROR: See http://www.mcs.anl.gov/petsc/documentation/faq.html for trouble shooting.
+[0]PETSC ERROR: Petsc Release Version 3.9.1, Apr, 29, 2018 
+[0]PETSC ERROR: /home/hpc/pr63so/ga53lov2/timing_results_petsc.txt on a  named mpp2r08c06s01 by ga53lov2 Mon Jul 23 07:15:50 2018
+[0]PETSC ERROR: Configure options --with-clean=0 --prefix=/lrz/sys/libraries/petsc/3.9.1/Medium_Node/arch-linux-3-c-3.9.1-Medium_Node-real_mpi.intel_5.1_opt_gene --with-debugging=0 --with-valgrind-dir=/lrz/sys/tools/valgrind/3.10.0 --with-scalar-type=real --with-blaslapack-dir=/lrz/sys/intel/studio2017_u6/compilers_and_libraries_2017.6.256/linux/mkl PETSC_DIR=/lrz/noarch/src/petsc/petsc-3.9.1 PETSC_ARCH=arch-linux-3-c-3.9.1-Medium_Node-real_mpi.intel_5.1_opt_gene COPTFLAGS="-O3 -xHOST -pipe" CXXOPTFLAGS="-O3 -xHOST -pipe" FOPTFLAGS="-O3 -xHOST -pipe" --with-scalapack=1 --with-scalapack-lib="-L/lrz/sys/intel/studio2017_u6/compilers_and_libraries_2017.6.256/linux/mkl/lib/intel64 -Wl,-static -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64 -Wl,-dy" --known-level1-dcache-linesize=32 --known-level1-dcache-assoc=0 --known-memcmp-ok=1 --known-sizeof-char=1 --known-sizeof-void-p=8 --known-sizeof-short=2 --known-sizeof-int=4 --known-sizeof-long=8 --known-sizeof-long-long=8 --known-sizeof-float=4 --known-sizeof-double=8 --known-sizeof-size_t=8 --known-bits-per-byte=8 --known-sizeof-MPI_Comm=4 --known-sizeof-MPI_Fint=4 --known-mpi-long-double=1 --known-mpi-int64_t=1 --known-sdot-returns-double=0 --known-snrm2-returns-double=0 --known-has-attribute-aligned=1 --with-fortran --with-clanguage=cxx --known-mpi-shared-libraries=no --with-batch=0 --with-64-bit-pointers=1
+[0]PETSC ERROR: #1 MatILUFactorSymbolic_SeqAIJ() line 1784 in /lrz/mnt/sys.noarch/src/petsc/petsc-3.9.1/src/mat/impls/aij/seq/aijfact.c
+[0]PETSC ERROR: #2 PetscMallocA() line 390 in /lrz/mnt/sys.noarch/src/petsc/petsc-3.9.1/src/sys/memory/mal.c
+[0]PETSC ERROR: #3 MatILUFactorSymbolic_SeqAIJ() line 1784 in /lrz/mnt/sys.noarch/src/petsc/petsc-3.9.1/src/mat/impls/aij/seq/aijfact.c
+[0]PETSC ERROR: #4 MatILUFactorSymbolic() line 6522 in /lrz/mnt/sys.noarch/src/petsc/petsc-3.9.1/src/mat/interface/matrix.c
+[0]PETSC ERROR: #5 PCSetUp_ILU() line 144 in /lrz/mnt/sys.noarch/src/petsc/petsc-3.9.1/src/ksp/pc/impls/factor/ilu/ilu.c
+[0]PETSC ERROR: #6 PCSetUp() line 923 in /lrz/mnt/sys.noarch/src/petsc/petsc-3.9.1/src/ksp/pc/interface/precon.c
+[0]PETSC ERROR: Timing of PETSc INIT2 2261.31
+#7 KSPSetUp() line 381 in /lrz/mnt/sys.noarch/src/petsc/petsc-3.9.1/src/ksp/ksp/interface/itfunc.c
+[0]PETSC ERROR: #8 PETSc_solver() line 261 in petsc_solver.cpp
+KSP Object: 1 MPI processes
+  type: gmres
+    restart=500, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+    happy breakdown tolerance 1e-30
+  maximum iterations=2000, initial guess is zero
+  tolerances:  relative=1e-08, absolute=1e-50, divergence=10000.
+  right preconditioning
+  using UNPRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: ilu
+  PC has not been set up so information may be incomplete
+    out-of-place factorization
+    2 levels of fill
+    tolerance for zero pivot 2.22045e-14
+    matrix ordering: qmd
+    factor fill ratio given 0., needed 0.
+      Factored matrix follows:
+[0]PETSC ERROR: --------------------- Error Message --------------------------------------------------------------
+[0]PETSC ERROR: Operation done in wrong order
+[0]PETSC ERROR: Must call MatAssemblyBegin/End() before viewing matrix
+[0]PETSC ERROR: See http://www.mcs.anl.gov/petsc/documentation/faq.html for trouble shooting.
+[0]PETSC ERROR: Petsc Release Version 3.9.1, Apr, 29, 2018 
+[0]PETSC ERROR: /home/hpc/pr63so/ga53lov2/timing_results_petsc.txt on a  named mpp2r08c06s01 by ga53lov2 Mon Jul 23 07:15:50 2018
+[0]PETSC ERROR: Configure options --with-clean=0 --prefix=/lrz/sys/libraries/petsc/3.9.1/Medium_Node/arch-linux-3-c-3.9.1-Medium_Node-real_mpi.intel_5.1_opt_gene --with-debugging=0 --with-valgrind-dir=/lrz/sys/tools/valgrind/3.10.0 --with-scalar-type=real --with-blaslapack-dir=/lrz/sys/intel/studio2017_u6/compilers_and_libraries_2017.6.256/linux/mkl PETSC_DIR=/lrz/noarch/src/petsc/petsc-3.9.1 PETSC_ARCH=arch-linux-3-c-3.9.1-Medium_Node-real_mpi.intel_5.1_opt_gene COPTFLAGS="-O3 -xHOST -pipe" CXXOPTFLAGS="-O3 -xHOST -pipe" FOPTFLAGS="-O3 -xHOST -pipe" --with-scalapack=1 --with-scalapack-lib="-L/lrz/sys/intel/studio2017_u6/compilers_and_libraries_2017.6.256/linux/mkl/lib/intel64 -Wl,-static -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64 -Wl,-dy" --known-level1-dcache-linesize=32 --known-level1-dcache-assoc=0 --known-memcmp-ok=1 --known-sizeof-char=1 --known-sizeof-void-p=8 --known-sizeof-short=2 --known-sizeof-int=4 --known-sizeof-long=8 --known-sizeof-long-long=8 --known-sizeof-float=4 --known-sizeof-double=8 --known-sizeof-size_t=8 --known-bits-per-byte=8 --known-sizeof-MPI_Comm=4 --known-sizeof-MPI_Fint=4 --known-mpi-long-double=1 --known-mpi-int64_t=1 --known-sdot-returns-double=0 --known-snrm2-returns-double=0 --known-has-attribute-aligned=1 --with-fortran --with-clanguage=cxx --known-mpi-shared-libraries=no --with-batch=0 --with-64-bit-pointers=1
+[0]PETSC ERROR: #9 MatView() line 985 in /lrz/mnt/sys.noarch/src/petsc/petsc-3.9.1/src/mat/interface/matrix.c
+[0]PETSC ERROR: #10 PCView_Factor() line 325 in /lrz/mnt/sys.noarch/src/petsc/petsc-3.9.1/src/ksp/pc/impls/factor/factimpl.c
+[0]PETSC ERROR: #11 PCView_ILU() line 78 in /lrz/mnt/sys.noarch/src/petsc/petsc-3.9.1/src/ksp/pc/impls/factor/ilu/ilu.c
+[0]PETSC ERROR: #12 PCView() line 1644 in /lrz/mnt/sys.noarch/src/petsc/petsc-3.9.1/src/ksp/pc/interface/precon.c
+[0]PETSC ERROR: #13 KSPView() line 217 in /lrz/mnt/sys.noarch/src/petsc/petsc-3.9.1/src/ksp/ksp/interface/itcreate.c
+[0]PETSC ERROR: #14 PetscObjectView() line 100 in /lrz/mnt/sys.noarch/src/petsc/petsc-3.9.1/src/sys/objects/destroy.c
+[0]PETSC ERROR: #15 PetscObjectViewFromOptions() line 2792 in /lrz/mnt/sys.noarch/src/petsc/petsc-3.9.1/src/sys/objects/options.c
+[0]PETSC ERROR: #16 KSPSolve() line 585 in /lrz/mnt/sys.noarch/src/petsc/petsc-3.9.1/src/ksp/ksp/interface/itfunc.c
+[0]PETSC ERROR: #17 solve_sys() line 16 in petsc_solver.cpp
+[0] PetscFinalize(): PetscFinalize() called
+[0] PetscCommDuplicate(): Using internal PETSc communicator 1140850688 -2080374784
+        Summary of Memory Usage in PETSc
+        Maximum (over computational time) process memory:        total 2.2966e+10 max 2.2966e+10 min 2.2966e+10
+        Current process memory:                                  total 1.7499e+10 max 1.7499e+10 min 1.7499e+10
