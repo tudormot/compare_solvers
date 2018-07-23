@@ -1,0 +1,6 @@
+INFO(petsc/3.9.1_gene): invoking mpi.intel version for Medium_Node.
+[0] DAPL startup: RLIMIT_MEMLOCK too small
+warning:seems as no solution array provided in input file(or err in read nsz vector)
+Timing of PETSc INIT1 0.0326781
+WARNING: using a PETSc matrix storage for non-symmetric matrices on a symmetric matrix. Wasting space and solving possibly slower
+/var/slurmd-serial/job7581951/slurm_script: line 29:  1840 Killed                  ./time_solvers --solve-with-PETSc ${inputfile_path} ${outputfile_path} -mat_type seqaij -pc_type ilu -pc_factor_levels 2 -ksp_type gmres -ksp_gmres_restart 500 -ksp_max_it 4000 -ksp_converged_reason -ksp_monitor_true_residual -ksp_view_pre -ksp_view -ksp_norm_type preconditioned -ksp_rtol 1e-8

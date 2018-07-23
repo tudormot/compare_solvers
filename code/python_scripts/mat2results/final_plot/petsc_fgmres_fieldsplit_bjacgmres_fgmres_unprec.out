@@ -1,0 +1,110 @@
+/var/slurmd-mpp2/job635344/slurm_script: line 16: ./load_modules_mpp2cluster: Permission denied
+warning:seems as no solution array provided in input file(or err in read nsz vector)
+Timing of PETSc INIT1 0.0140021
+Timing of PETSc INIT2 5.6769
+KSP Object: 1 MPI processes
+  type: fgmres
+    restart=30, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+    happy breakdown tolerance 1e-30
+  maximum iterations=2000, initial guess is zero
+  tolerances:  relative=1e-08, absolute=1e-50, divergence=10000.
+  right preconditioning
+  using UNPRECONDITIONED norm type for convergence test
+PC Object: 1 MPI processes
+  type: fieldsplit
+    FieldSplit with Schur preconditioner, blocksize = 1, factorization UPPER
+    Preconditioner for the Schur complement formed from S itself
+    Split info:
+    Split number 0 Defined by IS
+    Split number 1 Defined by IS
+    KSP solver for A00 block
+  KSP Object: (fieldsplit_0_) 1 MPI processes
+    type: gmres
+      restart=30, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+      happy breakdown tolerance 1e-30
+    maximum iterations=10000, initial guess is zero
+    tolerances:  relative=1e-05, absolute=1e-50, divergence=10000.
+    left preconditioning
+    using DEFAULT norm type for convergence test
+  PC Object: (fieldsplit_0_) 1 MPI processes
+    type: bjacobi
+    PC has not been set up so information may be incomplete
+      number of blocks = -1
+      Local solve is same for all blocks, in the following KSP and PC objects:
+    linear system matrix = precond matrix:
+    Mat Object: (fieldsplit_0_) 1 MPI processes
+      type: seqaij
+      rows=779600, cols=779600
+      total: nonzeros=119816326, allocated nonzeros=119816326
+      total number of mallocs used during MatSetValues calls =0
+        using I-node routines: found 260321 nodes, limit used is 5
+    KSP solver for S = A11 - A10 inv(A00) A01 
+  KSP Object: (fieldsplit_1_) 1 MPI processes
+    type: gmres
+      restart=30, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+      happy breakdown tolerance 1e-30
+    maximum iterations=10000, initial guess is zero
+    tolerances:  relative=1e-05, absolute=1e-50, divergence=10000.
+    left preconditioning
+    using DEFAULT norm type for convergence test
+  PC Object: (fieldsplit_1_) 1 MPI processes
+    type: bjacobi
+    PC has not been set up so information may be incomplete
+      number of blocks = -1
+      Local solve is same for all blocks, in the following KSP and PC objects:
+    linear system matrix = precond matrix:
+    Mat Object: (fieldsplit_1_) 1 MPI processes
+      type: schurcomplement
+      rows=0, cols=0
+        Schur complement A11 - A10 inv(A00) A01
+        A11
+          Mat Object: (fieldsplit_1_) 1 MPI processes
+            type: seqaij
+            rows=0, cols=0
+            total: nonzeros=0, allocated nonzeros=0
+            total number of mallocs used during MatSetValues calls =0
+              not using I-node routines
+        A10
+          Mat Object: 1 MPI processes
+            type: seqaij
+            rows=0, cols=779600
+            total: nonzeros=0, allocated nonzeros=0
+            total number of mallocs used during MatSetValues calls =0
+              not using I-node routines
+        KSP of A00
+  KSP Object: (fieldsplit_0_) 1 MPI processes
+    type: gmres
+      restart=30, using Classical (unmodified) Gram-Schmidt Orthogonalization with no iterative refinement
+      happy breakdown tolerance 1e-30
+    maximum iterations=10000, initial guess is zero
+    tolerances:  relative=1e-05, absolute=1e-50, divergence=10000.
+    left preconditioning
+    using DEFAULT norm type for convergence test
+  PC Object: (fieldsplit_0_) 1 MPI processes
+    type: bjacobi
+    PC has not been set up so information may be incomplete
+      number of blocks = -1
+      Local solve is same for all blocks, in the following KSP and PC objects:
+    linear system matrix = precond matrix:
+    Mat Object: (fieldsplit_0_) 1 MPI processes
+      type: seqaij
+      rows=779600, cols=779600
+      total: nonzeros=119816326, allocated nonzeros=119816326
+      total number of mallocs used during MatSetValues calls =0
+        using I-node routines: found 260321 nodes, limit used is 5
+        A01
+          Mat Object: 1 MPI processes
+            type: seqaij
+            rows=779600, cols=0
+            total: nonzeros=0, allocated nonzeros=0
+            total number of mallocs used during MatSetValues calls =0
+              using I-node routines: found 155920 nodes, limit used is 5
+  linear system matrix = precond matrix:
+  Mat Object: 1 MPI processes
+    type: seqaij
+    rows=779600, cols=779600
+    total: nonzeros=119816326, allocated nonzeros=119816326
+    total number of mallocs used during MatSetValues calls =0
+      using I-node routines: found 260321 nodes, limit used is 5
+  0 KSP unpreconditioned resid norm 1.732173474477e+02 true resid norm 1.732173474477e+02 ||r(i)||/||b|| 1.000000000000e+00
+  1 KSP unpreconditioned resid norm 2.315676273655e+01 true resid norm 2.315676273655e+01 ||r(i)||/||b|| 1.336861641040e-01
