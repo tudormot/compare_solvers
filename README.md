@@ -26,6 +26,7 @@
    If dependencies were installed sucessfully and makefile was modified such that the 4 variables are correct to build use :
    
    cd src
+   
    make release
    
    The compiled program should be the output, named "time_solvers"
