@@ -11,6 +11,13 @@ import matplotlib.pyplot as plt
 ##          this parameter only matter if script called with --time option
 ##next args should be the files
 
+def isfloat(value):
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False
+
 if __name__ == "__main__":
 
     #quick check to see if args are correct
@@ -41,7 +48,7 @@ if __name__ == "__main__":
             #print "file number is "+ str(file_number)
         l = line.split()
         #print l
-        if l and l[0][0].isdigit() and l[1] == 'KSP' and no_iterations[file_number] <10000:
+        if l and len(l)>2 and l[0][0].isdigit() and l[1] == 'KSP' and no_iterations[file_number] <10000:
             #print l
             iter_number[file_number][no_iterations[file_number]] = int(l[0])
             prec_residual[file_number][no_iterations[file_number]] = float(l[5])
@@ -49,11 +56,11 @@ if __name__ == "__main__":
             true_tolerance[file_number][no_iterations[file_number]] = float (l[11])
             no_iterations[file_number] = no_iterations[file_number] + 1
             #print no_iterations[file_number]
-        if l and l[0] == 'Timing':
-            if l[4] == 'routine':
+        if l and len(l)>2 and l[0] == 'Timing':
+            if l[4] == 'routine' and isfloat(l[5]):
                 petsc_ksp_time[file_number] = petsc_ksp_time[file_number] + float(l[5])
                 last_token_found[file_number] = True
-            else:
+            elif isfloat(l[4]):
                 petsc_setup_time[file_number] = petsc_setup_time[file_number] + float(l[4])
 
     #determine file which had the least number of iterations completed:
@@ -63,53 +70,55 @@ if __name__ == "__main__":
 
 
     #generate some better legend labels from command line input
-    legend_label = [x.replace('_', '').replace('petsc', '').replace('job','').replace('.out','').replace('results', '').split('/')[-1] for x in filenames]
+    legend_label = [x.replace('petsc', '').replace('500','').replace('job','').replace('.out','').replace('results', '').replace('/_','/').split('/')[-1] for x in filenames] #.split('/')[-1]
 
     if sys.argv[2] == "--iterations":
         plt.figure(1)
         for i in xrange(no_files):
-            plt.plot(iter_number[i][0:no_iterations[i]:5],true_tolerance[i][0:no_iterations[i]:5],label=legend_label[i])
+            if no_iterations[i] < 10:
+                print "No iterations smaller than 10 in input file " + str(filenames[i])
+            else:
+                plt.plot(iter_number[i][0:no_iterations[i]:5],true_tolerance[i][0:no_iterations[i]:5],label=legend_label[i],linewidth=3.0)
+                print str(legend_label[i])
         plt.xlabel('Iteration Number')
         plt.ylabel('||r(i)||/||b||')
         plt.title(str(sys.argv[1])+"true tolerance")
         plt.grid(True)
         plt.xscale('log')
         plt.yscale('log')
-        plt.legend(loc='best' )
+        plt.legend(loc='best',prop={'size': 12} ) #
+        font = {'family' : 'normal',
+        'weight' : 'bold',
+        'size'   : 16}
+        plt.rc('font', **font)
+
     elif sys.argv[2] == '--time':
+        timing_estimation = 3400*5  #in case job timed out , we are using the timing estimation of the last results to get some timings..
         plt.figure(1)
         for i in xrange(no_files):
-            if last_token_found[i] is False:
-                print "Error: Timing of KSP routine not found in input file: " +str(filenames[i])
-                print "Can't plot timing data for this file"
+            if no_iterations[i] < 10:
+                print "No iterations smaller than 10 in input file " + str(filenames[i])
+                print "Not plotting this file.."
+            elif last_token_found[i] is False:
+                print "Warning: Timing of KSP routine not found in input file: " +str(filenames[i])
+                print "Using job cancel estimation of 5h"
                 print "Did the program terminate early (due to cancel?)"
+                time_per_iteration = (timing_estimation - petsc_setup_time[i])/no_iterations[i]
+                plt.plot([x * time_per_iteration + petsc_setup_time[i] for x in iter_number[i][0:no_iterations[i]:5]],true_tolerance[i][0:no_iterations[i]:5],label=legend_label[i],linewidth=3.0)
             else:
                 time_per_iteration = petsc_ksp_time[i]/no_iterations[i]
-                plt.plot([x * time_per_iteration + petsc_setup_time[i] for x in iter_number[i][0:no_iterations[i]:5]],true_tolerance[i][0:no_iterations[i]:5],label=legend_label[i])
+                plt.plot([x * time_per_iteration + petsc_setup_time[i] for x in iter_number[i][0:no_iterations[i]:5]],true_tolerance[i][0:no_iterations[i]:5],label=legend_label[i],linewidth=3.0)
         plt.axvline(x=float(sys.argv[3]), color='k', label='pardiso timing') #this introduces a vertical line to show pardiso time
         plt.xlabel('Time (s)')
         plt.ylabel('||r(i)||/||b||')
         plt.title(str(sys.argv[1])+"true tolerance")
         plt.grid(True)
-        plt.xscale('log')
+        #plt.xscale('log')
         plt.yscale('log')
-        plt.legend(loc='best' )
-
-    #plt.legend(legend_label,) #loc='upper left'
-
-
-    #plt.figure(2)
-    #for i in xrange(no_files):
-    #    plt.plot(iter_number[i][0:min_iterations:5],true_residual[i][0:min_iterations:5]);
-    #for i in xrange(no_files):
-    #    pass
-    #    plt.plot(iter_number[i][0:min_iterations:5],prec_residual[i][0:min_iterations:5]);
-
-    #plt.xscale('log')
-    #plt.xlabel('Iteration Numbe')
-    #plt.ylabel('norm of residual')
-    #plt.title(str(sys.argv[1])+"comparison between true and preconditioned residual")
-    #plt.grid(True)
-    #plt.legend([s + "_true_residual" for s in sys.argv[2:]] +[s + "_prec_residual" for s in sys.argv[2:]])
+        plt.legend(loc='best' ,prop={'size': 12})
+        font = {'family' : 'normal',
+        'weight' : 'bold',
+        'size'   : 16}
+        plt.rc('font', **font)
 
     plt.show()
