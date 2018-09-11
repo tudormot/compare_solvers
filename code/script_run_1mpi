@@ -14,16 +14,12 @@ touch ${outputfile_path}
 
 mpiexec.hydra -n 1 ./${exec_name}  $1 ${inputfile_path} ${outputfile_path} -mat_type seqaij   \
 \
--pc_type fieldsplit -pc_fieldsplit_type schur -pc_fieldsplit_detect_saddle_point -pc_fieldsplit_schur_precondition a11 \
--fieldsplit_0_ksp_type preonly -fieldsplit_0_pc_type ilu -fieldsplit_0_pc_factor_levels 1 -fieldsplit_0_pc_factor_fill 2 \
--fieldsplit_0_ksp_monitor_true_residual -fieldsplit_0_ksp_rtol 1e-3\
--fieldsplit_1_ksp_type preonly -fieldsplit_1_pc_type ilu -fieldsplit_1_pc_factor_levels 1 -fieldsplit_1_pc_factor_fill 2 \
--fieldsplit_1_ksp_monitor_true_residual -fieldsplit_1_ksp_rtol 1e-3\
+-pc_type jacobi \
 \
 -ksp_type fgmres \
 -ksp_monitor_true_residual  -ksp_view_pre -ksp_view -ksp_converged_reason \
 \
--ksp_norm_type unpreconditioned -ksp_rtol 1e-8 -info -memory_view
+-ksp_norm_type unpreconditioned -ksp_rtol 1e-8
 
 #-pc_type fieldsplit -pc_fieldsplit_type schur -pc_fieldsplit_detect_saddle_point
 #-fieldsplit_1_ksp_type preonly -fieldsplit_1_pc_type lsc

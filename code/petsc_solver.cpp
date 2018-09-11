@@ -7,20 +7,224 @@
 #include "timer.h"
 #include "testing.h"
 
-int PETSc_solver::solve_sys(linear_sys& sys)
+void PETSc_solver::use_petsc_prec(linear_sys& sys)
 {
+	parallel_timer timer2("Timing of PETSc INIT2", sys.node_rank);
+	timer2.start(sys.node_rank);
+
+	//now the solver part:
+	ierr = KSPCreate(PETSC_COMM_WORLD, &ksp);
+	CHKERRCONTINUE(ierr);
+
+	ierr = KSPSetOperators(ksp, A, A);
+	CHKERRCONTINUE(ierr);
+
+	ierr = KSPSetFromOptions(ksp); //command line arguments required
+	CHKERRCONTINUE(ierr);
+
+	ierr = KSPSetUp(ksp);
+	CHKERRCONTINUE(ierr);
+	timer2.stop(sys.node_rank);
+	timer2.display_result(sys.node_rank);
+
 	//solve, with timing
-	parallel_timer timer("Timing of PETSc KSPSolve routine", sys.node_rank);
-	timer.start(sys.node_rank);
+	parallel_timer timer3("Timing of PETSc KSPSolve routine", sys.node_rank);
+	timer3.start(sys.node_rank);
 	ierr = KSPSolve(ksp, b, x);
-	CHKERRQ(ierr);
-	timer.stop(sys.node_rank);
-	timer.display_result(sys.node_rank);
+	CHKERRCONTINUE(ierr);
+	timer3.stop(sys.node_rank);
+	timer3.display_result(sys.node_rank);
 
 	this->check_petsc_solution_alternative(sys);
-	//(void) (check_petsc_solution(sys)); old code
 
-	print_ksp_info(sys,timer.get_time(sys.node_rank));
+	print_ksp_info(sys,timer3.get_time(sys.node_rank));
+}
+
+/*this function applies a custom written symmetric jacobian preconditioner*/
+void PETSc_solver::use_custom_jacobi_prec(linear_sys& sys)
+{
+
+	Mat  sqrt_D;           //diagonal matrix containing theinverse of the square roots of the diagonal elems of A
+	Mat  sqrt_D_inv;       //diagonal matrix sqrt_D = (sqrt_D)^-1
+	Mat  B;				   //B= sqrt_D*A*sqrt_D
+	Vec  y;                //new solution, y = (sqrt_D)^-1 *x
+	Vec  c;                //new RHS, c = sqrt_D *b
+
+	//basic initialization of required vectors and matrices:
+	std::cout<<"DEBUG1\n";
+	ierr = MatCreate(PETSC_COMM_WORLD, &B);
+	CHKERRCONTINUE(ierr);
+
+	ierr = MatSetFromOptions(B);
+	CHKERRCONTINUE(ierr);
+
+	ierr = MatSetSizes(B, nlocal, nlocal, sys.mat_dim, sys.mat_dim);
+	CHKERRCONTINUE(ierr);
+
+	ierr = MatCreate(PETSC_COMM_WORLD, &sqrt_D);
+	CHKERRCONTINUE(ierr);
+
+	std::cout<<"DEBUG2\n";
+
+	ierr = MatSetFromOptions(sqrt_D);
+	CHKERRCONTINUE(ierr);
+
+	ierr = MatSetSizes(sqrt_D, nlocal, nlocal, sys.mat_dim, sys.mat_dim);
+	CHKERRCONTINUE(ierr);
+
+	ierr = VecCreateMPI(PETSC_COMM_WORLD, PETSC_DECIDE, sys.mat_dim, &y);
+	CHKERRCONTINUE(ierr);
+
+	ierr = VecDuplicate(y, &c);
+	CHKERRCONTINUE(ierr);
+
+	std::cout<<"DEBUG3\n";
+
+	std::cout<<"DEBUG. Size of sys.diag is "<<sys.diag.size()<<std::endl;
+
+	//assemble sqrt_D.first preallocate memory
+	if(sys.no_of_nodes >1)
+	{
+		ierr = MatMPIAIJSetPreallocation(sqrt_D,1,NULL,0,NULL);
+	}
+	else
+	{
+		ierr =  MatSeqAIJSetPreallocation(sqrt_D,1,NULL);
+	}
+	CHKERRCONTINUE(ierr);
+
+	if(sys.node_rank == 0)
+	{
+		for(int i = 0; i <sys.mat_dim;i++)
+		{
+			PetscScalar temp = sqrt(1/sys.diag[i]);
+			ierr = MatSetValues(sqrt_D, 1, &i, 1, &i,
+								&temp, ADD_VALUES);
+			CHKERRCONTINUE(ierr);
+		}
+	}
+	ierr = MatAssemblyBegin(sqrt_D, MAT_FINAL_ASSEMBLY);
+	CHKERRCONTINUE(ierr);
+	ierr = MatAssemblyEnd(sqrt_D, MAT_FINAL_ASSEMBLY);
+	CHKERRCONTINUE(ierr);
+
+	std::cout<<"DEBUG4\n";
+
+	//create sqrt_D_inv
+	ierr = MatDuplicate(sqrt_D,MAT_DO_NOT_COPY_VALUES, &sqrt_D_inv);
+	CHKERRCONTINUE(ierr);
+
+	if(sys.node_rank == 0)
+	{
+		for(int i = 0; i <sys.mat_dim;i++)
+		{
+			PetscScalar temp = sqrt(sys.diag[i]);
+			ierr = MatSetValues(sqrt_D_inv, 1, &i, 1, &i,
+								&temp, INSERT_VALUES);
+			CHKERRCONTINUE(ierr);
+		}
+	}
+
+	ierr = MatAssemblyBegin(sqrt_D_inv, MAT_FINAL_ASSEMBLY);
+	CHKERRCONTINUE(ierr);
+	ierr = MatAssemblyEnd(sqrt_D_inv, MAT_FINAL_ASSEMBLY);
+	CHKERRCONTINUE(ierr);
+
+	//create matrix B
+	//TODO, this matrix creation is...blaming PETSc documentation
+	ierr = MatMatMult(A,sqrt_D,MAT_INITIAL_MATRIX,PETSC_DEFAULT,&B);
+	CHKERRCONTINUE(ierr);
+	ierr = MatMatMult(sqrt_D,B,MAT_INITIAL_MATRIX,PETSC_DEFAULT,&B);
+	CHKERRCONTINUE(ierr);
+
+	//create vector c (new RHS)
+	ierr = MatMult(sqrt_D,b,c);
+	CHKERRCONTINUE(ierr);
+
+
+	parallel_timer timer2("Timing of PETSc INIT2", sys.node_rank);
+	timer2.start(sys.node_rank);
+
+	//now the solver part:
+	ierr = KSPCreate(PETSC_COMM_WORLD, &ksp);
+	CHKERRCONTINUE(ierr);
+
+	std::cout<<"DEBUG5\n";
+	ierr = KSPSetOperators(ksp, B, B);
+	CHKERRCONTINUE(ierr);
+
+	ierr = KSPSetFromOptions(ksp); //command line arguments required
+	CHKERRCONTINUE(ierr);
+
+	ierr = KSPSetUp(ksp);
+	CHKERRCONTINUE(ierr);
+	timer2.stop(sys.node_rank);
+	timer2.display_result(sys.node_rank);
+
+	std::cout<<"DEBUG6\n";
+
+	//solve, with timing
+	parallel_timer timer3("Timing of PETSc KSPSolve routine", sys.node_rank);
+	timer3.start(sys.node_rank);
+	ierr = KSPSolve(ksp, c, y);
+	CHKERRCONTINUE(ierr);
+
+	timer3.stop(sys.node_rank);
+	timer3.display_result(sys.node_rank);
+
+	std::cout<<"DEBUG7\n";
+
+	//at this point we have solved only for y. We need to get the real solution by y = (sqrt_D)^-1 *x
+	ierr = MatMult(sqrt_D,y,x);
+	CHKERRCONTINUE(ierr);
+
+	//at this point solution stored in vector x
+	this->check_petsc_solution_alternative(sys);
+
+	print_ksp_info(sys,timer3.get_time(sys.node_rank));
+
+
+	//delete all petsc objects initialised in this function:
+	VecDestroy(&y);
+	VecDestroy(&c);
+	MatDestroy(&B);
+	MatDestroy(&sqrt_D);
+	MatDestroy(&sqrt_D_inv);
+
+
+}
+
+int PETSc_solver::solve_sys(linear_sys& sys)
+{
+	//must check whether a PETSc preconditioner needs to be used or the custom jacobi preconitioner
+	//this decision is based on a command line argument
+	PetscBool is_symmetric_jacobi;
+	PetscBool is_petsc_prec_specified;
+	ierr = PetscOptionsHasName(NULL,NULL,"-symmetric_jacobi",&is_symmetric_jacobi);
+	if(is_symmetric_jacobi)
+	{
+		//check that no petsc precondtionioner was set as well..
+		char prec_name[50];
+		ierr = PetscOptionsGetString(NULL,NULL,"-pc_type",prec_name,49,&is_petsc_prec_specified);
+		if(is_petsc_prec_specified && static_cast<std::string>(prec_name) == "none")
+		{
+			std::cout<<"debug custom jacobi\n";
+					use_custom_jacobi_prec(sys);
+		}
+		else
+		{
+			std::cout<<"ERROR! wrong command line options:"
+					" both a petsc preconditioner and the custom preconditioner were set\n";
+
+		}
+
+
+	}
+	else
+	{
+		use_petsc_prec(sys);
+	}
+
 
 	return true; //dummy return for the time being
 }
@@ -188,8 +392,7 @@ PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv,
 	}
 	//now assembly , on all processors
 
-	parallel_timer timer2("Timing of PETSc INIT2", input_sys.node_rank);
-	timer2.start(input_sys.node_rank);
+
 	MatAssemblyBegin(A, MAT_FINAL_ASSEMBLY);
 	MatAssemblyEnd(A, MAT_FINAL_ASSEMBLY);
 	VecAssemblyBegin(b);
@@ -198,69 +401,7 @@ PETSc_solver::PETSc_solver(int& main_argc, char**& main_argv,
 	VecAssemblyEnd(x);
 
 
-	//now the solver part:
-	ierr = KSPCreate(PETSC_COMM_WORLD, &ksp);
-	CHKERRCONTINUE(ierr);
 
-#if 0 //WIP concerning LSQR, a segmentation fault in matmatmult for i mpi process and I don't know why
-	/*WIP new code:*/
-	char solver_name[100];// solver name should be less that 100 chars
-	PetscBool is_ksp_set;
-
-
-	ierr = PetscOptionsGetString(NULL,NULL,"-ksp_type",solver_name,100,&is_ksp_set);
-	CHKERRCONTINUE(ierr);
-
-	printf("debug7\n");
-	if(is_ksp_set != PETSC_TRUE)
-	{
-		if(input_sys.node_rank == 0)
-		{
-			printf("Error in petsc setup. KSP solver was not specified from command line\n");
-			//throw;
-		}
-	}
-	else
-	{
-		printf("debug9\n");
-		if(strcmp("lsqr",solver_name) == 0) //if solver name is lsqr
-		{
-			printf("debug10\n");
-			//we need to set the preconditioning matrix to A*A'
-			Mat precond_mat;
-			ierr = MatCreate(PETSC_COMM_WORLD, &precond_mat);
-			CHKERRCONTINUE(ierr);
-			printf("debug14\n");
-			ierr = MatMatMult(A,A,MAT_INITIAL_MATRIX,PETSC_DEFAULT,&precond_mat);
-			printf("debug11\n");
-			CHKERRCONTINUE(ierr);
-			ierr = KSPSetOperators(ksp, A, precond_mat);
-			CHKERRCONTINUE(ierr);
-			printf("debug12\n");
-		}
-		else
-		{
-			printf("debug13\n");
-			ierr = KSPSetOperators(ksp, A, A);
-			CHKERRCONTINUE(ierr);
-		}
-	}
-
-
-
-	/**/
-#endif
-
-	ierr = KSPSetOperators(ksp, A, A);
-	CHKERRCONTINUE(ierr);
-
-	ierr = KSPSetFromOptions(ksp); //command line arguments required
-	CHKERRCONTINUE(ierr);
-
-	ierr = KSPSetUp(ksp);
-	CHKERRCONTINUE(ierr);
-	timer2.stop(input_sys.node_rank);
-	timer2.display_result(input_sys.node_rank);
 
 }
 /*checks solution stored in the petsc parallel vector structure by performing a gather operation towards node0, where
@@ -462,7 +603,7 @@ PetscErrorCode PETSc_solver::mat_preallocate_mem_MPIAIJ(linear_sys& sys)
 	if(sys.is_asymmetric == false)
 	{
 		std::cout<<"WARNING: using a PETSc matrix storage for non-symmetric matrices on a"
-				" symmetric matrix. Wasting space and solving possibly slower\n";
+				"symmetric matrix. Wasting space and solving possibly slower\n";
 
 	}
 	PetscInt local_preallocation_recv_buffer_MPIAIJ[nlocal][2];
@@ -704,5 +845,4 @@ void PETSc_solver::check_petsc_solution_alternative(linear_sys &sys)
 	}
 
 	VecDestroy(&sol);
-
 }

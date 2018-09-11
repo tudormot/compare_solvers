@@ -29,6 +29,9 @@ private:
 
     void print_ksp_info(linear_sys& input_sys, PetscScalar time);
 
+    void use_petsc_prec(linear_sys& sys);
+    void use_custom_jacobi_prec(linear_sys& sys);
+
 
 public:
 

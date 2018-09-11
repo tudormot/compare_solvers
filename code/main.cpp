@@ -39,8 +39,8 @@ int main(int argc, char *argv[]) {
 		int argc_petsc = argc - 3;
 		char ** argv_petsc = argv + 3;
 		PETSc_solver petsc_solve(argc_petsc, argv_petsc, lin_sys); //ignore the first 2 command line arguments, they are used for non PETSc stuff
-		lin_sys.release_mem_mat();
 		petsc_solve.solve_sys(lin_sys);
+		lin_sys.release_mem_mat();
 		petsc_solve.print_sol_to_file(lin_sys, out_filename);
 
 	} else if (std::string(argv[1]) == "--solve-with-both") {
