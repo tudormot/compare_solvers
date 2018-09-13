@@ -45,7 +45,6 @@ void PETSc_solver::use_custom_jacobi_prec(linear_sys& sys)
 {
 
 	Mat  sqrt_D;           //diagonal matrix containing theinverse of the square roots of the diagonal elems of A
-	Mat  sqrt_D_inv;       //diagonal matrix sqrt_D = (sqrt_D)^-1
 	Mat  B;				   //B= sqrt_D*A*sqrt_D
 	Vec  y;                //new solution, y = (sqrt_D)^-1 *x
 	Vec  c;                //new RHS, c = sqrt_D *b
@@ -64,8 +63,6 @@ void PETSc_solver::use_custom_jacobi_prec(linear_sys& sys)
 	ierr = MatCreate(PETSC_COMM_WORLD, &sqrt_D);
 	CHKERRCONTINUE(ierr);
 
-	std::cout<<"DEBUG2\n";
-
 	ierr = MatSetFromOptions(sqrt_D);
 	CHKERRCONTINUE(ierr);
 
@@ -78,9 +75,6 @@ void PETSc_solver::use_custom_jacobi_prec(linear_sys& sys)
 	ierr = VecDuplicate(y, &c);
 	CHKERRCONTINUE(ierr);
 
-	std::cout<<"DEBUG3\n";
-
-	std::cout<<"DEBUG. Size of sys.diag is "<<sys.diag.size()<<std::endl;
 
 	//assemble sqrt_D.first preallocate memory
 	if(sys.no_of_nodes >1)
@@ -108,27 +102,6 @@ void PETSc_solver::use_custom_jacobi_prec(linear_sys& sys)
 	ierr = MatAssemblyEnd(sqrt_D, MAT_FINAL_ASSEMBLY);
 	CHKERRCONTINUE(ierr);
 
-	std::cout<<"DEBUG4\n";
-
-	//create sqrt_D_inv
-	ierr = MatDuplicate(sqrt_D,MAT_DO_NOT_COPY_VALUES, &sqrt_D_inv);
-	CHKERRCONTINUE(ierr);
-
-	if(sys.node_rank == 0)
-	{
-		for(int i = 0; i <sys.mat_dim;i++)
-		{
-			PetscScalar temp = sqrt(sys.diag[i]);
-			ierr = MatSetValues(sqrt_D_inv, 1, &i, 1, &i,
-								&temp, INSERT_VALUES);
-			CHKERRCONTINUE(ierr);
-		}
-	}
-
-	ierr = MatAssemblyBegin(sqrt_D_inv, MAT_FINAL_ASSEMBLY);
-	CHKERRCONTINUE(ierr);
-	ierr = MatAssemblyEnd(sqrt_D_inv, MAT_FINAL_ASSEMBLY);
-	CHKERRCONTINUE(ierr);
 
 	//create matrix B
 	//TODO, this matrix creation is...blaming PETSc documentation
@@ -149,7 +122,6 @@ void PETSc_solver::use_custom_jacobi_prec(linear_sys& sys)
 	ierr = KSPCreate(PETSC_COMM_WORLD, &ksp);
 	CHKERRCONTINUE(ierr);
 
-	std::cout<<"DEBUG5\n";
 	ierr = KSPSetOperators(ksp, B, B);
 	CHKERRCONTINUE(ierr);
 
@@ -172,8 +144,6 @@ void PETSc_solver::use_custom_jacobi_prec(linear_sys& sys)
 	timer3.stop(sys.node_rank);
 	timer3.display_result(sys.node_rank);
 
-	std::cout<<"DEBUG7\n";
-
 	//at this point we have solved only for y. We need to get the real solution by y = (sqrt_D)^-1 *x
 	ierr = MatMult(sqrt_D,y,x);
 	CHKERRCONTINUE(ierr);
@@ -189,9 +159,6 @@ void PETSc_solver::use_custom_jacobi_prec(linear_sys& sys)
 	VecDestroy(&c);
 	MatDestroy(&B);
 	MatDestroy(&sqrt_D);
-	MatDestroy(&sqrt_D_inv);
-
-
 }
 
 int PETSc_solver::solve_sys(linear_sys& sys)
@@ -208,7 +175,7 @@ int PETSc_solver::solve_sys(linear_sys& sys)
 		ierr = PetscOptionsGetString(NULL,NULL,"-pc_type",prec_name,49,&is_petsc_prec_specified);
 		if(is_petsc_prec_specified && static_cast<std::string>(prec_name) == "none")
 		{
-			std::cout<<"debug custom jacobi\n";
+			std::cout<<"Note: using custom written symmetric jacobi preconditioner\n";
 					use_custom_jacobi_prec(sys);
 		}
 		else
