@@ -44,7 +44,7 @@ void PETSc_solver::use_petsc_prec(linear_sys& sys)
 void PETSc_solver::use_custom_jacobi_prec(linear_sys& sys)
 {
 
-	Mat  sqrt_D;           //diagonal matrix containing theinverse of the square roots of the diagonal elems of A
+	Mat  sqrt_D;           //diagonal matrix containing theinverse of the square roots of the diagonal elems of AFsymm
 	Mat  B;				   //B= sqrt_D*A*sqrt_D
 	Vec  y;                //new solution, y = (sqrt_D)^-1 *x
 	Vec  c;                //new RHS, c = sqrt_D *b
